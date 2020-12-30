@@ -30,7 +30,8 @@ public class ResearchPanelScript : MonoBehaviour
 
 
     [Header("End Panel")]
-    public Image endPanelImage;
+    public Image endPanelCustomerTypeImg;
+    public Image endPanelIconImg;
     public TextMeshProUGUI endPanelResearchTermText;
     public TextMeshProUGUI endPanelRewardText;
 
@@ -57,9 +58,9 @@ public class ResearchPanelScript : MonoBehaviour
             // duringPanelResearchTermText.text = "Срок исследования: " + order.research.leadTime.ToString() + " cекунды";
             // duringPanelRewardText.text = order.reward.ToString() + " $";
 
-            endPanelImage.sprite = order.iconImg;
-            endPanelResearchTermText.text = "Срок исследования: " + order.research.leadTime.ToString() + " cекунды";
-            endPanelRewardText.text = order.reward.ToString() + " $";
+            // endPanelImage.sprite = order.iconImg;
+            // endPanelResearchTermText.text = "Срок исследования: " + order.research.leadTime.ToString() + " cекунды";
+            // endPanelRewardText.text = order.reward.ToString() + " $";
         }
         get { return order; }
     }
