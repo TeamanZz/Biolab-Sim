@@ -447,24 +447,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 2135694777115583204}
-  nameText: {fileID: 5415255876803129426}
+  nameBoxText: {fileID: 5415255876803129426}
+  fullName: {fileID: 16992056682496393}
   descriptionText: {fileID: 2135694777940590000}
+  professionText: {fileID: 4030920546670744330}
+  educationText: {fileID: 105771954453363150}
+  specializationText: {fileID: 3257316317742947074}
+  salary: {fileID: 7564317649763285906}
   availableWorker: {fileID: 0}
   worker:
+    orderStepsPanel: {fileID: 0}
+    frameImageIndex: 0
+    salary: 0
+    completedOrdersCount: 0
+    name: 
+    fullName: 
+    description: 
+    photo: {fileID: 0}
     currentOrder:
       orderStepsPanel: {fileID: 0}
       orderButtonIcon: {fileID: 0}
-      orderImage: {fileID: 0}
+      currentStepPanel: {fileID: 0}
+      developmentSphere: 0
+      customerType: 0
+      stateOfOrder: 0
+      currentStep: 0
       customer: 
       orderHeading: 
       orderDescription: 
-      developmentSphere: 0
-      stateOfOrder: 0
-      currentOrderStepPanel: {fileID: 0}
-      currentStep: 0
       reward: 0
+      developmentStage: 0
+      TestingStage: 0
       research:
-        name: 
         additionalText: 
         taskText: 
         leadTime: 0
@@ -481,17 +495,11 @@ MonoBehaviour:
         needReagentTable: 0
         needCapsule: 0
     mood: 0
-    orderStepsPanel: {fileID: 0}
-    photo: {fileID: 0}
-    moodImage: {fileID: 0}
-    name: 
-    salary: 0
     profession: 0
     education: 0
+    specialization: 0
     status: 0
-    description: 
-    completedOrdersCount: 0
-    resposibility: 0
+    moodImage: {fileID: 0}
 --- !u!1 &2135694777022188800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1677,7 +1685,7 @@ MonoBehaviour:
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 9
+  m_fontSizeMin: 0
   m_fontSizeMax: 50
   m_fontStyle: 0
   m_HorizontalAlignment: 1

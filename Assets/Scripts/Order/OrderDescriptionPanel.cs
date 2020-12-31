@@ -24,6 +24,15 @@ public class OrderDescriptionPanel : MonoBehaviour
     [SerializeField]
     private Order order;
     private GameObject activeOrdersPanel;
+    private GameObject manager;
+    private Data data;
+
+    private void Awake()
+    {
+        manager = GameObject.FindGameObjectWithTag("Manager").gameObject;
+        data = manager.GetComponent<ActiveOrdersManager>().data;
+
+    }
 
     private void Start()
     {
@@ -35,8 +44,8 @@ public class OrderDescriptionPanel : MonoBehaviour
         set
         {
             order = value;
-            iconImg.sprite = order.iconImg;
-            customerTypeImg.sprite = order.customerTypeImg;
+            iconImg.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
+            customerTypeImg.sprite = data.ordersData.orderCustomerTypeImages[(int)order.customerType];
             orderHeadingText.text = order.orderHeading;
             customerNameText.text = order.customer;
             scopeOfDevelopmentText.text = order.developmentSphere.ToString();

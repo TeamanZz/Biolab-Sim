@@ -8,4 +8,5 @@ public class Data : ScriptableObject
     public CurrencyData currencyData;
     public EquipmentData equipmentData;
     public OrdersData ordersData;
+    public WorkerData workerData;
 }

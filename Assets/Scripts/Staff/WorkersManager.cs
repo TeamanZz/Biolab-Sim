@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class WorkersManager : MonoBehaviour
 {
@@ -65,6 +66,11 @@ public class Worker
         PHD
     }
 
+    public enum Specialization
+    {
+        Microbiology
+    }
+
     public enum Status
     {
         Busy,
@@ -85,17 +91,22 @@ public class Worker
         Bad
     }
 
+    [HideInInspector]
+    public GameObject orderStepsPanel;
+    public int frameImageIndex;
+    public int salary;
+    public int completedOrdersCount;
+    public String name;
+    public String fullName;
+    public String description;
+    public Sprite photo;
     public Order currentOrder;
     public Mood mood;
-    public GameObject orderStepsPanel;
-    public Sprite photo;
-    [HideInInspector] public Sprite moodImage;
-    public String name;
-    public int salary;
     public Profession profession;
     public Education education;
+    public Specialization specialization;
     public Status status;
-    public String description;
-    public int completedOrdersCount;
-    public Resposibility resposibility;
+
+    [HideInInspector] public Sprite moodImage;
+
 }

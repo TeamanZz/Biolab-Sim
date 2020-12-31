@@ -7,8 +7,13 @@ using TMPro;
 public class NewWorkerDescription : MonoBehaviour
 {
     public Image image;
-    public TextMeshProUGUI nameText;
+    public TextMeshProUGUI nameBoxText;
+    public TextMeshProUGUI fullName;
     public TextMeshProUGUI descriptionText;
+    public TextMeshProUGUI professionText;
+    public TextMeshProUGUI educationText;
+    public TextMeshProUGUI specializationText;
+    public TextMeshProUGUI salary;
     [HideInInspector] public GameObject availableWorker;
 
     [SerializeField] private Worker worker;
@@ -19,8 +24,15 @@ public class NewWorkerDescription : MonoBehaviour
         set
         {
             worker = value;
-            descriptionText.text = worker.description;
             image.sprite = worker.photo;
+            nameBoxText.text = worker.name;
+            Debug.Log(worker.fullName);
+            fullName.text = worker.fullName;
+            descriptionText.text = worker.description;
+            professionText.text = worker.profession.ToString();
+            educationText.text = worker.education.ToString();
+            specializationText.text = worker.specialization.ToString();
+            salary.text = "$ " + worker.salary.ToString();
         }
         get
         {

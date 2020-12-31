@@ -10,6 +10,7 @@ public class WorkerScript : MonoBehaviour
 {
     public Image characterImage;
     public Image stateFrame;
+    public TextMeshProUGUI workerName;
     [HideInInspector]
     public GameObject newWorkerDescriptionPanel;
 
@@ -23,6 +24,7 @@ public class WorkerScript : MonoBehaviour
         {
             worker = value;
             characterImage.sprite = worker.photo;
+            workerName.text = worker.name;
         }
         get { return worker; }
     }
@@ -61,7 +63,8 @@ public class WorkerScript : MonoBehaviour
             manager.GetComponent<WorkersManager>().infoAboutNewWorkerPanel = newWorker;
 
             newWorker.GetComponent<NewWorkerDescription>().Worker = this.worker;
-            newWorker.GetComponent<NewWorkerDescription>().nameText.text = newWorker.GetComponent<NewWorkerDescription>().Worker.name;
+            newWorker.GetComponent<NewWorkerDescription>().fullName.text = newWorker.GetComponent<NewWorkerDescription>().Worker.fullName;
+            newWorker.GetComponent<NewWorkerDescription>().nameBoxText.text = newWorker.GetComponent<NewWorkerDescription>().Worker.name;
             newWorker.GetComponent<NewWorkerDescription>().availableWorker = gameObject;
         }
         newWorker.SetActive(!newWorker.activeSelf);

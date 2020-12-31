@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class DescriptionTab : MonoBehaviour
 {
     public static DescriptionTab singletone { get; private set; }
 
-    public GameObject clickedButton;
+    [HideInInspector] public GameObject clickedButton;
     public TextMeshProUGUI itemName;
     public TextMeshProUGUI itemCost;
     public TextMeshProUGUI itemDescription;
@@ -69,5 +70,12 @@ public class DescriptionTab : MonoBehaviour
             clickedButton.GetComponent<EquipmentItem>().BuyEquipment();
         else if (clickedButton.GetComponent<ReagentItem>() != null)
             clickedButton.GetComponent<ReagentItem>().BuyReagent();
+    }
+
+    //Кнопка закрытия панели с описанием товара
+    public void CloseDescriptionPanel()
+    {
+        GameObject descriptionPanel = EventSystem.current.currentSelectedGameObject.transform.parent.gameObject;
+        descriptionPanel.SetActive(false);
     }
 }

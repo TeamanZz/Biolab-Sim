@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currencyData: {fileID: 11400000, guid: c18cd47ab022b79468291e2a0344777d, type: 2}
   equipmentData: {fileID: 11400000, guid: 31034e7a78719b44eb3468a0d0eaa71b, type: 2}
-  workersData: {fileID: 11400000, guid: 115a34a86afa3fb4eafbdd234058c57c, type: 2}
   ordersData: {fileID: 11400000, guid: 702979f14ed2411478f34895abb0e683, type: 2}
+  workerData: {fileID: 11400000, guid: f318da4fa444c5141a2dd081e68f6662, type: 2}

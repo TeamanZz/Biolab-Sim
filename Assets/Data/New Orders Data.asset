@@ -16,3 +16,22 @@ MonoBehaviour:
   orderIconsImages:
   - {fileID: 21300000, guid: 26f4cdf4bbf65ad4abbb43efaf3ad521, type: 3}
   - {fileID: 21300000, guid: 40df5839106470e4bb22fa41971a7176, type: 3}
+  - {fileID: 21300000, guid: 4ebe9f7fd3949904c978ac80eee92260, type: 3}
+  - {fileID: 21300000, guid: 250c9f48919f59e4d91a7a3bfb4544e8, type: 3}
+  - {fileID: 21300000, guid: 827c13ebf7f82f94ca7048e8d6627733, type: 3}
+  - {fileID: 21300000, guid: 78ef30747f39f8240ab4928f4c91e1d7, type: 3}
+  orderCustomerTypeImages:
+  - {fileID: 21300000, guid: ab49fafa06fe5f2409ead13b81847827, type: 3}
+  - {fileID: 21300000, guid: c5d0a7695cd34e74ca41d8347742d906, type: 3}
+  - {fileID: 21300000, guid: 0eb9d67584e1f6049ac9b309e67d2a20, type: 3}
+  - {fileID: 21300000, guid: b3af8ccb7d2ecc24c90dae0e323e42f1, type: 3}
+  - {fileID: 21300000, guid: 11af767bb6d324e4fae9085596d0c45c, type: 3}
+  - {fileID: 21300000, guid: b50205192b77e67479bd8939a912fdaf, type: 3}
+  - {fileID: 21300000, guid: 4e75315b9d473a84fb483aeb33b491bc, type: 3}
+  orderCustomerTypeFrames:
+  - {fileID: 21300000, guid: c4d223937105e0b4794b7ad7d64d6524, type: 3}
+  - {fileID: 21300000, guid: eccbe22999d217645b83857d8c7b7e7c, type: 3}
+  - {fileID: 21300000, guid: dbe4f9ef42e33114c90866ff7979bdf3, type: 3}
+  - {fileID: 21300000, guid: 785f1fe849af87c4a8fda2491795ab9d, type: 3}
+  - {fileID: 21300000, guid: 11ce48651d9bfb047a9cee6d8b452c55, type: 3}
+  - {fileID: 21300000, guid: 87634e22f4f9980409cb95e718014b07, type: 3}

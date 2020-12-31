@@ -47,20 +47,21 @@ public class ResearchPanelScript : MonoBehaviour
             order = value;
             transform.parent.GetComponent<OrderScript>().AddLoadBarImageInArray(loadBarImage);
 
-            setPanelIconImg.sprite = order.iconImg;
-            setPanelCustomerTypeImg.sprite = order.customerTypeImg;
+            setPanelIconImg.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
+            setPanelCustomerTypeImg.sprite = data.ordersData.orderCustomerTypeImages[(int)order.customerType];
             setPanelTaskText.text = "Задача: " + order.research.taskText;
             setPanelResearchTermText.text = "Срок исследования: " + order.research.leadTime.ToString() + " cекунды";
             setPanelRewardText.text = order.reward.ToString() + " $";
 
-            // duringPanelImage.sprite = order.iconImg;
-            // duringPanelTaskText.text = "Задача: " + order.research.taskText;
-            // duringPanelResearchTermText.text = "Срок исследования: " + order.research.leadTime.ToString() + " cекунды";
-            // duringPanelRewardText.text = order.reward.ToString() + " $";
+            duringPanelIconImg.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
+            duringPanelCustomerTypeImg.sprite = data.ordersData.orderCustomerTypeImages[(int)order.customerType];
+            duringPanelResearchTermText.text = order.research.leadTime.ToString() + " cекунды";
+            duringPanelRewardText.text = order.reward.ToString() + " $";
 
-            // endPanelImage.sprite = order.iconImg;
-            // endPanelResearchTermText.text = "Срок исследования: " + order.research.leadTime.ToString() + " cекунды";
-            // endPanelRewardText.text = order.reward.ToString() + " $";
+            endPanelIconImg.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
+            endPanelCustomerTypeImg.sprite = data.ordersData.orderCustomerTypeImages[(int)order.customerType];
+            endPanelResearchTermText.text = order.research.leadTime.ToString() + " cекунды";
+            endPanelRewardText.text = order.reward.ToString() + " $";
         }
         get { return order; }
     }
@@ -208,7 +209,6 @@ public class ResearchPanelScript : MonoBehaviour
                     manager.workers[i].status = Worker.Status.Busy;
                     panel.transform.parent.GetComponent<OrderScript>().assignedEmployees[j].GetComponent<WorkerScript>().Worker.status = Worker.Status.Busy;
                     manager.workers[i].currentOrder = panel.transform.parent.GetComponent<OrderScript>().Order;
-                    manager.workers[i].resposibility = panel.transform.parent.GetComponent<OrderScript>().assignedEmployees[j].transform.parent.GetComponent<WorkerSlot>().slotResponsibility;
                 }
             }
         }

@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class OrderIcon : MonoBehaviour
 {
     public Data data;
-    public Image loadBarImage;
+    public Image loadBar;
     public Image icon;
+    public Image customerType;
     [HideInInspector] public GameObject stepsPanel;
 
     [SerializeField] private Order order;
@@ -17,6 +18,7 @@ public class OrderIcon : MonoBehaviour
         set
         {
             order = value;
+            customerType.sprite = data.ordersData.orderCustomerTypeFrames[(int)order.customerType + 1];
             ChooseIcon();
         }
 
@@ -39,20 +41,12 @@ public class OrderIcon : MonoBehaviour
     //Выбирает значок в зависимости от типа исследования
     private void ChooseIcon()
     {
-        switch (order.developmentSphere)
-        {
-            case Order.DevelopmentSphere.Medicine:
-                icon.sprite = data.ordersData.orderIconsImages[0];
-                break;
-            case Order.DevelopmentSphere.Chemistry:
-                icon.sprite = data.ordersData.orderIconsImages[1];
-                break;
-        }
+        icon.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
     }
 
     //Добавляем лоадбар с иконки в список лоадбаров, для заполнения
     private void AddLoadBarImageInArray()
     {
-        stepsPanel.GetComponent<OrderScript>().loadBarImages.Add(loadBarImage);
+        stepsPanel.GetComponent<OrderScript>().loadBarImages.Add(loadBar);
     }
 }

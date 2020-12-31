@@ -81,25 +81,38 @@ public class OrderScript : MonoBehaviour
 [Serializable]
 public class Order
 {
-    public GameObject orderStepsPanel;
-    public GameObject orderButtonIcon;
-    public Sprite customerTypeImg;
-    public Sprite iconImg;
+    [HideInInspector] public GameObject orderStepsPanel;
+    [HideInInspector] public GameObject orderButtonIcon;
+    [HideInInspector] public GameObject currentStepPanel;
+    public DevelopmentSphere developmentSphere;
+    public CustomerType customerType;
+    public StateOfOrder stateOfOrder = StateOfOrder.Paused;
+    public CurrentStep currentStep;
     public String customer;
     public String orderHeading;
     public String orderDescription;
-    public DevelopmentSphere developmentSphere;
-    public StateOfOrder stateOfOrder = StateOfOrder.Paused;
-    public GameObject currentStepPanel;
-    public CurrentStep currentStep;
     public int reward;
     public bool developmentStage;
     public bool TestingStage;
 
     public enum DevelopmentSphere
     {
-        Chemistry,
-        Medicine
+        Bacteriology,
+        Genetics,
+        Bioengineering,
+        MedicalEngineering,
+        Neurobiology,
+        Virology
+    }
+    public enum CustomerType
+    {
+        Clear,
+        Anonymous,
+        CorporationFirst,
+        CorporationSecond,
+        CorporationThird,
+        Government,
+        Private
     }
 
     public enum StateOfOrder

@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 2023586725228452399}
   - component: {fileID: 4462607462065212591}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Name text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -512,6 +512,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterImage: {fileID: 305996228117166801}
   stateFrame: {fileID: 8260395208501669536}
+  workerName: {fileID: 4462607462065212591}
   newWorkerDescriptionPanel: {fileID: 0}
   worker:
     currentOrder:
@@ -553,6 +554,7 @@ MonoBehaviour:
     salary: 0
     profession: 0
     education: 0
+    specialization: 0
     status: 0
     description: 
     completedOrdersCount: 0

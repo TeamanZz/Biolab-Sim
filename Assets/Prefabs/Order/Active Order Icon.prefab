@@ -584,21 +584,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 417fb50c16dbf1847b9a9bac60de839b, type: 2}
-  loadBarImage: {fileID: 5741018404703068369}
+  loadBar: {fileID: 5741018404703068369}
   icon: {fileID: 6251956157927840446}
+  customerType: {fileID: 7971996977645458999}
   stepsPanel: {fileID: 0}
   order:
     orderStepsPanel: {fileID: 0}
     orderButtonIcon: {fileID: 0}
-    customerTypeImg: {fileID: 0}
-    iconImg: {fileID: 0}
+    currentStepPanel: {fileID: 0}
+    developmentSphere: 0
+    customerType: 0
+    stateOfOrder: 0
+    currentStep: 0
     customer: 
     orderHeading: 
     orderDescription: 
-    developmentSphere: 0
-    stateOfOrder: 0
-    currentStepPanel: {fileID: 0}
-    currentStep: 0
     reward: 0
     developmentStage: 0
     TestingStage: 0

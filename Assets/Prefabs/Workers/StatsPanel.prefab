@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 5574729471805878597}
   - component: {fileID: 7828960787861628869}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: NameBoxText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -961,20 +961,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterImage: {fileID: 6158477318980080059}
   stateFrame: {fileID: 2588024016799745482}
+  workerName: {fileID: 0}
   newWorkerDescriptionPanel: {fileID: 0}
   worker:
+    orderStepsPanel: {fileID: 0}
+    frameImageIndex: 0
+    salary: 0
+    completedOrdersCount: 0
+    name: 
+    fullName: 
+    description: 
+    photo: {fileID: 0}
     currentOrder:
       orderStepsPanel: {fileID: 0}
       orderButtonIcon: {fileID: 0}
-      customerTypeImg: {fileID: 0}
-      iconImg: {fileID: 0}
+      currentStepPanel: {fileID: 0}
+      developmentSphere: 0
+      customerType: 0
+      stateOfOrder: 0
+      currentStep: 0
       customer: 
       orderHeading: 
       orderDescription: 
-      developmentSphere: 0
-      stateOfOrder: 0
-      currentStepPanel: {fileID: 0}
-      currentStep: 0
       reward: 0
       developmentStage: 0
       TestingStage: 0
@@ -995,17 +1003,11 @@ MonoBehaviour:
         needReagentTable: 0
         needCapsule: 0
     mood: 0
-    orderStepsPanel: {fileID: 0}
-    photo: {fileID: 0}
-    moodImage: {fileID: 0}
-    name: 
-    salary: 0
     profession: 0
     education: 0
+    specialization: 0
     status: 0
-    description: 
-    completedOrdersCount: 0
-    resposibility: 0
+    moodImage: {fileID: 0}
 --- !u!114 &3168684189274257921
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1719,28 +1721,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   statsPanel: {fileID: 6074938956336390784}
-  frameCharacter: {fileID: 2588024016799745486}
   loadBarImage: {fileID: 1541915297794483107}
-  nameText: {fileID: 9202822387124070849}
+  workerImage: {fileID: 6158477318980080059}
+  workerFrameImage: {fileID: 2588024016799745482}
+  fullName: {fileID: 9202822387124070849}
+  nameBoxText: {fileID: 7828960787861628869}
   descriptionText: {fileID: 1117480518582274104}
   professionText: {fileID: 5795508370325974605}
   educationText: {fileID: 7345631831202099687}
+  specializationText: {fileID: 8204358062138417369}
   completedOrdersCountText: {fileID: 1888177657186651985}
   currentOrderText: {fileID: 1191517233241862956}
   orderScript: {fileID: 0}
+  clickedWorkerFrameButton: {fileID: 0}
   worker:
+    orderStepsPanel: {fileID: 0}
+    frameImageIndex: 0
+    salary: 0
+    completedOrdersCount: 0
+    name: 
+    fullName: 
+    description: 
+    photo: {fileID: 0}
     currentOrder:
       orderStepsPanel: {fileID: 0}
       orderButtonIcon: {fileID: 0}
-      customerTypeImg: {fileID: 0}
-      iconImg: {fileID: 0}
+      currentStepPanel: {fileID: 0}
+      developmentSphere: 0
+      customerType: 0
+      stateOfOrder: 0
+      currentStep: 0
       customer: 
       orderHeading: 
       orderDescription: 
-      developmentSphere: 0
-      stateOfOrder: 0
-      currentStepPanel: {fileID: 0}
-      currentStep: 0
       reward: 0
       developmentStage: 0
       TestingStage: 0
@@ -1761,17 +1774,11 @@ MonoBehaviour:
         needReagentTable: 0
         needCapsule: 0
     mood: 0
-    orderStepsPanel: {fileID: 0}
-    photo: {fileID: 0}
-    moodImage: {fileID: 0}
-    name: 
-    salary: 0
     profession: 0
     education: 0
+    specialization: 0
     status: 0
-    description: 
-    completedOrdersCount: 0
-    resposibility: 0
+    moodImage: {fileID: 0}
 --- !u!114 &6148335905584528693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2455,7 +2462,7 @@ GameObject:
   - component: {fileID: 2551331258022292694}
   - component: {fileID: 9202822387124070849}
   m_Layer: 0
-  m_Name: Name
+  m_Name: FullName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2539,7 +2546,7 @@ MonoBehaviour:
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 0
   m_fontSizeMax: 72
   m_fontStyle: 1
   m_HorizontalAlignment: 1

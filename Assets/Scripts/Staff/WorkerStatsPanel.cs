@@ -9,12 +9,15 @@ using UnityEngine.UI;
 public class WorkerStatsPanel : MonoBehaviour
 {
     public GameObject statsPanel;
-    public GameObject frameCharacter;
     public Image loadBarImage;
-    public TextMeshProUGUI nameText;
+    public Image workerImage;
+    public Image workerFrameImage;
+    public TextMeshProUGUI fullName;
+    public TextMeshProUGUI nameBoxText;
     public TextMeshProUGUI descriptionText;
     public TextMeshProUGUI professionText;
     public TextMeshProUGUI educationText;
+    public TextMeshProUGUI specializationText;
     public TextMeshProUGUI completedOrdersCountText;
     public TextMeshProUGUI currentOrderText;
 
@@ -23,9 +26,11 @@ public class WorkerStatsPanel : MonoBehaviour
     private GameObject manager;
     private GameObject canvas;
     private GameObject newStatsPanel;
+    private Data data;
 
-    // [SerializeField]
-    private GameObject clickedButton;
+    [HideInInspector]
+    [SerializeField]
+    private GameObject clickedWorkerFrameButton; //Должно быть сериализовано
 
     [SerializeField]
     private Worker worker;
@@ -34,23 +39,25 @@ public class WorkerStatsPanel : MonoBehaviour
     {
         set
         {
+            data = GameObject.FindGameObjectWithTag("Manager").gameObject.GetComponent<WorkersManager>().data;
             worker = value;
-            nameText.text = worker.name;
-            // frameImg.sprite = worker.photo;
+            fullName.text = worker.fullName;
+            nameBoxText.text = worker.name;
+            workerImage.sprite = worker.photo;
+
+            workerFrameImage.sprite = data.workerData.workerFrames[worker.frameImageIndex];
             descriptionText.text = worker.description;
-            professionText.text = "Профессия: " + worker.profession;
-            educationText.text = "Образование: " + worker.education;
+            professionText.text = worker.profession.ToString();
+            educationText.text = worker.education.ToString();
             completedOrdersCountText.text = worker.completedOrdersCount.ToString();
 
             if (worker.status == Worker.Status.Free)
             {
-                currentOrderText.text = "Текущий проект: не занят";
-                // responsibilityText.gameObject.SetActive(false);
+                currentOrderText.text = "Не занят";
             }
             else if (worker.status == Worker.Status.Busy)
             {
                 currentOrderText.text = "Текущий проект: " + worker.currentOrder.orderHeading;
-                // responsibilityText.gameObject.SetActive(true);
                 ChangeStateImage();
             }
 
@@ -76,10 +83,9 @@ public class WorkerStatsPanel : MonoBehaviour
     //Показать описание купленного персонажа
     public void ShowStatsOfWorker()
     {
-        frameCharacter = clickedButton;
         canvas = GameObject.FindGameObjectWithTag("Canvas");
         manager = GameObject.FindGameObjectWithTag("Manager");
-        clickedButton = EventSystem.current.currentSelectedGameObject;
+        clickedWorkerFrameButton = EventSystem.current.currentSelectedGameObject;
 
         if (manager.GetComponent<WorkersManager>().statsOfWorker == null)
         {
@@ -90,7 +96,7 @@ public class WorkerStatsPanel : MonoBehaviour
             //Заполняем панель описания купленного работника актуальной информацией.
             for (int i = 0; i < manager.GetComponent<WorkersManager>().workers.Count; i++)
             {
-                if (manager.GetComponent<WorkersManager>().workers[i].description == clickedButton.GetComponent<WorkerScript>().Worker.description)
+                if (manager.GetComponent<WorkersManager>().workers[i].description == clickedWorkerFrameButton.GetComponent<WorkerScript>().Worker.description)
                 {
                     newStatsPanel.GetComponent<WorkerStatsPanel>().Worker = manager.GetComponent<WorkersManager>().workers[i];
                 }
@@ -113,9 +119,9 @@ public class WorkerStatsPanel : MonoBehaviour
     public void Dismiss()
     {
         //Проверяем, закреплен ли заказ за персонажем
-        if (clickedButton.GetComponent<WorkerScript>().Worker.orderStepsPanel != null)
+        if (clickedWorkerFrameButton.GetComponent<WorkerScript>().Worker.orderStepsPanel != null)
         {
-            GameObject stepsPanel = clickedButton.GetComponent<WorkerScript>().Worker.orderStepsPanel;
+            GameObject stepsPanel = clickedWorkerFrameButton.GetComponent<WorkerScript>().Worker.orderStepsPanel;
             //Если в процессе выполнения или находится на панели, удаляем из панелей.
             if (worker.currentOrder != null)
             {
@@ -141,12 +147,12 @@ public class WorkerStatsPanel : MonoBehaviour
             }
             else
             {
-                Destroy(clickedButton);
+                Destroy(clickedWorkerFrameButton);
             }
         }
         else
         {
-            Destroy(clickedButton);
+            Destroy(clickedWorkerFrameButton);
         }
         //И панель удалить не забываем
         OpenWindowsManager.singletone.iconsList.Remove(gameObject);
