@@ -10,6 +10,7 @@ public class WorkerScript : MonoBehaviour
 {
     public Image characterImage;
     public Image stateFrame;
+    public Image responsibilityStar;
     public TextMeshProUGUI workerName;
     [HideInInspector]
     public GameObject newWorkerDescriptionPanel;
@@ -17,6 +18,7 @@ public class WorkerScript : MonoBehaviour
     [SerializeField] private Worker worker;
     private GameObject newWorker;
     private GameObject manager;
+    private Data data;
 
     public Worker Worker
     {
@@ -32,6 +34,7 @@ public class WorkerScript : MonoBehaviour
     private void Start()
     {
         manager = GameObject.FindGameObjectWithTag("Manager");
+        data = manager.GetComponent<WorkersManager>().data;
 
         if (GetComponent<MoodScript>())
         {
@@ -62,24 +65,41 @@ public class WorkerScript : MonoBehaviour
             newWorker.SetActive(false);
             manager.GetComponent<WorkersManager>().infoAboutNewWorkerPanel = newWorker;
 
-            newWorker.GetComponent<NewWorkerDescription>().Worker = this.worker;
-            newWorker.GetComponent<NewWorkerDescription>().fullName.text = newWorker.GetComponent<NewWorkerDescription>().Worker.fullName;
-            newWorker.GetComponent<NewWorkerDescription>().nameBoxText.text = newWorker.GetComponent<NewWorkerDescription>().Worker.name;
-            newWorker.GetComponent<NewWorkerDescription>().availableWorker = gameObject;
+            NewWorkerDescription newWorkerDescription = newWorker.GetComponent<NewWorkerDescription>();
+
+            newWorkerDescription.Worker = this.worker;
+            newWorkerDescription.fullName.text = newWorkerDescription.Worker.fullName;
+            newWorkerDescription.nameBoxText.text = newWorkerDescription.Worker.name;
+            newWorkerDescription.availableWorker = gameObject;
         }
         newWorker.SetActive(!newWorker.activeSelf);
     }
 
-    //Изменяем цвет индикатора в зависимости от текущего заказа работника
-    // public void ChangeStateImage()
-    // {
-    //     if (worker.status == Worker.Status.Free)
-    //     {
-    //         stateImage.GetComponent<Image>().color = Color.green;
-    //     }
-    //     else if (worker.status == Worker.Status.Busy)
-    //     {
-    //         stateImage.GetComponent<Image>().color = Color.red;
-    //     }
-    // }
+    // Изменяем параметр занятости у работника и его рамку
+    public void ChangeStateImage(Worker.Status status)
+    {
+        worker.status = status;
+        stateFrame.sprite = data.workerData.workerFrames[(int)status];
+    }
+
+    // Изменяем параметр настроения и изображение смайлика
+    public void ChangeMood(Worker.Mood mood)
+    {
+        worker.mood = mood;
+        worker.moodImage = data.workerData.workerMoods[(int)mood];
+    }
+
+    //Изменяем параметр ответственности за проект
+    public void ChangeResponsibility(Worker.Responsibility responsibility)
+    {
+        worker.responsibility = responsibility;
+        if (responsibility == Worker.Responsibility.Responsible)
+        {
+            responsibilityStar.gameObject.SetActive(true);
+        }
+        else
+        {
+            responsibilityStar.gameObject.SetActive(false);
+        }
+    }
 }

@@ -22,6 +22,7 @@ public class WorkersManager : MonoBehaviour
 
     private GameObject newAvailableWorker;
     private GameObject addedWorker;
+    private WorkerScript addedWorkerScript;
 
     private void Start()
     {
@@ -32,12 +33,14 @@ public class WorkersManager : MonoBehaviour
     public void BuyWorker(Worker worker)
     {
         addedWorker = Instantiate(addedWorkerPrefab, workerPanel.transform);
-        addedWorker.GetComponent<WorkerScript>().Worker = worker;
-        addedWorker.GetComponent<WorkerScript>().Worker.mood = Worker.Mood.Good;
-        addedWorker.GetComponent<WorkerScript>().Worker.moodImage = data.equipmentData.workersMoodImages[0];
+        addedWorkerScript = addedWorker.GetComponent<WorkerScript>();
+        addedWorkerScript.Worker = worker;
+        addedWorkerScript.Worker.mood = Worker.Mood.Good;
+        addedWorkerScript.Worker.moodImage = data.equipmentData.workersMoodImages[0];
         buyWorkerPanel.SetActive(false);
         OpenWindowsManager.singletone.AddOrRemovePanelFromList(buyWorkerPanel);
         infoAboutNewWorkerPanel.SetActive(false);
+        StartCoroutine(ToggleBlueLight());
     }
 
     //Хард код способ спавна рабочих для покупки
@@ -48,6 +51,13 @@ public class WorkersManager : MonoBehaviour
             newAvailableWorker = Instantiate(newWorkerPrefab, buyWorkerPanel.transform);
             newAvailableWorker.GetComponent<WorkerScript>().Worker = worker;
         }
+    }
+
+    IEnumerator ToggleBlueLight()
+    {
+        addedWorker.GetComponent<Image>().sprite = data.workerData.workerFrames[3];
+        yield return new WaitForSeconds(3);
+        addedWorker.GetComponent<Image>().sprite = data.workerData.workerFrames[0];
     }
 }
 
@@ -73,12 +83,12 @@ public class Worker
 
     public enum Status
     {
-        Busy,
         Free,
-        NotPurchased
+        Busy,
+        VeryBusy
     }
 
-    public enum Resposibility
+    public enum Responsibility
     {
         Responsible,
         Helper
@@ -93,7 +103,7 @@ public class Worker
 
     [HideInInspector]
     public GameObject orderStepsPanel;
-    public int frameImageIndex;
+    public int workerIndex;
     public int salary;
     public int completedOrdersCount;
     public String name;
@@ -105,6 +115,7 @@ public class Worker
     public Profession profession;
     public Education education;
     public Specialization specialization;
+    public Responsibility responsibility;
     public Status status;
 
     [HideInInspector] public Sprite moodImage;

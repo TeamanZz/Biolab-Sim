@@ -26,7 +26,6 @@ public class NewWorkerDescription : MonoBehaviour
             worker = value;
             image.sprite = worker.photo;
             nameBoxText.text = worker.name;
-            Debug.Log(worker.fullName);
             fullName.text = worker.fullName;
             descriptionText.text = worker.description;
             professionText.text = worker.profession.ToString();

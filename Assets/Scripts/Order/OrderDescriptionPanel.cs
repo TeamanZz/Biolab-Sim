@@ -63,7 +63,6 @@ public class OrderDescriptionPanel : MonoBehaviour
         orderStep.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
         orderStep.GetComponent<OrderScript>().Order = order;
 
-
         GameObject newOrderIcon = Instantiate(orderIcon, activeOrdersPanel.transform, false);
         newOrderIcon.GetComponent<OrderIcon>().stepsPanel = orderStep;
         newOrderIcon.GetComponent<OrderIcon>().Order = Order;

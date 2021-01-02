@@ -60,17 +60,30 @@ public class OrderScript : MonoBehaviour
         }
     }
 
-    public void ReleaseWorkers()
+    public void UpdateInfoAboutWorkers()
     {
+        GameObject workerStatsPanelGameObject = GameObject.Find("StatsPanel(Clone)");
+        Worker statsPanelWorker = new Worker();
+        if (workerStatsPanelGameObject != null)
+        {
+            statsPanelWorker = workerStatsPanelGameObject.GetComponent<WorkerStatsPanel>().Worker;
+        }
+
         //Обнуляем CurrentOrder у купленных работников и говорим что их выполненные заказы+1
         ActiveOrdersManager.singleton.Award(gameObject);
 
         //Изменияем рисунки состояния на зелёные(свободные)
         foreach (GameObject worker in boughtedEmployees)
         {
-            worker.GetComponent<WorkerScript>().Worker.status = Worker.Status.Free;
-            // worker.GetComponent<WorkerScript>().ChangeStateImage();
-            worker.GetComponent<WorkerScript>().Worker.orderStepsPanel = null;
+            WorkerScript workerScript = worker.GetComponent<WorkerScript>();
+            workerScript.Worker.status = Worker.Status.Free;
+            workerScript.Worker.orderStepsPanel = null;
+
+            if (workerStatsPanelGameObject != null && statsPanelWorker.workerIndex == workerScript.Worker.workerIndex)
+            {
+                GameObject.Find("StatsPanel(Clone)").GetComponent<WorkerStatsPanel>().Worker = workerScript.Worker;
+            }
+
         }
         //Очищаем массивы с работниками
         assignedEmployees.Clear();
@@ -123,7 +136,7 @@ public class Order
 
     public enum CurrentStep
     {
-        None,
+        Done,
         Research,
         Development,
         Testing

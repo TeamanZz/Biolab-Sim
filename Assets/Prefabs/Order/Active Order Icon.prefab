@@ -30,11 +30,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7971996977645459016}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.116000004, y: 0.117000006}
   m_AnchorMax: {x: 0.85555464, y: 0.21448602}
-  m_AnchoredPosition: {x: -0.19200134, y: 0.07600021}
+  m_AnchoredPosition: {x: -0.19200134, y: 0.07600403}
   m_SizeDelta: {x: -1.7702942, y: -0.9446306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2092439134219535721
@@ -105,11 +105,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7971996977645459016}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.116000004, y: 0.117000006}
   m_AnchorMax: {x: 0.85555464, y: 0.21448602}
-  m_AnchoredPosition: {x: 0.09664917, y: -0.063999176}
+  m_AnchoredPosition: {x: 0.09664917, y: -0.06399536}
   m_SizeDelta: {x: 0.10203552, y: 0.4525385}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8204244049565562786
@@ -150,6 +150,81 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &5454597163073622674
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2052866534808190949}
+  - component: {fileID: 9012687823494446368}
+  - component: {fileID: 841813695549904863}
+  m_Layer: 5
+  m_Name: Succes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &2052866534808190949
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5454597163073622674}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7971996977645459016}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.010123148, y: 0.13276063}
+  m_AnchorMax: {x: 0.98987687, y: 1.3040435}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &9012687823494446368
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5454597163073622674}
+  m_CullTransparentMesh: 0
+--- !u!114 &841813695549904863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5454597163073622674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 5165c266f2ec0a843a24c7d760ad0ddc, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &6256095982136375828
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,11 +255,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7971996977645459016}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.30088824, y: 0.117000006}
   m_AnchorMax: {x: 0.6706663, y: 0.21448602}
-  m_AnchoredPosition: {x: -0.19200134, y: 0.07600021}
+  m_AnchoredPosition: {x: -0.19200134, y: 0.07600403}
   m_SizeDelta: {x: 0.15150452, y: -0.9443426}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1778993240439940597
@@ -259,7 +334,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.3151118, y: 0.46100003}
   m_AnchorMax: {x: 0.68488836, y: 0.96800005}
-  m_AnchoredPosition: {x: -0.000005722046, y: 0.19999981}
+  m_AnchoredPosition: {x: -0.0000038146973, y: 0.20000076}
   m_SizeDelta: {x: 0.15128326, y: 0.15128326}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6091735855699374901
@@ -330,11 +405,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7971996977645459016}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.13022207, y: 0.24648601}
   m_AnchorMax: {x: 0.85555464, y: 0.42200002}
-  m_AnchoredPosition: {x: -0.07500076, y: -0.099998474}
+  m_AnchoredPosition: {x: -0.07499695, y: -0.099998474}
   m_SizeDelta: {x: 0.46287537, y: 0.21776962}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8335141482275432364
@@ -365,7 +440,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0422\u0435\u0441\u0442\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435"
+  m_text: Accepted
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c58501a11d62de9439bc537bd12c68da, type: 2}
   m_sharedMaterial: {fileID: -171172189840252091, guid: c58501a11d62de9439bc537bd12c68da, type: 2}
@@ -392,7 +467,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 7.7
+  m_fontSize: 7.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -466,6 +541,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 618074817994145304}
+  - {fileID: 2052866534808190949}
   - {fileID: 998928069837479585}
   - {fileID: 4203519569963037144}
   - {fileID: 7960560862526939238}
@@ -586,7 +662,9 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: 417fb50c16dbf1847b9a9bac60de839b, type: 2}
   loadBar: {fileID: 5741018404703068369}
   icon: {fileID: 6251956157927840446}
+  succesIcon: {fileID: 841813695549904863}
   customerType: {fileID: 7971996977645458999}
+  currentActionText: {fileID: 2967347408181874796}
   stepsPanel: {fileID: 0}
   order:
     orderStepsPanel: {fileID: 0}

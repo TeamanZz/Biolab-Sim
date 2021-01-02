@@ -9,9 +9,11 @@ using UnityEngine.UI;
 public class WorkerStatsPanel : MonoBehaviour
 {
     public GameObject statsPanel;
+    public GameObject awardPanel;
     public Image loadBarImage;
     public Image workerImage;
     public Image workerFrameImage;
+    public Image responsibilityStar;
     public TextMeshProUGUI fullName;
     public TextMeshProUGUI nameBoxText;
     public TextMeshProUGUI descriptionText;
@@ -45,7 +47,7 @@ public class WorkerStatsPanel : MonoBehaviour
             nameBoxText.text = worker.name;
             workerImage.sprite = worker.photo;
 
-            workerFrameImage.sprite = data.workerData.workerFrames[worker.frameImageIndex];
+            workerFrameImage.sprite = data.workerData.workerFrames[(int)worker.status];
             descriptionText.text = worker.description;
             professionText.text = worker.profession.ToString();
             educationText.text = worker.education.ToString();
@@ -58,13 +60,20 @@ public class WorkerStatsPanel : MonoBehaviour
             else if (worker.status == Worker.Status.Busy)
             {
                 currentOrderText.text = "Текущий проект: " + worker.currentOrder.orderHeading;
-                ChangeStateImage();
+                if (worker.responsibility == Worker.Responsibility.Responsible)
+                {
+                    responsibilityStar.gameObject.SetActive(true);
+                }
+                else
+                {
+                    responsibilityStar.gameObject.SetActive(false);
+                }
             }
-
         }
         get
         {
             return worker;
+
         }
     }
 
@@ -102,18 +111,6 @@ public class WorkerStatsPanel : MonoBehaviour
                 }
             }
         }
-    }
-
-    private void ChangeStateImage()
-    {
-        // if (worker.currentOrder == null || worker.currentOrder.orderHeading == "")
-        // {
-        //     stateImage.GetComponent<Image>().color = Color.green;
-        // }
-        // else
-        // {
-        //     stateImage.GetComponent<Image>().color = Color.red;
-        // }
     }
 
     public void Dismiss()
@@ -178,5 +175,21 @@ public class WorkerStatsPanel : MonoBehaviour
         manager = GameObject.FindGameObjectWithTag("Manager");
         OpenWindowsManager.singletone.iconsList.Remove(gameObject);
         Destroy(manager.GetComponent<WorkersManager>().statsOfWorker);
+    }
+
+    public void ToggleAwardPanel()
+    {
+        awardPanel.SetActive(!awardPanel.activeSelf);
+    }
+
+    public void AwardWorker(int awardSum)
+    {
+        if (awardSum <= data.currencyData.moneyCount)
+        {
+            data.currencyData.moneyCount -= awardSum;
+            //ТУТ УВЕЛИЧЕНИЕ СТАТОВ ПРОПИСЫВАЕТСЯ
+            awardPanel.SetActive(false);
+
+        }
     }
 }

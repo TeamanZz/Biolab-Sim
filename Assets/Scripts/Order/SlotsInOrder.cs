@@ -54,10 +54,10 @@ public class SlotsInOrder : MonoBehaviour
                 GameObject newWorkerSlot = Instantiate(workerIconPrefab, transform.GetChild(k).GetChild(0).gameObject.transform);
                 if (i == 0)
                 {
-                    newWorkerSlot.GetComponent<WorkerSlot>().slotResponsibility = Worker.Resposibility.Responsible;
+                    newWorkerSlot.GetComponent<WorkerSlot>().slotResponsibility = Worker.Responsibility.Responsible;
                 }
                 else
-                    newWorkerSlot.GetComponent<WorkerSlot>().slotResponsibility = Worker.Resposibility.Helper;
+                    newWorkerSlot.GetComponent<WorkerSlot>().slotResponsibility = Worker.Responsibility.Helper;
 
             }
         }

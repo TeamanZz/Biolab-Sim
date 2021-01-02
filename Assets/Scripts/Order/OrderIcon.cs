@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class OrderIcon : MonoBehaviour
 {
     public Data data;
     public Image loadBar;
     public Image icon;
+    public Image succesIcon;
     public Image customerType;
+    public TextMeshProUGUI currentActionText;
     [HideInInspector] public GameObject stepsPanel;
 
     [SerializeField] private Order order;
@@ -49,4 +52,21 @@ public class OrderIcon : MonoBehaviour
     {
         stepsPanel.GetComponent<OrderScript>().loadBarImages.Add(loadBar);
     }
+
+    //Указываем какой шаг в заказе на данный момент
+    public void ChangeCurrentActionText(Order.CurrentStep step)
+    {
+        currentActionText.text = order.currentStep.ToString();
+        if (step == Order.CurrentStep.Done)
+        {
+            icon.gameObject.SetActive(false);
+            succesIcon.gameObject.SetActive(true);
+        }
+        else
+        {
+            icon.gameObject.SetActive(true);
+            succesIcon.gameObject.SetActive(false);
+        }
+    }
+
 }

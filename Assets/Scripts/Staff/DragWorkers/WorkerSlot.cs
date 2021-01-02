@@ -9,7 +9,7 @@ public class WorkerSlot : MonoBehaviour, IDropHandler
 {
     public bool isBusy;
     public TextMeshProUGUI responsibilityText;
-    public Worker.Resposibility slotResponsibility;
+    public Worker.Responsibility slotResponsibility;
 
 
     private GameObject parentStepsPanel;

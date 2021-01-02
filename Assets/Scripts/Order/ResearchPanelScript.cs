@@ -50,7 +50,7 @@ public class ResearchPanelScript : MonoBehaviour
             setPanelIconImg.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
             setPanelCustomerTypeImg.sprite = data.ordersData.orderCustomerTypeImages[(int)order.customerType];
             setPanelTaskText.text = "Задача: " + order.research.taskText;
-            setPanelResearchTermText.text = "Срок исследования: " + order.research.leadTime.ToString() + " cекунды";
+            setPanelResearchTermText.text = order.research.leadTime.ToString() + " cекунды";
             setPanelRewardText.text = order.reward.ToString() + " $";
 
             duringPanelIconImg.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
@@ -99,18 +99,18 @@ public class ResearchPanelScript : MonoBehaviour
     }
 
     //Запускает заказ в исполнение
-    public void Execute()
+    public void StartOrder()
     {
         if (IsHaveEquipment(order.research) && WorkersIsSet(gameObject, Order.research))
         {
-            Debug.Log("Executed");
+            order.orderButtonIcon.GetComponent<OrderIcon>().ChangeCurrentActionText(order.currentStep);
             order.currentStepPanel = gameObject;
             duringPanel.SetActive(true);
             SetCurrentOrder(gameObject);
-            SetWorkersStateIcon(gameObject);
-            ActiveOrdersManager.singleton.StartOrder(Order, gameObject);
+            SetWorkersStateIcon(Worker.Status.Busy);
+            SetResponsibleWorker();
+            ActiveOrdersManager.singleton.ExecuteOrder(Order, gameObject);
             MakeEquipmentBusy();
-            SetWorkersStateIcon(gameObject);
             InstantiateWorkersInSecondWindow();
             slots.HideCrosses();
             //Удаляем из data стол, который юзали для заказа;
@@ -127,12 +127,12 @@ public class ResearchPanelScript : MonoBehaviour
         if (IsHaveEquipment(order.research) && WorkersIsSet(gameObject, order.research))
         {
             SetCurrentOrder(gameObject);
-            SetWorkersStateIcon(gameObject);
-            ActiveOrdersManager.singleton.StartOrder(Order, gameObject);
-            SetWorkersStateIcon(gameObject);
-            slots.HideCrosses();
+            SetWorkersStateIcon(Worker.Status.Busy);
+            SetResponsibleWorker();
+            ActiveOrdersManager.singleton.ExecuteOrder(Order, gameObject);
             MakeEquipmentBusy();
-
+            // SetWorkersStateIcon(Worker.Status.Busy);
+            slots.HideCrosses();
             order.stateOfOrder = Order.StateOfOrder.InProcess;
             pauseButton.SetActive(true);
             continueButton.SetActive(false);
@@ -151,7 +151,8 @@ public class ResearchPanelScript : MonoBehaviour
         DeleteWorkersInSecondWindow();
         slots.ShowCrosses();
         ActiveOrdersManager.singleton.ClearCurrentOrders(gameObject);
-        SetWorkersStateIcon(gameObject);
+        SetWorkersStateIcon(Worker.Status.Free);
+        ResetResponsibility();
         MakeEquipmentFree();
         transform.parent.GetComponent<OrderScript>().assignedEmployees.Clear();
         transform.parent.GetComponent<OrderScript>().boughtedEmployees.Clear();
@@ -183,18 +184,33 @@ public class ResearchPanelScript : MonoBehaviour
     }
 
     //Устанавливаем цвет индикаторов для работников 
-    public void SetWorkersStateIcon(GameObject stepPanel)
+    public void SetWorkersStateIcon(Worker.Status status)
     {
-        foreach (GameObject employer in stepPanel.transform.parent.GetComponent<OrderScript>().assignedEmployees)
+        foreach (GameObject employer in transform.parent.GetComponent<OrderScript>().assignedEmployees)
         {
-            // employer.GetComponent<WorkerScript>().ChangeStateImage();
+            WorkerScript employerWorkerScript = employer.GetComponent<WorkerScript>();
+            employerWorkerScript.ChangeStateImage(status);
         }
 
-        foreach (GameObject employer in stepPanel.transform.parent.GetComponent<OrderScript>().boughtedEmployees)
+        foreach (GameObject employer in transform.parent.GetComponent<OrderScript>().boughtedEmployees)
         {
-            // employer.GetComponent<WorkerScript>().ChangeStateImage();
+            WorkerScript employerWorkerScript = employer.GetComponent<WorkerScript>();
+            employerWorkerScript.ChangeStateImage(status);
         }
     }
+
+    public void SetResponsibleWorker()
+    {
+        transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Responsible);
+        transform.parent.GetComponent<OrderScript>().boughtedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Responsible);
+    }
+
+    public void ResetResponsibility()
+    {
+        transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Helper);
+        transform.parent.GetComponent<OrderScript>().boughtedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Helper);
+    }
+
     //Для каждого работника указываем его текущий проект
     public void SetCurrentOrder(GameObject panel)
     {

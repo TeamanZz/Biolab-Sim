@@ -30,7 +30,7 @@ public class ActiveOrdersManager : MonoBehaviour
     }
 
     //Запускаем заказ
-    public void StartOrder(Order order, GameObject researchPanel)
+    public void ExecuteOrder(Order order, GameObject researchPanel)
     {
         launchedCoroutines.Add(StartCoroutine(CompleteTheOrder(order, researchPanel)));
         launchedOrders.Add(order);
@@ -45,13 +45,18 @@ public class ActiveOrdersManager : MonoBehaviour
         yield return new WaitForSeconds(order.research.leadTime);
         data.currencyData.moneyCount += order.reward;
         order.stateOfOrder = Order.StateOfOrder.Paused;
-        //Вызываем Award, изменяем значки на панелях купленных рабочих, очищаем список в заказе
-        order.orderStepsPanel.GetComponent<OrderScript>().ReleaseWorkers();
+
+        researchPanel.SetWorkersStateIcon(Worker.Status.Free);
+        researchPanel.ResetResponsibility();
+
+        order.currentStep = Order.CurrentStep.Done;
+        order.orderButtonIcon.GetComponent<OrderIcon>().ChangeCurrentActionText(order.currentStep);
+
+        order.orderStepsPanel.GetComponent<OrderScript>().UpdateInfoAboutWorkers();
 
         researchPanel.MakeEquipmentFree();
         researchPanel.endPanel.SetActive(true);
         researchPanel.duringPanel.SetActive(false);
-
     }
 
     //Паузим заказ
