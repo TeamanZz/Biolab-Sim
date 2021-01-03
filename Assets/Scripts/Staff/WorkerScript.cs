@@ -31,10 +31,15 @@ public class WorkerScript : MonoBehaviour
         get { return worker; }
     }
 
-    private void Start()
+    private void Awake()
     {
         manager = GameObject.FindGameObjectWithTag("Manager");
         data = manager.GetComponent<WorkersManager>().data;
+    }
+
+    private void Start()
+    {
+
 
         if (GetComponent<MoodScript>())
         {
@@ -101,5 +106,12 @@ public class WorkerScript : MonoBehaviour
         {
             responsibilityStar.gameObject.SetActive(false);
         }
+    }
+
+    public IEnumerator ToggleBlueLight()
+    {
+        gameObject.GetComponent<Image>().sprite = data.workerData.workerFrames[3];
+        yield return new WaitForSeconds(3);
+        gameObject.GetComponent<Image>().sprite = data.workerData.workerFrames[0];
     }
 }

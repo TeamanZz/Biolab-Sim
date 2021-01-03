@@ -17,8 +17,6 @@ public class ResourcesChanger : MonoBehaviour
     {
         //Выводим на экран количество денег
         moneyText.text = data.currencyData.moneyCount.ToString();
-        chlorText.text = "Chlor Count: " + data.currencyData.boughtedChlor.ToString();
-        naText.text = "Na \nCount: " + data.currencyData.boughtedNa.ToString();
     }
 
     //Проверка, достаточно ли денег для постройки этого здания

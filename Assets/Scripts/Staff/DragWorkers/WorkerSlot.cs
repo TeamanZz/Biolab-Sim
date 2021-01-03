@@ -80,7 +80,6 @@ public class WorkerSlot : MonoBehaviour, IDropHandler
 
             isBusy = false;
             transform.GetChild(2).gameObject.SetActive(false);
-            Debug.Log("slave");
         }
     }
 

@@ -10,10 +10,12 @@ public class DragWorker : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     private GameObject copyOfCurrentWorker;
     private Canvas canvas;
     private CanvasGroup canvasGroup;
+    private Data data;
 
     private void Awake()
     {
         canvas = GameObject.FindGameObjectWithTag("Canvas").GetComponent<Canvas>();
+        data = GameObject.FindGameObjectWithTag("Manager").GetComponent<WorkersManager>().data;
     }
 
     //Спавним копию рабочего в мыши, для видимости перетаскивания
@@ -21,6 +23,7 @@ public class DragWorker : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     {
         if (eventData.pointerDrag.gameObject.GetComponent<WorkerScript>().Worker.status == Worker.Status.Free)
         {
+            gameObject.GetComponent<Image>().sprite = data.workerData.workerFrames[0];
             copyOfCurrentWorker = Instantiate(gameObject, canvas.transform, true);
             rectTransform = copyOfCurrentWorker.GetComponent<RectTransform>();
             canvasGroup = copyOfCurrentWorker.GetComponent<CanvasGroup>();

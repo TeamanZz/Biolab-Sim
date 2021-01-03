@@ -40,7 +40,7 @@ public class WorkersManager : MonoBehaviour
         buyWorkerPanel.SetActive(false);
         OpenWindowsManager.singletone.AddOrRemovePanelFromList(buyWorkerPanel);
         infoAboutNewWorkerPanel.SetActive(false);
-        StartCoroutine(ToggleBlueLight());
+        ToggleBlueLight();
     }
 
     //Хард код способ спавна рабочих для покупки
@@ -53,11 +53,9 @@ public class WorkersManager : MonoBehaviour
         }
     }
 
-    IEnumerator ToggleBlueLight()
+    private void ToggleBlueLight()
     {
-        addedWorker.GetComponent<Image>().sprite = data.workerData.workerFrames[3];
-        yield return new WaitForSeconds(3);
-        addedWorker.GetComponent<Image>().sprite = data.workerData.workerFrames[0];
+        StartCoroutine(addedWorker.GetComponent<WorkerScript>().ToggleBlueLight());
     }
 }
 

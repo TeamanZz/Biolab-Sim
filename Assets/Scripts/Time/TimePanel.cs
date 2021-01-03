@@ -5,9 +5,11 @@ using System;
 using UnityEngine.UI;
 using TMPro;
 
-public class OClocks : MonoBehaviour
+public class TimePanel : MonoBehaviour
 {
-    public static OClocks singleton { get; private set; }
+    public static TimePanel singleton { get; private set; }
+
+    public GameObject NewsPanel;
     public TextMeshProUGUI minutesText;
     public TextMeshProUGUI hoursText;
     public TextMeshProUGUI daysText;
@@ -24,7 +26,7 @@ public class OClocks : MonoBehaviour
 
     private void FixedUpdate()
     {
-        SecondPauseChanger();
+        // SecondPauseChanger();
     }
 
     void Update()
@@ -61,7 +63,7 @@ public class OClocks : MonoBehaviour
     {
         minutesText.text = minutes.ToString();
         hoursText.text = hours.ToString();
-        daysText.text = "День: " + days.ToString();
+        daysText.text = days.ToString();
     }
 
     public void SecondPauseChanger()
@@ -70,5 +72,14 @@ public class OClocks : MonoBehaviour
             isPaused = true;
         else
             isPaused = false;
+    }
+
+    public void ToggleNewsPanel()
+    {
+        if (NewsPanel.activeSelf == true)
+        {
+            NewsManager.singleton.HideAllNewButtons();
+        }
+        NewsPanel.SetActive(!NewsPanel.activeSelf);
     }
 }
