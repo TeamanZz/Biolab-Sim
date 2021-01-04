@@ -5,11 +5,13 @@ using UnityEngine.Events;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System;
 
 public class WorkerStatsPanel : MonoBehaviour
 {
     public GameObject statsPanel;
     public GameObject awardPanel;
+    public GameObject whatHappened;
     public Image loadBarImage;
     public Image workerImage;
     public Image workerFrameImage;
@@ -23,6 +25,14 @@ public class WorkerStatsPanel : MonoBehaviour
     public TextMeshProUGUI completedOrdersCountText;
     public TextMeshProUGUI currentOrderText;
 
+    [Header("Enhancement")]
+    public GameObject enhancementButton;
+    public GameObject enhancementPanel;
+    public TextMeshProUGUI enhancementCostText;
+    public TextMeshProUGUI enhancementTimeText;
+    public TextMeshProUGUI qualificaton;
+
+    [Space]
     [HideInInspector] public OrderScript orderScript;
 
     private GameObject manager;
@@ -69,24 +79,46 @@ public class WorkerStatsPanel : MonoBehaviour
                     responsibilityStar.gameObject.SetActive(false);
                 }
             }
+
+            //Если апаться некуда или идёт процесс повышения, отключаем возможность повышения (кнопку), иначе меняем текст квалификации
+            if ((int)worker.qualificaton + 1 == Enum.GetNames(typeof(Worker.Qualificaton)).Length || worker.isEnhancementProcess || worker.orderStepsPanel != null)
+            {
+                enhancementButton.GetComponent<Button>().interactable = false;
+            }
+            else
+            {
+                enhancementButton.GetComponent<Button>().interactable = true;
+                qualificaton.text = (worker.qualificaton + 1).ToString();
+            }
+
+            if (worker.mood == Worker.Mood.Bad)
+            {
+                whatHappened.SetActive(true);
+            }
         }
         get
         {
             return worker;
-
         }
+    }
+    private void Awake()
+    {
+        //Передаём значения лоад бара и кнопки с повышением работнику при открытии панели с его статами
+        clickedWorkerFrameButton.GetComponent<WorkerScript>().enhanceLoadBar = loadBarImage;
+        clickedWorkerFrameButton.GetComponent<WorkerScript>().enhancementButton = enhancementButton;
     }
 
     private void Start()
     {
         if (worker.currentOrder != null && worker.currentOrder.orderStepsPanel != null)
+        {
             orderScript = worker.currentOrder.orderStepsPanel.GetComponent<OrderScript>();
+        }
     }
 
     private void FixedUpdate()
     {
         FillImageBar();
-        GetComponent<MoodScript>().SetMoodImage(this);
     }
 
     //Показать описание купленного персонажа
@@ -159,12 +191,24 @@ public class WorkerStatsPanel : MonoBehaviour
 
     private void FillImageBar()
     {
+        //Заполняем прогресс бар при выполнении заказа
         if (worker.currentOrder != null && worker.currentOrder.orderHeading != "" && worker.currentOrder.orderStepsPanel != null)
         {
             //Заполняем прогресс бар в панели
             loadBarImage.fillAmount = orderScript.orderFillAmount;
         }
         if (worker.currentOrder == null)
+        {
+            loadBarImage.fillAmount = 0;
+        }
+
+        //Заполняем прогресс бар при повышении
+        if (worker.isEnhancementProcess)
+        {
+            //Заполняем прогресс бар в панели
+            loadBarImage.fillAmount = worker.enhancementFillAmount;
+        }
+        else if (worker.currentOrder == null)
         {
             loadBarImage.fillAmount = 0;
         }
@@ -177,9 +221,9 @@ public class WorkerStatsPanel : MonoBehaviour
         Destroy(manager.GetComponent<WorkersManager>().statsOfWorker);
     }
 
-    public void ToggleAwardPanel()
+    public void TogglePanel(GameObject togglePanel)
     {
-        awardPanel.SetActive(!awardPanel.activeSelf);
+        togglePanel.SetActive(!togglePanel.activeSelf);
     }
 
     public void AwardWorker(int awardSum)
@@ -189,7 +233,29 @@ public class WorkerStatsPanel : MonoBehaviour
             data.currencyData.moneyCount -= awardSum;
             //ТУТ УВЕЛИЧЕНИЕ СТАТОВ ПРОПИСЫВАЕТСЯ
             awardPanel.SetActive(false);
+        }
+    }
 
+    public void EnhanceWorker()
+    {
+        if (data.currencyData.moneyCount >= worker.enhancementCost)
+        {
+            GameObject staffPanel = GameObject.Find("Staff Panel");
+
+            for (int i = 1; i < staffPanel.transform.childCount; i++)
+            {
+                if (staffPanel.transform.GetChild(i).GetComponent<WorkerScript>().Worker.workerIndex == worker.workerIndex)
+                {
+                    if (worker.workerSlotContainer)
+                    {
+                        worker.workerSlotContainer.GetComponent<WorkerSlot>().DestroyWorkerIcon();
+                    }
+                    data.currencyData.moneyCount -= worker.enhancementCost;
+                    staffPanel.transform.GetChild(i).GetComponent<WorkerScript>().StartEnhanceProcess(worker.enhancementTime);
+                    enhancementButton.GetComponent<Button>().interactable = false;
+                    TogglePanel(enhancementPanel);
+                }
+            }
         }
     }
 }

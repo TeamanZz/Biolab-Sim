@@ -203,12 +203,36 @@ public class ResearchPanelScript : MonoBehaviour
     {
         transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Responsible);
         transform.parent.GetComponent<OrderScript>().boughtedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Responsible);
+
+        WorkerScript assignedWorkerScript = transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>();
+
+        GameObject workerStatsPanel = GameObject.Find("StatsPanel(Clone)");
+        if (workerStatsPanel)
+        {
+            WorkerStatsPanel workerStatsPanelScript = workerStatsPanel.GetComponent<WorkerStatsPanel>();
+            if (workerStatsPanelScript.Worker.workerIndex == assignedWorkerScript.Worker.workerIndex)
+            {
+                workerStatsPanelScript.responsibilityStar.gameObject.SetActive(true);
+            }
+        }
     }
 
     public void ResetResponsibility()
     {
         transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Helper);
         transform.parent.GetComponent<OrderScript>().boughtedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Helper);
+
+        WorkerScript assignedWorkerScript = transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>();
+
+        GameObject workerStatsPanel = GameObject.Find("StatsPanel(Clone)");
+        if (workerStatsPanel)
+        {
+            WorkerStatsPanel workerStatsPanelScript = workerStatsPanel.GetComponent<WorkerStatsPanel>();
+            if (workerStatsPanelScript.Worker.workerIndex == assignedWorkerScript.Worker.workerIndex)
+            {
+                workerStatsPanelScript.responsibilityStar.gameObject.SetActive(false);
+            }
+        }
     }
 
     //Для каждого работника указываем его текущий проект

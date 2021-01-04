@@ -79,6 +79,13 @@ public class Worker
         Microbiology
     }
 
+    public enum Qualificaton
+    {
+        FirstLevel,
+        SecondLevel,
+        ThirdLevel
+    }
+
     public enum Status
     {
         Free,
@@ -101,9 +108,13 @@ public class Worker
 
     [HideInInspector]
     public GameObject orderStepsPanel;
+    [HideInInspector]
+    public GameObject workerSlotContainer;
     public int workerIndex;
     public int salary;
     public int completedOrdersCount;
+    public int enhancementTime;
+    public int enhancementCost;
     public String name;
     public String fullName;
     public String description;
@@ -114,7 +125,12 @@ public class Worker
     public Education education;
     public Specialization specialization;
     public Responsibility responsibility;
+    public Qualificaton qualificaton;
     public Status status;
+    [HideInInspector]
+    public bool isEnhancementProcess;
+    [HideInInspector]
+    public float enhancementFillAmount = 0;
 
     [HideInInspector] public Sprite moodImage;
 

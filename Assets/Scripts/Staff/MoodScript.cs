@@ -14,7 +14,7 @@ public class MoodScript : MonoBehaviour
 
     public void SetMoodImage(WorkerStatsPanel workerStatsPanel)
     {
-        // moodImage.sprite = workerStatsPanel.Worker.moodImage;
+        moodImage.sprite = workerStatsPanel.Worker.moodImage;
     }
 
     public void ChangeWorkerMood(Worker worker, Worker.Mood mood)

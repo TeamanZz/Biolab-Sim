@@ -5,6 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class WorkerScript : MonoBehaviour
 {
@@ -14,6 +15,10 @@ public class WorkerScript : MonoBehaviour
     public TextMeshProUGUI workerName;
     [HideInInspector]
     public GameObject newWorkerDescriptionPanel;
+    [HideInInspector]
+    public GameObject enhancementButton;
+
+    public Image enhanceLoadBar;
 
     [SerializeField] private Worker worker;
     private GameObject newWorker;
@@ -39,8 +44,6 @@ public class WorkerScript : MonoBehaviour
 
     private void Start()
     {
-
-
         if (GetComponent<MoodScript>())
         {
             GetComponent<MoodScript>().ChangeWorkerMood(worker, Worker.Mood.Good);
@@ -113,5 +116,44 @@ public class WorkerScript : MonoBehaviour
         gameObject.GetComponent<Image>().sprite = data.workerData.workerFrames[3];
         yield return new WaitForSeconds(3);
         gameObject.GetComponent<Image>().sprite = data.workerData.workerFrames[0];
+    }
+
+    public void StartEnhanceProcess(int time)
+    {
+        StartCoroutine(IFillingLoadBar(time));
+        StartCoroutine(IStartEnhanceProcess(time));
+    }
+
+    public IEnumerator IStartEnhanceProcess(int time)
+    {
+        GetComponent<DragWorker>().enabled = false;
+        worker.isEnhancementProcess = true;
+        yield return new WaitForSeconds(time);
+        worker.qualificaton += 1;
+        worker.isEnhancementProcess = false;
+        GetComponent<DragWorker>().enabled = true;
+
+        //Если есть куда апаться, то возвращаем кнопке интерактивность
+        if (((int)worker.qualificaton + 1 < Enum.GetNames(typeof(Worker.Qualificaton)).Length) && enhancementButton)
+        {
+            enhancementButton.GetComponent<Button>().interactable = true;
+        }
+    }
+
+    public IEnumerator IFillingLoadBar(int time)
+    {
+        float newFillAmount = 0;
+        while (enhanceLoadBar.fillAmount != 1)
+        {
+            yield return new WaitForSeconds(0.1f);
+            newFillAmount += (0.1f / time);
+            if (enhanceLoadBar)
+            {
+                enhanceLoadBar.fillAmount = newFillAmount;
+            }
+
+            worker.enhancementFillAmount = newFillAmount;
+        }
+        enhanceLoadBar.fillAmount = 0;
     }
 }

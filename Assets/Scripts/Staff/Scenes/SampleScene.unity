@@ -5138,6 +5138,8 @@ MonoBehaviour:
     workerIndex: 0
     salary: 400
     completedOrdersCount: 0
+    enhancementTime: 3
+    enhancementCost: 122
     name: "\u041F\u0435\u0442\u044F"
     fullName: "\u041F\u0435\u0442\u0440 \u0410\u0440\u043A\u0430\u0434\u044C\u0435\u0432\u0438\u0447"
     description: "\u0427\u0438\u0441\u0442\u043E \u043A\u0440\u0430\u0441\u0430\u0432\u0447\u0438\u043A.
@@ -5180,12 +5182,17 @@ MonoBehaviour:
     education: 0
     specialization: 0
     responsibility: 1
+    qualificaton: 0
     status: 0
+    isEnhancementProcess: 0
+    enhancementFillAmount: 0
     moodImage: {fileID: 0}
   - orderStepsPanel: {fileID: 0}
     workerIndex: 1
     salary: 4555
     completedOrdersCount: 0
+    enhancementTime: 3
+    enhancementCost: 100
     name: "\u041A\u043E\u043B\u044F"
     fullName: "\u041D\u0438\u043A\u043E\u043B\u0430\u0439 \u0411\u0435\u0441\u043E\u0432"
     description: "\u041D\u0435 \u043D\u0443 \u0447\u0438\u0441\u0442\u043E \u0440\u0430\u0437\u0433\u0438\u043B\u044C\u0434\u044F\u0439,
@@ -5227,12 +5234,17 @@ MonoBehaviour:
     education: 1
     specialization: 0
     responsibility: 1
+    qualificaton: 0
     status: 0
+    isEnhancementProcess: 0
+    enhancementFillAmount: 0
     moodImage: {fileID: 0}
   - orderStepsPanel: {fileID: 0}
     workerIndex: 2
     salary: 4555
     completedOrdersCount: 0
+    enhancementTime: 3
+    enhancementCost: 100
     name: "\u0410\u043B\u0438\u043D\u0430"
     fullName: "\u0410\u043B\u0438\u043D\u0430 \u0420\u0438\u0447\u0430\u0440\u0434\u043E\u0432\u043D\u0430
       A.K.A. \"\u0421\u04434Ka\""
@@ -5274,7 +5286,10 @@ MonoBehaviour:
     education: 1
     specialization: 0
     responsibility: 1
+    qualificaton: 0
     status: 0
+    isEnhancementProcess: 0
+    enhancementFillAmount: 0
     moodImage: {fileID: 0}
   infoAboutNewWorkerPanel: {fileID: 0}
   statsOfWorker: {fileID: 0}

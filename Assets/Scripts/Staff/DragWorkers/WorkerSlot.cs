@@ -22,11 +22,6 @@ public class WorkerSlot : MonoBehaviour, IDropHandler
         manager = GameObject.FindGameObjectWithTag("Manager");
     }
 
-    private void Start()
-    {
-        SetResponsibilityText();
-    }
-
     //Спавним в ячейке купленного персонажа
     public void OnDrop(PointerEventData eventData)
     {
@@ -48,6 +43,7 @@ public class WorkerSlot : MonoBehaviour, IDropHandler
                 newWorker.GetComponent<WorkerScript>().Worker.orderStepsPanel = parentStepsPanel;
                 newWorker.GetComponent<RectTransform>().sizeDelta = new Vector3(100f, 147f, 0);
                 newWorker.GetComponent<RectTransform>().position = slotImage.transform.position;
+                eventData.pointerDrag.GetComponent<WorkerScript>().Worker.workerSlotContainer = gameObject;
                 slotImage.SetActive(false);
                 transform.GetChild(2).gameObject.SetActive(true);
                 isBusy = true;
@@ -60,21 +56,12 @@ public class WorkerSlot : MonoBehaviour, IDropHandler
         }
     }
 
-    //Пишем текст, что в первом слоте находится ответственный
-    private void SetResponsibilityText()
-    {
-        // if (slotResponsibility == Worker.Resposibility.Responsible)
-        //     responsibilityText.text = "Ответственный";
-        // else
-        //     responsibilityText.text = "Помощник";
-    }
-
     //Удаляем персонажа с иконки с помощью крестика
     public void DestroyWorkerIcon()
     {
         if (isBusy)
         {
-            Destroy(EventSystem.current.currentSelectedGameObject.transform.parent.GetChild(0).gameObject);
+            Destroy(transform.GetChild(0).gameObject);
             slotImage.SetActive(true);
             DeleteEmployersFromLists();
 
