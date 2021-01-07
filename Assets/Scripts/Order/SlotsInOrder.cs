@@ -5,13 +5,11 @@ using UnityEngine.UI;
 
 public class SlotsInOrder : MonoBehaviour
 {
-
     public GameObject equipmentIconPrefab;
     public GameObject workerIconPrefab;
 
     private Data data;
-    //
-    //Добавь список и крестики
+
     //КОГДА БУДЕШЬ ДОБАВЛЯТЬ КРОМЕ РЕСЁРЧА, ДЕЛАЙ ПЕРЕГРУЗКУ
 
     private void Awake()
@@ -39,7 +37,9 @@ public class SlotsInOrder : MonoBehaviour
                 GameObject newEquipmentSlot = Instantiate(equipmentIconPrefab, transform.GetChild(i).GetChild(1).gameObject.transform);
                 newEquipmentSlot.GetComponent<Image>().sprite = data.equipmentData.equipmentImagesList[1];
                 //Передаём значение слота из магазина в слот заказа, для возможности купить объект из окна заказа
-                // newEquipmentSlot.GetComponent<EquipmentSlotInOrder>().EquipmentSlot = ShopEquipmentManager.singleton.listOfEquipmentItems.Find(x => x.instantiatedObject.name == "Table");
+                GameObject equipmentObject = ShopEquipmentManager.singleton.listOfEquipmentItems.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.instantiatedObject.name == "Capsule");
+                Debug.Log(equipmentObject);
+                newEquipmentSlot.GetComponent<EquipmentSlotInOrder>().EquipmentSlot = equipmentObject.GetComponent<EquipmentInfo>().equipmentObject;
             }
         }
     }

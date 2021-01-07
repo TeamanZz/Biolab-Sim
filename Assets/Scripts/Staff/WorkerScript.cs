@@ -115,7 +115,8 @@ public class WorkerScript : MonoBehaviour
     {
         gameObject.GetComponent<Image>().sprite = data.workerData.workerFrames[3];
         yield return new WaitForSeconds(3);
-        gameObject.GetComponent<Image>().sprite = data.workerData.workerFrames[0];
+        if (this != null)
+            gameObject.GetComponent<Image>().sprite = data.workerData.workerFrames[0];
     }
 
     public void StartEnhanceProcess(int time)

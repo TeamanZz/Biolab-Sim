@@ -115,6 +115,7 @@ public class Worker
     public int completedOrdersCount;
     public int enhancementTime;
     public int enhancementCost;
+    public int currentHappeningIndex;
     public String name;
     public String fullName;
     public String description;

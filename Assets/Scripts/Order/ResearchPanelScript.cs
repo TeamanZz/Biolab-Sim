@@ -7,6 +7,7 @@ using TMPro;
 public class ResearchPanelScript : MonoBehaviour
 {
     public Data data;
+    public GameObject equipmentSuccessIcon;
 
     public GameObject setPanel;
     public GameObject duringPanel;
@@ -38,6 +39,7 @@ public class ResearchPanelScript : MonoBehaviour
     [Space]
     private SlotsInOrder slots;
     [SerializeField] private Order order;
+    private GameObject canvas;
 
     public Order Order
     {
@@ -66,6 +68,11 @@ public class ResearchPanelScript : MonoBehaviour
         get { return order; }
     }
 
+    private void Awake()
+    {
+        canvas = GameObject.FindGameObjectWithTag("Canvas");
+    }
+
     private void Start()
     {
         //Спавним слоты в панели заказа для работников и оборудования
@@ -84,6 +91,34 @@ public class ResearchPanelScript : MonoBehaviour
             ShopEquipmentManager.singleton.busyEquipment.Add(tableObject);
             order.research.usedEquipment.Add(tableObject);
             ShopEquipmentManager.singleton.availableEquipment.Remove(ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == Building.Type.Table));
+        }
+        if (order.research.needCapsule)
+        {
+            GameObject capsuleObject = ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == Building.Type.Capsule);
+            capsuleObject.GetComponent<EquipmentInfo>().currentOrder = Order;
+            ShopEquipmentManager.singleton.busyEquipment.Add(capsuleObject);
+            order.research.usedEquipment.Add(capsuleObject);
+            ShopEquipmentManager.singleton.availableEquipment.Remove(ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == Building.Type.Capsule));
+        }
+    }
+
+    public void SpawnEquipmentIcon()
+    {
+        for (int i = 0; i < order.research.usedEquipment.Count; i++)
+        {
+            GameObject sucIcon = Instantiate(equipmentSuccessIcon, canvas.transform);
+
+            //first you need the RectTransform component of your canvas
+            RectTransform CanvasRect = canvas.GetComponent<RectTransform>();
+
+            Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(order.research.usedEquipment[i].transform.GetChild(1).transform.position);
+            Vector2 WorldObject_ScreenPosition = new Vector2(
+            ((ViewportPosition.x * CanvasRect.sizeDelta.x) - (CanvasRect.sizeDelta.x * 0.5f)),
+            ((ViewportPosition.y * CanvasRect.sizeDelta.y) - (CanvasRect.sizeDelta.y * 0.5f)));
+
+            //now you can set the position of the ui element
+            sucIcon.GetComponent<RectTransform>().anchoredPosition = WorldObject_ScreenPosition;
+            sucIcon.transform.SetAsFirstSibling();
         }
     }
 
@@ -111,9 +146,9 @@ public class ResearchPanelScript : MonoBehaviour
             SetResponsibleWorker();
             ActiveOrdersManager.singleton.ExecuteOrder(Order, gameObject);
             MakeEquipmentBusy();
+
             InstantiateWorkersInSecondWindow();
             slots.HideCrosses();
-            //Удаляем из data стол, который юзали для заказа;
             order.stateOfOrder = Order.StateOfOrder.InProcess;
             transform.parent.gameObject.SetActive(false);
             OpenWindowsManager.singletone.ShowResearchAcceptMessage();

@@ -1648,6 +1648,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 417fb50c16dbf1847b9a9bac60de839b, type: 2}
+  equipmentSuccessIcon: {fileID: 767988187710774745, guid: ce1faebd13337f547ae9e9aeb25e5c25, type: 3}
   setPanel: {fileID: 343748954625982166}
   duringPanel: {fileID: 3728642787149996376}
   endPanel: {fileID: 3194347104573349386}

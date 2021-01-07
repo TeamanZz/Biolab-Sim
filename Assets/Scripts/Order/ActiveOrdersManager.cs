@@ -51,9 +51,8 @@ public class ActiveOrdersManager : MonoBehaviour
 
         order.currentStep = Order.CurrentStep.Done;
         order.orderButtonIcon.GetComponent<OrderIcon>().ChangeCurrentActionText(order.currentStep);
-
+        researchPanel.SpawnEquipmentIcon();
         order.orderStepsPanel.GetComponent<OrderScript>().UpdateInfoAboutWorkers();
-
         researchPanel.MakeEquipmentFree();
         researchPanel.endPanel.SetActive(true);
         researchPanel.duringPanel.SetActive(false);

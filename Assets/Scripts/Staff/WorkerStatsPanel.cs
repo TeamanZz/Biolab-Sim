@@ -11,7 +11,7 @@ public class WorkerStatsPanel : MonoBehaviour
 {
     public GameObject statsPanel;
     public GameObject awardPanel;
-    public GameObject whatHappened;
+    public GameObject whatHappenedPanel;
     public Image loadBarImage;
     public Image workerImage;
     public Image workerFrameImage;
@@ -25,12 +25,23 @@ public class WorkerStatsPanel : MonoBehaviour
     public TextMeshProUGUI completedOrdersCountText;
     public TextMeshProUGUI currentOrderText;
 
-    [Header("Enhancement")]
+    [Header("Enhancement Panel")]
     public GameObject enhancementButton;
     public GameObject enhancementPanel;
     public TextMeshProUGUI enhancementCostText;
     public TextMeshProUGUI enhancementTimeText;
     public TextMeshProUGUI qualificaton;
+
+    [Header("What Happened Panel")]
+    public GameObject whatHappenedButton;
+    public Button firstChoose;
+    public Button secondChoose;
+    public Button thirdChoose;
+    public TextMeshProUGUI firstChooseText;
+    public TextMeshProUGUI secondChooseText;
+    public TextMeshProUGUI thirdChooseText;
+
+    public TextMeshProUGUI happeningDescription;
 
     [Space]
     [HideInInspector] public OrderScript orderScript;
@@ -93,7 +104,7 @@ public class WorkerStatsPanel : MonoBehaviour
 
             if (worker.mood == Worker.Mood.Bad)
             {
-                whatHappened.SetActive(true);
+                whatHappenedPanel.SetActive(true);
             }
         }
         get
@@ -101,6 +112,7 @@ public class WorkerStatsPanel : MonoBehaviour
             return worker;
         }
     }
+
     private void Awake()
     {
         //Передаём значения лоад бара и кнопки с повышением работнику при открытии панели с его статами
@@ -184,9 +196,12 @@ public class WorkerStatsPanel : MonoBehaviour
             Destroy(clickedWorkerFrameButton);
         }
         //И панель удалить не забываем
+        StopCoroutine(clickedWorkerFrameButton.GetComponent<WorkerScript>().ToggleBlueLight());
+        Debug.Log("Stopped");
         OpenWindowsManager.singletone.iconsList.Remove(gameObject);
         worker.currentOrder = null;
         Destroy(gameObject);
+
     }
 
     private void FillImageBar()
@@ -224,6 +239,40 @@ public class WorkerStatsPanel : MonoBehaviour
     public void TogglePanel(GameObject togglePanel)
     {
         togglePanel.SetActive(!togglePanel.activeSelf);
+        SetWorkersHappening(togglePanel);
+    }
+
+    private void SetWorkersHappening(GameObject togglePanel)
+    {
+        if (togglePanel.gameObject.name == "WhatHappened Panel")
+        {
+            if (worker.currentHappeningIndex == 0)
+            {
+                worker.currentHappeningIndex = UnityEngine.Random.Range(1, EmploeeEventsScript.singleton.emploeeHappenings.Count);
+            }
+            int happeningIndex = worker.currentHappeningIndex;
+
+            EmploeeAction currentEmploeeAction = EmploeeEventsScript.singleton.emploeeHappenings[happeningIndex - 1];
+            EmploeeEventsScript.singleton.Worker = worker;
+
+            happeningDescription.text = currentEmploeeAction.actionDescription;
+
+            firstChoose.onClick.AddListener(currentEmploeeAction.firstButtonEvent.Invoke);
+            secondChoose.onClick.AddListener(currentEmploeeAction.secondButtonEvent.Invoke);
+            thirdChoose.onClick.AddListener(currentEmploeeAction.thirdButtonEvent.Invoke);
+
+            firstChooseText.text = currentEmploeeAction.firstButtonText;
+            secondChooseText.text = currentEmploeeAction.secondButtonText;
+            thirdChooseText.text = currentEmploeeAction.thirdButtonText;
+        }
+    }
+
+    public void CloseWindow()
+    {
+        //Улучшить настроение работника, чтобы не появлялась опять кнопка
+        Debug.Log("clos");
+        EventSystem.current.currentSelectedGameObject.transform.parent.gameObject.SetActive(false);
+        whatHappenedButton.SetActive(false);
     }
 
     public void AwardWorker(int awardSum)
