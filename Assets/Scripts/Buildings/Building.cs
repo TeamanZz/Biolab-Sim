@@ -4,8 +4,7 @@ using UnityEngine;
 public class Building : MonoBehaviour
 {
     public Vector2Int size = Vector2Int.one;
-    public Renderer buildingRenderer;
-    public Type typeOfBuilding;
+    [HideInInspector] public Renderer buildingRenderer;
 
     [HideInInspector] public int buildingCost;
 
@@ -50,6 +49,9 @@ public class Building : MonoBehaviour
     public enum Type
     {
         Table,
-        Capsule
+        Option_base_1,
+        Refregirator,
+        Gematology_analizator,
+        Virus_identificator
     }
 }

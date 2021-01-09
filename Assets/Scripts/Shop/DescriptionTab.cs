@@ -60,7 +60,6 @@ public class DescriptionTab : MonoBehaviour
     private void Awake()
     {
         singletone = this;
-        gameObject.SetActive(false);
     }
 
     public void BuyItem()

@@ -72,6 +72,7 @@ public class WorkerStatsPanel : MonoBehaviour
             descriptionText.text = worker.description;
             professionText.text = worker.profession.ToString();
             educationText.text = worker.education.ToString();
+            specializationText.text = worker.specialization.ToString();
             completedOrdersCountText.text = worker.completedOrdersCount.ToString();
 
             if (worker.status == Worker.Status.Free)

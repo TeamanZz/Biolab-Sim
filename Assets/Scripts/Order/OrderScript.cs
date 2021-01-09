@@ -97,16 +97,35 @@ public class Order
     [HideInInspector] public GameObject orderStepsPanel;
     [HideInInspector] public GameObject orderButtonIcon;
     [HideInInspector] public GameObject currentStepPanel;
-    public DevelopmentSphere developmentSphere;
-    public CustomerType customerType;
-    public StateOfOrder stateOfOrder = StateOfOrder.Paused;
-    public CurrentStep currentStep;
+
+    [Header("Descriptions")]
     public String customer;
     public String orderHeading;
     public String orderDescription;
     public int reward;
+
+    [Header("Types")]
+    public DevelopmentSphere developmentSphere;
+    public CustomerType customerType;
+
+    [Header("Timings")]
+    public int orderHoursSpawnTime;
+    public int orderDaysSpawnTime;
+    public int timeToDestroy;
+
+    [Header("States")]
+    public StateOfOrder stateOfOrder = StateOfOrder.Paused;
+    public CurrentStep currentStep;
+
+    [Header("Required Stages")]
+    public bool researchStage;
     public bool developmentStage;
     public bool TestingStage;
+
+    [Header("Stages")]
+    [SerializeField] public Research research;
+    [SerializeField] public Development development;
+    [SerializeField] public Testing testing;
 
     public enum DevelopmentSphere
     {
@@ -117,6 +136,7 @@ public class Order
         Neurobiology,
         Virology
     }
+
     public enum CustomerType
     {
         Clear,
@@ -141,33 +161,62 @@ public class Order
         Development,
         Testing
     }
+}
 
-    //Этапы разработки заказа
-    [SerializeField] public Research research;
-    [SerializeField] public Development development;
-    [SerializeField] public Testing testing;
+
+[Serializable]
+public class RequirementsForEmployees
+{
+    [SerializeField]
+    public Worker.Profession minProfession;
+    [SerializeField]
+    public Worker.Specialization specialization;
+}
+
+[Serializable]
+public class Results
+{
+    string mainText;
+    string description;
 }
 
 [Serializable]
 public class Research
 {
+    [Header("Description")]
     public string additionalText;
     public string taskText;
     public float leadTime;
 
-    public int neededWorkers;
-    public bool needReagentTable;
-    public bool needCapsule;
+    [Header("Workers Requierments")]
+    public List<RequirementsForEmployees> requirementsForEmployees = new List<RequirementsForEmployees>();
 
+    [Header("Equipment")]
+    public List<Building.Type> requirementEquipmentList = new List<Building.Type>();
+
+    [Header("Bought Research")]
+    bool canBuyResearch;
+
+    [Header("Acceleration")]
+    int accelerationHoursTime;
+    int accelerationCost;
+
+    [Header("Mini Games")]
+    public Minigames minigame;
+
+    [HideInInspector]
     public List<GameObject> usedEquipment = new List<GameObject>();
 }
 
 [Serializable]
 public class Development
 {
-    public String name;
+    public String mainText;
     public bool needReagentTable;
     public bool needCapsule;
+    public float leadTime;
+
+    public List<Results> results = new List<Results>();
 
 }
 
@@ -177,5 +226,11 @@ public class Testing
     public String name;
     public bool needReagentTable;
     public bool needCapsule;
+    public float leadTime;
 
+}
+
+public enum Minigames
+{
+    None
 }

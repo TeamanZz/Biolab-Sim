@@ -1,8 +1,9 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class ResearchPanelScript : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class ResearchPanelScript : MonoBehaviour
     public TextMeshProUGUI setPanelTaskText;
     public TextMeshProUGUI setPanelResearchTermText;
     public TextMeshProUGUI setPanelRewardText;
+    public TextMeshProUGUI additionalText;
 
     [Header("During Panel")]
     public Image duringPanelCustomerTypeImg;
@@ -54,6 +56,7 @@ public class ResearchPanelScript : MonoBehaviour
             setPanelTaskText.text = "Задача: " + order.research.taskText;
             setPanelResearchTermText.text = order.research.leadTime.ToString() + " cекунды";
             setPanelRewardText.text = order.reward.ToString() + " $";
+            additionalText.text = order.research.additionalText;
 
             duringPanelIconImg.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
             duringPanelCustomerTypeImg.sprite = data.ordersData.orderCustomerTypeImages[(int)order.customerType];
@@ -78,31 +81,26 @@ public class ResearchPanelScript : MonoBehaviour
         //Спавним слоты в панели заказа для работников и оборудования
         slots = GetComponent<SlotsInOrder>();
         slots.SpawnEquipmentSlots(order.research);
-        slots.SpawnWorkersSlots(Order.research.neededWorkers);
+        slots.SpawnWorkersSlots(Order.research.requirementsForEmployees.Count);
         order.currentStep = Order.CurrentStep.Research;
     }
 
     private void MakeEquipmentBusy()
     {
-        if (order.research.needReagentTable)
+        for (int i = 0; i < Enum.GetNames(typeof(Building.Type)).Length; i++)
         {
-            GameObject tableObject = ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == Building.Type.Table);
-            tableObject.GetComponent<EquipmentInfo>().currentOrder = Order;
-            ShopEquipmentManager.singleton.busyEquipment.Add(tableObject);
-            order.research.usedEquipment.Add(tableObject);
-            ShopEquipmentManager.singleton.availableEquipment.Remove(ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == Building.Type.Table));
-        }
-        if (order.research.needCapsule)
-        {
-            GameObject capsuleObject = ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == Building.Type.Capsule);
-            capsuleObject.GetComponent<EquipmentInfo>().currentOrder = Order;
-            ShopEquipmentManager.singleton.busyEquipment.Add(capsuleObject);
-            order.research.usedEquipment.Add(capsuleObject);
-            ShopEquipmentManager.singleton.availableEquipment.Remove(ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == Building.Type.Capsule));
+            if (order.research.requirementEquipmentList.Contains((Building.Type)i))
+            {
+                GameObject newEquipmentObject = ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == (Building.Type)i);
+                ShopEquipmentManager.singleton.availableEquipment.Remove(newEquipmentObject);
+                newEquipmentObject.GetComponent<EquipmentInfo>().currentOrder = Order;
+                ShopEquipmentManager.singleton.busyEquipment.Add(newEquipmentObject);
+                order.research.usedEquipment.Add(newEquipmentObject);
+            }
         }
     }
 
-    public void SpawnEquipmentIcon()
+    public void SpawnEquipmentSuccessIcon()
     {
         for (int i = 0; i < order.research.usedEquipment.Count; i++)
         {
@@ -136,6 +134,7 @@ public class ResearchPanelScript : MonoBehaviour
     //Запускает заказ в исполнение
     public void StartOrder()
     {
+        // Debug.Log(IsHaveEquipment(order.research));
         if (IsHaveEquipment(order.research) && WorkersIsSet(gameObject, Order.research))
         {
             order.orderButtonIcon.GetComponent<OrderIcon>().ChangeCurrentActionText(order.currentStep);
@@ -148,7 +147,7 @@ public class ResearchPanelScript : MonoBehaviour
             MakeEquipmentBusy();
 
             InstantiateWorkersInSecondWindow();
-            slots.HideCrosses();
+            slots.HideDismissButtons();
             order.stateOfOrder = Order.StateOfOrder.InProcess;
             transform.parent.gameObject.SetActive(false);
             OpenWindowsManager.singletone.ShowResearchAcceptMessage();
@@ -167,7 +166,7 @@ public class ResearchPanelScript : MonoBehaviour
             ActiveOrdersManager.singleton.ExecuteOrder(Order, gameObject);
             MakeEquipmentBusy();
             // SetWorkersStateIcon(Worker.Status.Busy);
-            slots.HideCrosses();
+            slots.HideDismissButtons();
             order.stateOfOrder = Order.StateOfOrder.InProcess;
             pauseButton.SetActive(true);
             continueButton.SetActive(false);
@@ -184,7 +183,7 @@ public class ResearchPanelScript : MonoBehaviour
         Order.research.leadTime = ((1 - loadBarImage.GetComponent<Image>().fillAmount) * Order.research.leadTime);
 
         DeleteWorkersInSecondWindow();
-        slots.ShowCrosses();
+        slots.ShowDismissButtons();
         ActiveOrdersManager.singleton.ClearCurrentOrders(gameObject);
         SetWorkersStateIcon(Worker.Status.Free);
         ResetResponsibility();
@@ -199,7 +198,7 @@ public class ResearchPanelScript : MonoBehaviour
     //Удаляем иконки рабочих во втором окне заказа
     private void DeleteWorkersInSecondWindow()
     {
-        for (int i = 0; i < order.research.neededWorkers; i++)
+        for (int i = 0; i < order.research.requirementsForEmployees.Count; i++)
         {
             transform.GetChild(1).GetChild(0).GetChild(i).GetComponent<WorkerSlot>().isBusy = false;
             Destroy(transform.GetChild(1).GetChild(0).GetChild(i).GetChild(0).gameObject);
@@ -299,31 +298,23 @@ public class ResearchPanelScript : MonoBehaviour
     //Проверяет, совпадает ли количество установленных в панель рабочих с необходимым количеством
     public bool WorkersIsSet(GameObject stepPanel, Research research)
     {
-        return (stepPanel.transform.parent.GetComponent<OrderScript>().assignedEmployees.Count == research.neededWorkers);
+        return (stepPanel.transform.parent.GetComponent<OrderScript>().assignedEmployees.Count == research.requirementsForEmployees.Count);
     }
 
     //Проверяет какое оборудование нужно для текущего заказа и возвращает true, если есть свободное
     public bool IsHaveEquipment(Research research)
     {
-        bool state = true;
-
-        if (research.needReagentTable)
+        for (int i = 0; i < Enum.GetNames(typeof(Building.Type)).Length; i++)
         {
-            if (!ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == Building.Type.Table))
+            if (research.requirementEquipmentList.Contains((Building.Type)i))
             {
-                state = false;
-                return state;
+                GameObject newEquipment = ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == (Building.Type)i);
+                if (newEquipment == null)
+                {
+                    return false;
+                }
             }
         }
-
-        if (research.needCapsule)
-        {
-            if (!ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == Building.Type.Capsule))
-            {
-                state = false;
-                return state;
-            }
-        }
-        return state;
+        return true;
     }
 }

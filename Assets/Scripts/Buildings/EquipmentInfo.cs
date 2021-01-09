@@ -9,11 +9,13 @@ public class EquipmentInfo : MonoBehaviour, IPointerDownHandler
     public GameObject infoPanelPrefab;
     private GameObject infoPanel;
     private GameObject canvas;
-    public Order currentOrder;
+    [HideInInspector] public Order currentOrder;
     public EquipmentObject equipmentObject;
+
 
     private void Awake()
     {
+        equipmentObject.instantiatedObject = gameObject;
         canvas = GameObject.FindGameObjectWithTag("Canvas");
     }
 

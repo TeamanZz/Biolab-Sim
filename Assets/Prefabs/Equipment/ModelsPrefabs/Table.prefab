@@ -144,7 +144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: {x: 9, y: 6}
   buildingRenderer: {fileID: 0}
-  typeOfBuilding: 0
   buildingCost: 100
 --- !u!114 &1664325592144125303
 MonoBehaviour:
@@ -163,38 +162,45 @@ MonoBehaviour:
     orderStepsPanel: {fileID: 0}
     orderButtonIcon: {fileID: 0}
     currentStepPanel: {fileID: 0}
-    developmentSphere: 0
-    customerType: 0
-    stateOfOrder: 0
-    currentStep: 0
     customer: 
     orderHeading: 
     orderDescription: 
     reward: 0
+    developmentSphere: 0
+    customerType: 0
+    orderHoursSpawnTime: 0
+    orderDaysSpawnTime: 0
+    timeToDestroy: 0
+    stateOfOrder: 0
+    currentStep: 0
+    researchStage: 0
     developmentStage: 0
     TestingStage: 0
     research:
       additionalText: 
       taskText: 
       leadTime: 0
-      neededWorkers: 0
-      needReagentTable: 0
-      needCapsule: 0
+      requirementsForEmployees: []
+      requirementEquipmentList: 
+      minigame: 0
       usedEquipment: []
     development:
-      name: 
+      mainText: 
       needReagentTable: 0
       needCapsule: 0
+      leadTime: 0
+      results: []
     testing:
       name: 
       needReagentTable: 0
       needCapsule: 0
+      leadTime: 0
   equipmentObject:
-    itemImage: {fileID: 21300000, guid: 588a25decb8fc1a44bc84caa0a5bdf90, type: 3}
+    itemImage: {fileID: 21300000, guid: f5e975f84664eae48aacadc68359bb42, type: 3}
     itemName: "\u0421\u0442\u043E\u043B"
-    itemDescription: "\u0421\u0442\u043E\u043B\u0435\u0448\u043D\u0438\u0446\u0430
-      \u0442\u0432\u043E\u0435\u0439 \u0431\u0430\u0431\u0443\u0448\u043A\u0438.
-      \u0414\u0430. \u041E\u043D\u0430 \u0431\u044B\u043B\u0430 \u0445\u0438\u043C\u0438\u043A\u043E\u043C."
+    itemDescription: "\u041B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u044B\u0439
+      \u0441\u0442\u043E\u043B. \u0422\u0443\u0442 \u043C\u043E\u0436\u043D\u043E
+      \u0447\u0442\u043E \u043D\u0438\u0431\u0443\u0434\u044C \u043F\u043E\u0445\u0438\u043C\u0438\u0447\u0438\u0442\u044C"
     itemCost: 150
     instantiatedObject: {fileID: 4642210232654379698}
     equipmentType: 0

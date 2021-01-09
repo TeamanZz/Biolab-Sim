@@ -31,6 +31,7 @@ public class OrderIcon : MonoBehaviour
     private void Start()
     {
         AddLoadBarImageInArray();
+
     }
 
     //Действие сокрытия для кнопки заказа слева вверху
@@ -68,5 +69,4 @@ public class OrderIcon : MonoBehaviour
             succesIcon.gameObject.SetActive(false);
         }
     }
-
 }

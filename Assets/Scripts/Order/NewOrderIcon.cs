@@ -24,6 +24,22 @@ public class NewOrderIcon : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if (order.timeToDestroy != 0)
+        {
+            StartCoroutine(IDestroyOrderAfterTime());
+        }
+    }
+
+    //timeToDestroy выражается в часах.
+    private IEnumerator IDestroyOrderAfterTime()
+    {
+        int seconds = order.timeToDestroy *= 6;
+        yield return new WaitForSeconds(seconds);
+        Destroy(gameObject);
+    }
+
     //Скрыть/показать панель заказа
     public void ShowHideOrder()
     {

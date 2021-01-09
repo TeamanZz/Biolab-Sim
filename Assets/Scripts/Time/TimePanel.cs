@@ -10,14 +10,16 @@ public class TimePanel : MonoBehaviour
     public static TimePanel singleton { get; private set; }
 
     public GameObject NewsPanel;
+    public OrdersManager ordersManager;
     public TextMeshProUGUI minutesText;
     public TextMeshProUGUI hoursText;
     public TextMeshProUGUI daysText;
     public bool isPaused;
-    public float param = 1f;
     public int minutes;
     public int hours;
     public int days;
+
+    private float param = 1f;
 
     private void Awake()
     {
@@ -33,8 +35,6 @@ public class TimePanel : MonoBehaviour
     {
         if (isPaused == false)
             ChangeTimeValues();
-
-        ChangeTextOClockText();
     }
 
     private void ChangeTimeValues()
@@ -44,25 +44,40 @@ public class TimePanel : MonoBehaviour
         {
             param = 1;
             minutes += 10;
+            ChangeTextOClockText();
         }
 
         if (minutes >= 60)
         {
             hours++;
             minutes = minutes % 60;
+            ChangeTextOClockText();
+            ordersManager.CheckOrdersOnSpawn(hours, days);
         }
 
-        if (hours >= 3)
+        if (hours >= 24)
         {
             days++;
             hours = 0;
+            ChangeTextOClockText();
         }
     }
 
     private void ChangeTextOClockText()
     {
         minutesText.text = minutes.ToString();
+        if (minutesText.text == "0")
+        {
+            string newMinutesValue = minutesText.text.Insert(0, "0");
+            minutesText.text = newMinutesValue;
+        }
         hoursText.text = hours.ToString();
+        if (hours.ToString().Length < 2)
+        {
+            string newHoursValue = hoursText.text.Insert(0, "0");
+            hoursText.text = newHoursValue;
+        }
+
         daysText.text = days.ToString();
     }
 

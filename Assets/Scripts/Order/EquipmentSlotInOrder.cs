@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using TMPro;
 
@@ -47,26 +48,18 @@ public class EquipmentSlotInOrder : MonoBehaviour
     {
         if (stepsPanel.GetComponent<OrderScript>().Order.stateOfOrder == Order.StateOfOrder.Paused)
         {
-            if (EquipmentSlot.instantiatedObject.GetComponent<Building>().typeOfBuilding == Building.Type.Table)
+            for (int i = 0; i < Enum.GetNames(typeof(Building.Type)).Length; i++)
             {
-                bool flag = true;
-                if (ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == Building.Type.Table))
+                if (EquipmentSlot.instantiatedObject.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == (Building.Type)i)
                 {
-                    flag = false;
+                    bool flag = true;
+                    if (ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == (Building.Type)i))
+                    {
+                        flag = false;
+                    }
+                    //Если есть свободные столы, скрываем кнопку. Если нет - то показываем.
+                    buyButton.SetActive(flag);
                 }
-                //Если есть свободные столы, скрываем кнопку. Если нет - то показываем.
-                buyButton.SetActive(flag);
-            }
-
-            if (EquipmentSlot.instantiatedObject.GetComponent<Building>().typeOfBuilding == Building.Type.Capsule)
-            {
-                bool flag = true;
-                if (ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == Building.Type.Capsule))
-                {
-                    flag = false;
-                }
-                //Если есть свободные столы, скрываем кнопку. Если нет - то показываем.
-                buyButton.SetActive(flag);
             }
         }
         else

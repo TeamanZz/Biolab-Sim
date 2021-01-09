@@ -18,7 +18,7 @@ public class WorkerScript : MonoBehaviour
     [HideInInspector]
     public GameObject enhancementButton;
 
-    public Image enhanceLoadBar;
+    [HideInInspector] public Image enhanceLoadBar;
 
     [SerializeField] private Worker worker;
     private GameObject newWorker;

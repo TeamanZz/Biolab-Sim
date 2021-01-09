@@ -62,28 +62,41 @@ public class WorkersManager : MonoBehaviour
 [Serializable]
 public class Worker
 {
+    [Serializable]
     public enum Profession
     {
-        Assistant,
+        Laboratory_assistant,
+        Junior_researcher,
+        Senior_researcher,
+        Scientist,
         Professor
     }
 
     public enum Education
     {
-        WithoutEducation,
-        PHD
+        Without_education,
+        Specialized_secondary,
+        Higher,
+        Aspirate,
+        Assistant_professor,
+        PHD,
+        Academician
     }
-
+    [Serializable]
     public enum Specialization
     {
-        Microbiology
+        Bioengineering,
+        Virology,
+        Bacteriology,
+        Neurobiology,
+        Medical_engineering
     }
 
     public enum Qualificaton
     {
-        FirstLevel,
-        SecondLevel,
-        ThirdLevel
+        Low,
+        Neutral,
+        High
     }
 
     public enum Status
@@ -106,33 +119,33 @@ public class Worker
         Bad
     }
 
-    [HideInInspector]
-    public GameObject orderStepsPanel;
-    [HideInInspector]
-    public GameObject workerSlotContainer;
     public int workerIndex;
-    public int salary;
-    public int completedOrdersCount;
-    public int enhancementTime;
-    public int enhancementCost;
-    public int currentHappeningIndex;
+    public Sprite photo;
     public String name;
     public String fullName;
     public String description;
-    public Sprite photo;
-    public Order currentOrder;
-    public Mood mood;
+    public int salary;
+    public int completedOrdersCount;
+
+    [Header("Competitions")]
+    public Specialization specialization;
     public Profession profession;
     public Education education;
-    public Specialization specialization;
     public Responsibility responsibility;
     public Qualificaton qualificaton;
     public Status status;
-    [HideInInspector]
-    public bool isEnhancementProcess;
-    [HideInInspector]
-    public float enhancementFillAmount = 0;
+    public Mood mood;
 
+    [Header("Enhancement")]
+    public int enhancementTime;
+    public int enhancementCost;
+
+    [HideInInspector] public GameObject orderStepsPanel;
+    [HideInInspector] public GameObject workerSlotContainer;
+    [HideInInspector] public bool isEnhancementProcess;
+    [HideInInspector] public float enhancementFillAmount = 0;
+    [HideInInspector] public int currentHappeningIndex;
+    [HideInInspector] public Order currentOrder;
     [HideInInspector] public Sprite moodImage;
 
 }

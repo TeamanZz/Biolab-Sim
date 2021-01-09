@@ -15,28 +15,51 @@ public class OrdersManager : MonoBehaviour
     private GameObject newOrderStepsPanel;
     private GameObject newOrderMessageButton;
 
-    private void Start()
+    private void SpawnOrder(Order order)
     {
-        InstantiateOrders();
+        newOrderMessageButton = Instantiate(orderMessageButtonPrefab, GameObject.FindGameObjectWithTag("MessagesPanel").transform);
+        newOrderStepsPanel = Instantiate(orderStepsPanelPrefab, GameObject.FindGameObjectWithTag("Canvas").transform);
+
+        newOrderStepsPanel.GetComponent<OrderDescriptionPanel>().Order = order;
+        // newOrderStepsPanel.GetComponent<OrderDescriptionPanel>().Order.orderIcon = newOrderMessageButton;
+
+        newOrderStepsPanel.GetComponent<OrderDescriptionPanel>().orderButton = newOrderMessageButton;
+        newOrderStepsPanel.SetActive(false);
+
+        newOrderMessageButton.GetComponent<NewOrderIcon>().Order = order;
+        newOrderMessageButton.GetComponent<NewOrderIcon>().orderPanel = newOrderStepsPanel;
+        //Сдвигаем вниз активные заказы
+        ActiveOrdersManager.singleton.MoveOrdersOnUIDown();
     }
 
-    private void InstantiateOrders()
+    public void CheckOrdersOnSpawn(int hours, int days)
     {
         foreach (Order order in generalListOfOrders)
         {
-            newOrderMessageButton = Instantiate(orderMessageButtonPrefab, GameObject.FindGameObjectWithTag("MessagesPanel").transform);
-            newOrderStepsPanel = Instantiate(orderStepsPanelPrefab, GameObject.FindGameObjectWithTag("Canvas").transform);
-
-            newOrderStepsPanel.GetComponent<OrderDescriptionPanel>().Order = order;
-            // newOrderStepsPanel.GetComponent<OrderDescriptionPanel>().Order.orderIcon = newOrderMessageButton;
-
-            newOrderStepsPanel.GetComponent<OrderDescriptionPanel>().orderButton = newOrderMessageButton;
-            newOrderStepsPanel.SetActive(false);
-
-            newOrderMessageButton.GetComponent<NewOrderIcon>().Order = order;
-            newOrderMessageButton.GetComponent<NewOrderIcon>().orderPanel = newOrderStepsPanel;
-            //Сдвигаем вниз активные заказы
-            ActiveOrdersManager.singleton.MoveOrdersOnUIDown();
+            if (order.orderDaysSpawnTime == days && order.orderHoursSpawnTime == hours)
+            {
+                SpawnOrder(order);
+            }
         }
     }
+
+    //  private void InstantiateOrders()
+    // {
+    //     foreach (Order order in generalListOfOrders)
+    //     {
+    //         newOrderMessageButton = Instantiate(orderMessageButtonPrefab, GameObject.FindGameObjectWithTag("MessagesPanel").transform);
+    //         newOrderStepsPanel = Instantiate(orderStepsPanelPrefab, GameObject.FindGameObjectWithTag("Canvas").transform);
+
+    //         newOrderStepsPanel.GetComponent<OrderDescriptionPanel>().Order = order;
+    //         // newOrderStepsPanel.GetComponent<OrderDescriptionPanel>().Order.orderIcon = newOrderMessageButton;
+
+    //         newOrderStepsPanel.GetComponent<OrderDescriptionPanel>().orderButton = newOrderMessageButton;
+    //         newOrderStepsPanel.SetActive(false);
+
+    //         newOrderMessageButton.GetComponent<NewOrderIcon>().Order = order;
+    //         newOrderMessageButton.GetComponent<NewOrderIcon>().orderPanel = newOrderStepsPanel;
+    //         //Сдвигаем вниз активные заказы
+    //         ActiveOrdersManager.singleton.MoveOrdersOnUIDown();
+    //     }
+    // }
 }

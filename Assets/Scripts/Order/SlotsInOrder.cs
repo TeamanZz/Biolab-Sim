@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using UnityEngine.UI;
 
 public class SlotsInOrder : MonoBehaviour
@@ -9,6 +10,7 @@ public class SlotsInOrder : MonoBehaviour
     public GameObject workerIconPrefab;
 
     private Data data;
+    private int workersSlotsCount;
 
     //КОГДА БУДЕШЬ ДОБАВЛЯТЬ КРОМЕ РЕСЁРЧА, ДЕЛАЙ ПЕРЕГРУЗКУ
 
@@ -16,36 +18,30 @@ public class SlotsInOrder : MonoBehaviour
     {
         data = ActiveOrdersManager.singleton.data;
     }
+
+    //Спавним слоты в окне заказа
     public void SpawnEquipmentSlots(Research research)
     {
-        if (research.needReagentTable)
+        for (int i = 0; i < Enum.GetNames(typeof(Building.Type)).Length; i++)
         {
-            for (int i = 0; i < 2; i++)
+            if (research.requirementEquipmentList.Contains((Building.Type)i))
             {
-                GameObject newEquipmentSlot = Instantiate(equipmentIconPrefab, transform.GetChild(i).GetChild(1).gameObject.transform);
-                newEquipmentSlot.GetComponent<Image>().sprite = data.equipmentData.equipmentImagesList[0];
-                //Передаём значение слота из магазина в слот заказа, для возможности купить объект из окна заказа
-                GameObject equipmentObject = ShopEquipmentManager.singleton.listOfEquipmentItems.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.instantiatedObject.name == "Table");
-                newEquipmentSlot.GetComponent<EquipmentSlotInOrder>().EquipmentSlot = equipmentObject.GetComponent<EquipmentInfo>().equipmentObject;
-            }
-        }
-
-        if (research.needCapsule)
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                GameObject newEquipmentSlot = Instantiate(equipmentIconPrefab, transform.GetChild(i).GetChild(1).gameObject.transform);
-                newEquipmentSlot.GetComponent<Image>().sprite = data.equipmentData.equipmentImagesList[1];
-                //Передаём значение слота из магазина в слот заказа, для возможности купить объект из окна заказа
-                GameObject equipmentObject = ShopEquipmentManager.singleton.listOfEquipmentItems.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.instantiatedObject.name == "Capsule");
-                Debug.Log(equipmentObject);
-                newEquipmentSlot.GetComponent<EquipmentSlotInOrder>().EquipmentSlot = equipmentObject.GetComponent<EquipmentInfo>().equipmentObject;
+                for (int j = 0; j < 2; j++)
+                {
+                    GameObject newEquipmentSlot = Instantiate(equipmentIconPrefab, transform.GetChild(j).GetChild(1).gameObject.transform);
+                    //Передаём значение слота из магазина в слот заказа, для возможности купить объект из окна заказа
+                    GameObject equipmentObject = ShopEquipmentManager.singleton.listOfEquipmentItems.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == (Building.Type)i);
+                    newEquipmentSlot.GetComponent<EquipmentSlotInOrder>().EquipmentSlot = equipmentObject.GetComponent<EquipmentInfo>().equipmentObject;
+                    newEquipmentSlot.GetComponent<Image>().sprite = equipmentObject.GetComponent<EquipmentInfo>().equipmentObject.itemImage;
+                }
             }
         }
     }
 
     public void SpawnWorkersSlots(int countSlotsOfWorkers)
     {
+        Order order = GetComponent<ResearchPanelScript>().Order;
+
         for (int k = 0; k < 2; k++)
         {
             for (int i = 0; i < countSlotsOfWorkers; i++)
@@ -57,25 +53,36 @@ public class SlotsInOrder : MonoBehaviour
                     newWorkerSlot.GetComponent<WorkerSlot>().slotResponsibility = Worker.Responsibility.Responsible;
                 }
                 else
+                {
                     newWorkerSlot.GetComponent<WorkerSlot>().slotResponsibility = Worker.Responsibility.Helper;
+                }
 
+                if (k == 0)
+                {
+                    newWorkerSlot.GetComponent<WorkerSlot>().requirements = order.research.requirementsForEmployees[i];
+                }
+                workersSlotsCount++;
             }
         }
+        workersSlotsCount /= 2;
     }
 
-    public void HideCrosses()
+    public void HideDismissButtons()
     {
-        for (int i = 0; i < GetComponent<ResearchPanelScript>().Order.research.neededWorkers; i++)
+
+        for (int i = 0; i < workersSlotsCount; i++)
         {
-            transform.GetChild(1).GetChild(0).GetChild(i).GetChild(1).gameObject.SetActive(false);
+            GameObject dismissButton = transform.GetChild(1).GetChild(0).GetChild(i).GetChild(1).gameObject;
+            dismissButton.SetActive(false);
         }
     }
 
-    public void ShowCrosses()
+    public void ShowDismissButtons()
     {
-        for (int i = 0; i < transform.GetChild(0).GetChild(0).childCount; i++)
+        for (int i = 0; i < workersSlotsCount; i++)
         {
-            transform.GetChild(1).GetChild(0).GetChild(i).GetChild(1).gameObject.SetActive(true);
+            GameObject dismissButton = transform.GetChild(1).GetChild(0).GetChild(i).GetChild(1).gameObject;
+            dismissButton.SetActive(true);
         }
     }
 }

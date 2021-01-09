@@ -10,16 +10,18 @@ public class WorkerSlot : MonoBehaviour, IDropHandler
     public bool isBusy;
     public TextMeshProUGUI responsibilityText;
     public Worker.Responsibility slotResponsibility;
-
+    public RequirementsForEmployees requirements;
 
     private GameObject parentStepsPanel;
     private GameObject manager;
     private GameObject slotImage;
+    private Data data;
 
     private void Awake()
     {
         parentStepsPanel = transform.parent.parent.parent.parent.gameObject;
         manager = GameObject.FindGameObjectWithTag("Manager");
+        data = manager.GetComponent<ActiveOrdersManager>().data;
     }
 
     //Спавним в ячейке купленного персонажа
@@ -27,7 +29,7 @@ public class WorkerSlot : MonoBehaviour, IDropHandler
     {
         if (eventData.pointerDrag != null && isBusy == false)
         {
-            if (!CheckOnRepeat(eventData))
+            if (!CheckOnRepeat(eventData) && CheckWorkerCompetitions(eventData))
             {
                 DestroyWorkerIconOnDrag();
 
@@ -48,12 +50,34 @@ public class WorkerSlot : MonoBehaviour, IDropHandler
                 transform.GetChild(2).gameObject.SetActive(true);
                 isBusy = true;
 
+                if (slotResponsibility == Worker.Responsibility.Responsible)
+                {
+                    newWorker.GetComponent<WorkerScript>().stateFrame.sprite = data.workerData.workerFrames[4];
+                }
+
                 //Добавляем работников в списки
                 parentStepsPanel.GetComponent<OrderScript>().assignedEmployees.Add(newWorker);
                 parentStepsPanel.GetComponent<OrderScript>().boughtedEmployees.Add(eventData.pointerDrag);
                 eventData.pointerDrag.GetComponent<WorkerScript>().Worker.orderStepsPanel = parentStepsPanel;
             }
         }
+    }
+
+    public bool CheckWorkerCompetitions(PointerEventData eventData)
+    {
+        if ((int)requirements.minProfession > (int)eventData.pointerDrag.GetComponent<WorkerScript>().Worker.profession)
+        {
+            Debug.Log((int)requirements.minProfession + " " + (int)eventData.pointerDrag.GetComponent<WorkerScript>().Worker.profession);
+            return false;
+        }
+
+        if (requirements.specialization != eventData.pointerDrag.GetComponent<WorkerScript>().Worker.specialization)
+        {
+            Debug.Log("Specialization False");
+            return false;
+        }
+
+        return true;
     }
 
     //Удаляем персонажа с иконки с помощью крестика
@@ -125,21 +149,12 @@ public class WorkerSlot : MonoBehaviour, IDropHandler
                 {
                     if (eventData.pointerDrag.GetComponent<WorkerScript>().Worker.description == transform.parent.GetChild(i).GetChild(0).GetComponent<WorkerScript>().Worker.description)
                     {
-                        StartCoroutine(Blink());
                         return true;
                     }
                 }
             }
         }
         return false;
-    }
-
-    //Мигаем красным
-    IEnumerator Blink()
-    {
-        GetComponent<Image>().color = Color.red;
-        yield return new WaitForSeconds(0.15f);
-        GetComponent<Image>().color = Color.white;
     }
 }
 

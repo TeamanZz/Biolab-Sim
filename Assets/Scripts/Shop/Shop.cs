@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Shop : MonoBehaviour
 {
+    public static Shop singletone { get; private set; }
+
     public GameObject shopPanel;
     public GameObject equipmentTab;
     public GameObject reagentsTab;
@@ -11,6 +13,15 @@ public class Shop : MonoBehaviour
 
     private GameObject currentOpenedTab;
 
+    private void Awake()
+    {
+        singletone = this;
+    }
+
+    private void Start()
+    {
+        OpenEquipmentTab();
+    }
     //Скрываем/показываем панель магазина
     public void HideShopPanelWithCross()
     {
@@ -25,6 +36,11 @@ public class Shop : MonoBehaviour
             if (currentOpenedTab == null)
                 OpenEquipmentTab();
         }
+    }
+
+    public void ToggleDescriptionPanel()
+    {
+        descriptionTab.gameObject.SetActive(true);
     }
 
     public void ShowHideShopPanel()

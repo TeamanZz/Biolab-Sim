@@ -39,7 +39,7 @@ public class EquipmentItem : MonoBehaviour
 
     public void OpenItemDescription()
     {
-        DescriptionTab.singletone.gameObject.SetActive(true);
+        Shop.singletone.ToggleDescriptionPanel();
         DescriptionTab.singletone.clickedButton = gameObject;
         DescriptionTab.singletone.Reagent = null;
         DescriptionTab.singletone.EquipmentSlot = EquipmentSlot;
