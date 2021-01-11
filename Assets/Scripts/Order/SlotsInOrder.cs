@@ -57,10 +57,8 @@ public class SlotsInOrder : MonoBehaviour
                     newWorkerSlot.GetComponent<WorkerSlot>().slotResponsibility = Worker.Responsibility.Helper;
                 }
 
-                if (k == 0)
-                {
-                    newWorkerSlot.GetComponent<WorkerSlot>().requirements = order.research.requirementsForEmployees[i];
-                }
+                newWorkerSlot.GetComponent<WorkerSlot>().requirements = order.research.requirementsForEmployees[i];
+
                 workersSlotsCount++;
             }
         }

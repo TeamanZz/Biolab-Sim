@@ -14,11 +14,19 @@ public class OrdersManager : MonoBehaviour
     //Сюда кладём созданные панель и кнопку
     private GameObject newOrderStepsPanel;
     private GameObject newOrderMessageButton;
+    private GameObject messagesPanel;
+    private GameObject canvas;
+
+    private void Awake()
+    {
+        messagesPanel = GameObject.FindGameObjectWithTag("MessagesPanel");
+        canvas = GameObject.FindGameObjectWithTag("Canvas");
+    }
 
     private void SpawnOrder(Order order)
     {
-        newOrderMessageButton = Instantiate(orderMessageButtonPrefab, GameObject.FindGameObjectWithTag("MessagesPanel").transform);
-        newOrderStepsPanel = Instantiate(orderStepsPanelPrefab, GameObject.FindGameObjectWithTag("Canvas").transform);
+        newOrderMessageButton = Instantiate(orderMessageButtonPrefab, messagesPanel.transform);
+        newOrderStepsPanel = Instantiate(orderStepsPanelPrefab, canvas.transform);
 
         newOrderStepsPanel.GetComponent<OrderDescriptionPanel>().Order = order;
         // newOrderStepsPanel.GetComponent<OrderDescriptionPanel>().Order.orderIcon = newOrderMessageButton;

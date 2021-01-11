@@ -8,5 +8,7 @@ public class AddStaffButton : MonoBehaviour
     {
         panel.SetActive(!panel.activeSelf);
         OpenWindowsManager.singletone.AddOrRemovePanelFromList(panel);
+        if (panel.activeSelf)
+            panel.transform.SetAsLastSibling();
     }
 }

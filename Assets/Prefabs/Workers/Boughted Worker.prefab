@@ -140,7 +140,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b6e055ae4accbc54ab96dc5ad3b8dac0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 85b27584b85ce5641b36b62cd18c1569, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -591,51 +591,65 @@ MonoBehaviour:
   responsibilityStar: {fileID: 1622227960077311191}
   workerName: {fileID: 4462607462065212591}
   newWorkerDescriptionPanel: {fileID: 0}
+  enhancementButton: {fileID: 0}
+  enhanceLoadBar: {fileID: 0}
   worker:
-    orderStepsPanel: {fileID: 0}
     workerIndex: 0
-    salary: 0
-    completedOrdersCount: 0
+    photo: {fileID: 0}
     name: 
     fullName: 
     description: 
-    photo: {fileID: 0}
+    salary: 0
+    completedOrdersCount: 0
+    specialization: 0
+    profession: 0
+    education: 0
+    responsibility: 0
+    qualificaton: 0
+    status: 0
+    mood: 0
+    enhancementTime: 0
+    enhancementCost: 0
+    orderStepsPanel: {fileID: 0}
+    workerSlotContainer: {fileID: 0}
+    isEnhancementProcess: 0
+    enhancementFillAmount: 0
+    currentHappeningIndex: 0
     currentOrder:
       orderStepsPanel: {fileID: 0}
       orderButtonIcon: {fileID: 0}
       currentStepPanel: {fileID: 0}
-      developmentSphere: 0
-      customerType: 0
-      stateOfOrder: 0
-      currentStep: 0
       customer: 
       orderHeading: 
       orderDescription: 
       reward: 0
-      developmentStage: 0
-      TestingStage: 0
+      developmentSphere: 0
+      customerType: 0
+      orderHoursSpawnTime: 0
+      orderDaysSpawnTime: 0
+      timeToDestroy: 0
+      stateOfOrder: 0
+      currentStep: 0
+      requiredStages: 
       research:
         additionalText: 
         taskText: 
         leadTime: 0
-        neededWorkers: 0
-        needReagentTable: 0
-        needCapsule: 0
+        requirementsForEmployees: []
+        requirementEquipmentList: 
+        minigame: 0
         usedEquipment: []
       development:
-        name: 
+        mainText: 
         needReagentTable: 0
         needCapsule: 0
+        leadTime: 0
+        results: []
       testing:
         name: 
         needReagentTable: 0
         needCapsule: 0
-    mood: 0
-    profession: 0
-    education: 0
-    specialization: 0
-    responsibility: 0
-    status: 0
+        leadTime: 0
     moodImage: {fileID: 0}
 --- !u!114 &8840916778235548011
 MonoBehaviour:

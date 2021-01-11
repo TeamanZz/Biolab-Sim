@@ -1050,15 +1050,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: -9
+    m_Left: -8
     m_Right: 0
-    m_Top: -15
+    m_Top: 4
     m_Bottom: 0
   m_ChildAlignment: 3
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 95.16863, y: 163.8422}
-  m_Spacing: {x: 14, y: 0}
+  m_CellSize: {x: 114.202354, y: 196.61064}
+  m_Spacing: {x: 4.5, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &1297347880896210197
@@ -1905,9 +1905,7 @@ MonoBehaviour:
     timeToDestroy: 0
     stateOfOrder: 0
     currentStep: 0
-    researchStage: 0
-    developmentStage: 0
-    TestingStage: 0
+    requiredStages: 
     research:
       additionalText: 
       taskText: 
@@ -5048,15 +5046,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: -9
+    m_Left: -8
     m_Right: 0
-    m_Top: -15
+    m_Top: 4
     m_Bottom: 0
   m_ChildAlignment: 3
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 95.16863, y: 163.8422}
-  m_Spacing: {x: 14, y: 0}
+  m_CellSize: {x: 114.202354, y: 196.61064}
+  m_Spacing: {x: 4.5, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
 --- !u!1 &5473333034174031862

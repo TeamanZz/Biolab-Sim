@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Building : MonoBehaviour
 {
-    public Vector2Int size = Vector2Int.one;
+    public Vector2Int size = new Vector2Int(3, 3);
     [HideInInspector] public Renderer buildingRenderer;
 
     [HideInInspector] public int buildingCost;
@@ -40,7 +40,7 @@ public class Building : MonoBehaviour
                 if ((x + y) % 2 == 0) Gizmos.color = new Color(0.88f, 0f, 1f, 0.3f);
                 else Gizmos.color = new Color(1f, 0.68f, 0f, 0.3f);
 
-                Gizmos.DrawCube(transform.position + new Vector3(x, 0, y), new Vector3(1, .1f, 1));
+                Gizmos.DrawCube(transform.position + new Vector3(x * 3, 0, y * 3), new Vector3(3, 1, 3));
             }
         }
     }

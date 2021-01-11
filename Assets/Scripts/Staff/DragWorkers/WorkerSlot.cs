@@ -67,13 +67,11 @@ public class WorkerSlot : MonoBehaviour, IDropHandler
     {
         if ((int)requirements.minProfession > (int)eventData.pointerDrag.GetComponent<WorkerScript>().Worker.profession)
         {
-            Debug.Log((int)requirements.minProfession + " " + (int)eventData.pointerDrag.GetComponent<WorkerScript>().Worker.profession);
             return false;
         }
 
         if (requirements.specialization != eventData.pointerDrag.GetComponent<WorkerScript>().Worker.specialization)
         {
-            Debug.Log("Specialization False");
             return false;
         }
 

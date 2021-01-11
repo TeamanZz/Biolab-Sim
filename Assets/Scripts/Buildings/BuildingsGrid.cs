@@ -8,21 +8,65 @@ public class BuildingsGrid : MonoBehaviour
     public Data data;
     public GameObject floor;
     public Building[,] grid;
+    public Building[,] gridGreenCells;
     public List<Material> floorMaterials;
     public ResourcesChanger moneyChanger;
     public Vector2Int gridSize = new Vector2Int(10, 10);
     public GameObject ShopPanel;
+    public GameObject equipmentContainer;
+    public GameObject greenLightPrefab;
+    public GameObject cellContainer;
+
+    [SerializeField] private int cellSize = 3;
+    [SerializeField] private bool isBuildingMode = false;
 
     private GameObject lastOrderPanel;
     private Building flyingBuilding;
     private Camera mainCamera;
-    [SerializeField] private bool isBuildingMode = false;
 
     private void Awake()
     {
         mainCamera = Camera.main;
         grid = new Building[gridSize.x, gridSize.y];
         floor.GetComponent<MeshRenderer>().material = floorMaterials[0];
+    }
+
+    private void OnDrawGizmos()
+    {
+        for (int x = 0; x < gridSize.x; x++)
+        {
+            for (int y = 0; y < gridSize.y; y++)
+            {
+                if ((x + y) % 2 == 0) Gizmos.color = new Color(0.88f, 0f, 1f, 0.3f);
+                else Gizmos.color = new Color(1f, 0.68f, 0f, 0.3f);
+
+                Gizmos.DrawCube(transform.position + new Vector3(x * cellSize, 0, y * cellSize), new Vector3(cellSize, 1, cellSize));
+            }
+        }
+    }
+
+    private void SpawnGridImages()
+    {
+        for (int x = 0; x < gridSize.x; x++)
+        {
+            for (int y = 0; y < gridSize.y; y++)
+            {
+                if (grid[x, y] == null)
+                {
+                    GameObject newCell = Instantiate(greenLightPrefab, new Vector3(transform.position.x + x * cellSize, 1, transform.position.y + y * cellSize), Quaternion.Euler(0, 45, 0));
+                    newCell.transform.SetParent(cellContainer.transform);
+                    newCell.transform.position += new Vector3(-1.5f, 1.25f, -1.1f);
+                }
+            }
+        }
+    }
+
+    private void DestroyGridImages()
+    {
+        for (int i = 0; i < cellContainer.transform.childCount; i++)
+        {
+            Destroy(cellContainer.transform.GetChild(i).gameObject);
+        }
     }
 
     private void Update()
@@ -53,6 +97,7 @@ public class BuildingsGrid : MonoBehaviour
     //Спавним новое здание
     public void InstantiateFlyingBuilding(Building buildingPrefab)
     {
+        SpawnGridImages();
         isBuildingMode = true;
         if (flyingBuilding != null)
         {
@@ -60,6 +105,7 @@ public class BuildingsGrid : MonoBehaviour
         }
 
         flyingBuilding = Instantiate(buildingPrefab);
+        flyingBuilding.transform.SetParent(equipmentContainer.transform);
         floor.GetComponent<MeshRenderer>().material = floorMaterials[1];
         ShopPanel.SetActive(false);
         OpenWindowsManager.singletone.AddOrRemovePanelFromList(ShopPanel);
@@ -67,6 +113,7 @@ public class BuildingsGrid : MonoBehaviour
 
     public void InstantiateFlyingBuilding(Building buildingPrefab, GameObject orderPanel)
     {
+        SpawnGridImages();
         isBuildingMode = true;
         if (flyingBuilding != null)
         {
@@ -74,6 +121,7 @@ public class BuildingsGrid : MonoBehaviour
         }
 
         flyingBuilding = Instantiate(buildingPrefab);
+        flyingBuilding.transform.SetParent(equipmentContainer.transform);
         floor.GetComponent<MeshRenderer>().material = floorMaterials[1];
         ShopPanel.SetActive(false);
         OpenWindowsManager.singletone.AddOrRemovePanelFromList(ShopPanel);
@@ -105,9 +153,9 @@ public class BuildingsGrid : MonoBehaviour
             if (groundPlane.Raycast(ray, out float position))
             {
                 Vector3 worldPosition = ray.GetPoint(position);
-
-                int x = Mathf.RoundToInt(worldPosition.x);
-                int y = Mathf.RoundToInt(worldPosition.z);
+                // Cell size here
+                int x = Mathf.RoundToInt(worldPosition.x / cellSize);
+                int y = Mathf.RoundToInt(worldPosition.z / cellSize);
 
                 bool available = true;
 
@@ -116,7 +164,7 @@ public class BuildingsGrid : MonoBehaviour
 
                 if (available && IsPlaceTaken(x, y)) available = false;
 
-                flyingBuilding.transform.position = new Vector3(x, 0, y);
+                flyingBuilding.transform.position = new Vector3(x * cellSize, 0, y * cellSize); // and cell size here
                 flyingBuilding.ChangeColor(available);
 
                 if (available && Input.GetMouseButtonDown(0))
@@ -140,6 +188,7 @@ public class BuildingsGrid : MonoBehaviour
                 }
             }
             floor.GetComponent<MeshRenderer>().material = floorMaterials[0];
+            DestroyGridImages();
             flyingBuilding.SetDefaultColor();
             ShopEquipmentManager.singleton.availableEquipment.Add(flyingBuilding.gameObject);
             flyingBuilding = null;
@@ -162,6 +211,7 @@ public class BuildingsGrid : MonoBehaviour
                 floor.GetComponent<MeshRenderer>().material = floorMaterials[0];
                 Destroy(flyingBuilding.gameObject);
                 isBuildingMode = false;
+                DestroyGridImages();
             }
         }
     }

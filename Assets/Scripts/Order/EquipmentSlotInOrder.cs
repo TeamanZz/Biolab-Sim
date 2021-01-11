@@ -2,21 +2,30 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class EquipmentSlotInOrder : MonoBehaviour
 {
     public Data data;
+    public TextMeshProUGUI equipmentName;
+    public Image itemImage;
+    public GameObject buyButton;
 
     private EquipmentObject slot;
     private BuildingsGrid grid;
     private GameObject stepsPanel;
-    public GameObject buyButton;
 
     [SerializeField]
     public EquipmentObject EquipmentSlot
     {
-        set { slot = value; }
+        set
+        {
+            slot = value;
+            equipmentName.text = slot.itemName;
+            itemImage.sprite = slot.itemImage;
+
+        }
         get { return slot; }
     }
 
@@ -27,13 +36,9 @@ public class EquipmentSlotInOrder : MonoBehaviour
         grid = GameObject.FindObjectOfType<BuildingsGrid>();
     }
 
-    private void Start()
-    {
-    }
-
     private void FixedUpdate()
     {
-        SetButton();
+        ToggleBuyButton();
     }
 
     //Покупаем оборудование из окна заказа
@@ -44,7 +49,7 @@ public class EquipmentSlotInOrder : MonoBehaviour
         stepsPanel.SetActive(false);
     }
 
-    private void SetButton()
+    private void ToggleBuyButton()
     {
         if (stepsPanel.GetComponent<OrderScript>().Order.stateOfOrder == Order.StateOfOrder.Paused)
         {

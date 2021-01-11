@@ -14,12 +14,13 @@ public class TimePanel : MonoBehaviour
     public TextMeshProUGUI minutesText;
     public TextMeshProUGUI hoursText;
     public TextMeshProUGUI daysText;
+    public TextMeshProUGUI timesOfDay;
     public bool isPaused;
     public int minutes;
     public int hours;
     public int days;
 
-    private float param = 1f;
+    private float param = 1.25f;
 
     private void Awake()
     {
@@ -79,6 +80,7 @@ public class TimePanel : MonoBehaviour
         }
 
         daysText.text = days.ToString();
+        ChangeTimesOfDay(hours);
     }
 
     public void SecondPauseChanger()
@@ -96,5 +98,17 @@ public class TimePanel : MonoBehaviour
             NewsManager.singleton.HideAllNewButtons();
         }
         NewsPanel.SetActive(!NewsPanel.activeSelf);
+    }
+
+    public void ChangeTimesOfDay(int hours)
+    {
+        if (hours >= 0 && hours <= 6)
+        {
+            timesOfDay.text = "Night";
+        }
+        else
+        {
+            timesOfDay.text = "Day";
+        }
     }
 }

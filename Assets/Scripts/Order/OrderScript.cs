@@ -12,7 +12,7 @@ public class OrderScript : MonoBehaviour
     public List<GameObject> assignedEmployees = new List<GameObject>();
     public List<GameObject> boughtedEmployees = new List<GameObject>();
     public float orderFillAmount;
-    public float remainingOrderTime;
+    public float remainingResearchStageTime;
     [SerializeField] public Order order;
 
     public Order Order
@@ -23,11 +23,14 @@ public class OrderScript : MonoBehaviour
 
     private void Start()
     {
-        GameObject newResearchPanel = Instantiate(researchStagePrefab, gameObject.transform);
-        newResearchPanel.transform.SetAsFirstSibling();
-        newResearchPanel.GetComponent<ResearchPanelScript>().Order = order;
+        if (order.requiredStages.Contains(Order.RequiredStages.ResearchStage))
+        {
+            GameObject newResearchPanel = Instantiate(researchStagePrefab, gameObject.transform);
+            newResearchPanel.transform.SetAsFirstSibling();
+            newResearchPanel.GetComponent<ResearchPanelScript>().Order = order;
+            remainingResearchStageTime = order.research.leadTime;
+        }
         order.orderStepsPanel = gameObject;
-        remainingOrderTime = order.research.leadTime;
     }
 
     public void AddLoadBarImageInArray(Image loadBarImage)
@@ -118,9 +121,7 @@ public class Order
     public CurrentStep currentStep;
 
     [Header("Required Stages")]
-    public bool researchStage;
-    public bool developmentStage;
-    public bool TestingStage;
+    public List<RequiredStages> requiredStages = new List<RequiredStages>();
 
     [Header("Stages")]
     [SerializeField] public Research research;
@@ -135,6 +136,13 @@ public class Order
         MedicalEngineering,
         Neurobiology,
         Virology
+    }
+
+    public enum RequiredStages
+    {
+        ResearchStage,
+        DevelopmentStage,
+        TestingStage
     }
 
     public enum CustomerType

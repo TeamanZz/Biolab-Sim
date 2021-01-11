@@ -201,6 +201,7 @@ public class ResearchPanelScript : MonoBehaviour
         for (int i = 0; i < order.research.requirementsForEmployees.Count; i++)
         {
             transform.GetChild(1).GetChild(0).GetChild(i).GetComponent<WorkerSlot>().isBusy = false;
+            // Debug.Log(transform.GetChild(1).GetChild(0).GetChild(i).GetChild(0).gameObject);
             Destroy(transform.GetChild(1).GetChild(0).GetChild(i).GetChild(0).gameObject);
         }
     }

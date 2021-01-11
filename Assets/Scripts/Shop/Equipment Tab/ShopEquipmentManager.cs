@@ -13,6 +13,8 @@ public class ShopEquipmentManager : MonoBehaviour
     public GameObject reagentSlotPrefab;
     public GameObject reagentsContentPanel;
 
+    public GameObject equipmentContainer;
+
     [SerializeField] public List<GameObject> listOfEquipmentItems = new List<GameObject>();
     [SerializeField] public List<Reagent> listOfreagents = new List<Reagent>();
 
@@ -22,6 +24,17 @@ public class ShopEquipmentManager : MonoBehaviour
     private void Awake()
     {
         singleton = this;
+        AddPlacedEquipmentToArray();
+
+    }
+
+    //Кладём в массив доступных предметов те, что находятся на поле при старте игры
+    private void AddPlacedEquipmentToArray()
+    {
+        for (int i = 0; i < equipmentContainer.transform.childCount; i++)
+        {
+            availableEquipment.Add(equipmentContainer.transform.GetChild(i).gameObject);
+        }
     }
 
     private void Start()

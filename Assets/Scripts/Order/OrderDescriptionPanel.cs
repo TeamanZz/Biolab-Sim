@@ -69,7 +69,6 @@ public class OrderDescriptionPanel : MonoBehaviour
         orderStep.GetComponent<OrderScript>().Order.orderButtonIcon = newOrderIcon;
 
         // OpenWindowsManager.singletone.iconsList.Remove(gameObject);
-        orderStep.SetActive(false);
         // OpenWindowsManager.singletone.AddOrRemovePanelFromList(orderStep);
 
         OpenWindowsManager.singletone.ShowOrderAcceptMessage();
