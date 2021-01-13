@@ -32,7 +32,7 @@ public class Shop : MonoBehaviour
         else
         {
             shopPanel.SetActive(!shopPanel.activeSelf);
-            OpenWindowsManager.singletone.AddOrRemovePanelFromList(shopPanel);
+            // OpenWindowsManager.singletone.AddOrRemovePanelFromList(shopPanel);
             if (currentOpenedTab == null)
                 OpenEquipmentTab();
         }
@@ -46,7 +46,7 @@ public class Shop : MonoBehaviour
     public void ShowHideShopPanel()
     {
         shopPanel.SetActive(!shopPanel.activeSelf);
-        OpenWindowsManager.singletone.AddOrRemovePanelFromList(shopPanel);
+        // OpenWindowsManager.singletone.AddOrRemovePanelFromList(shopPanel);
         if (currentOpenedTab == null)
             OpenEquipmentTab();
     }

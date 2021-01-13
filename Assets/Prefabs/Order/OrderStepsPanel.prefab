@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5054583278301438959}
   m_Layer: 5
   m_Name: OrderStepsPanel
-  m_TagString: Untagged
+  m_TagString: OrderStepsPanel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53,35 +53,39 @@ MonoBehaviour:
   assignedEmployees: []
   boughtedEmployees: []
   orderFillAmount: 0
-  remainingOrderTime: 0
+  remainingResearchStageTime: 0
   order:
     orderStepsPanel: {fileID: 0}
     orderButtonIcon: {fileID: 0}
-    customerTypeImg: {fileID: 0}
-    iconImg: {fileID: 0}
+    currentStepPanel: {fileID: 0}
     customer: 
     orderHeading: 
     orderDescription: 
-    developmentSphere: 0
-    stateOfOrder: 0
-    currentStepPanel: {fileID: 0}
-    currentStep: 0
     reward: 0
-    developmentStage: 0
-    TestingStage: 0
+    developmentSphere: 0
+    customerType: 0
+    orderHoursSpawnTime: 0
+    orderDaysSpawnTime: 0
+    timeToDestroy: 0
+    stateOfOrder: 0
+    currentStep: 0
+    requiredStages: 
     research:
       additionalText: 
       taskText: 
       leadTime: 0
-      neededWorkers: 0
-      needReagentTable: 0
-      needCapsule: 0
+      requirementsForEmployees: []
+      requirementEquipmentList: 
+      minigame: 0
       usedEquipment: []
     development:
-      name: 
+      mainText: 
       needReagentTable: 0
       needCapsule: 0
+      leadTime: 0
+      results: []
     testing:
       name: 
       needReagentTable: 0
       needCapsule: 0
+      leadTime: 0

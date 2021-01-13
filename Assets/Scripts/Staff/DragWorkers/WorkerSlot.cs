@@ -70,7 +70,9 @@ public class WorkerSlot : MonoBehaviour, IDropHandler
             return false;
         }
 
-        if (requirements.specialization != eventData.pointerDrag.GetComponent<WorkerScript>().Worker.specialization)
+        if (requirements.specialization != eventData.pointerDrag.GetComponent<WorkerScript>().Worker.specialization[0]
+        && eventData.pointerDrag.GetComponent<WorkerScript>().Worker.specialization.Count > 1
+        && requirements.specialization != eventData.pointerDrag.GetComponent<WorkerScript>().Worker.specialization[1])
         {
             return false;
         }

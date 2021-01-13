@@ -38,7 +38,7 @@ public class WorkersManager : MonoBehaviour
         addedWorkerScript.Worker.mood = Worker.Mood.Good;
         addedWorkerScript.Worker.moodImage = data.equipmentData.workersMoodImages[0];
         buyWorkerPanel.SetActive(false);
-        OpenWindowsManager.singletone.AddOrRemovePanelFromList(buyWorkerPanel);
+        // OpenWindowsManager.singletone.AddOrRemovePanelFromList(buyWorkerPanel);
         infoAboutNewWorkerPanel.SetActive(false);
         ToggleBlueLight();
     }
@@ -128,7 +128,7 @@ public class Worker
     public int completedOrdersCount;
 
     [Header("Competitions")]
-    public Specialization specialization;
+    public List<Specialization> specialization;
     public Profession profession;
     public Education education;
     public Responsibility responsibility;

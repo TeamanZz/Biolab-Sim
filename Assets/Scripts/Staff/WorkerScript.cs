@@ -79,6 +79,8 @@ public class WorkerScript : MonoBehaviour
             newWorkerDescription.fullName.text = newWorkerDescription.Worker.fullName;
             newWorkerDescription.nameBoxText.text = newWorkerDescription.Worker.name;
             newWorkerDescription.availableWorker = gameObject;
+
+            newWorker.transform.SetAsLastSibling();
         }
         newWorker.SetActive(!newWorker.activeSelf);
     }

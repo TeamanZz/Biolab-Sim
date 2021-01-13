@@ -83,6 +83,28 @@ public class ResearchPanelScript : MonoBehaviour
         slots.SpawnEquipmentSlots(order.research);
         slots.SpawnWorkersSlots(Order.research.requirementsForEmployees.Count);
         order.currentStep = Order.CurrentStep.Research;
+        transform.GetChild(0).gameObject.SetActive(true);
+    }
+
+    public void StopOrder()
+    {
+        if (order.stateOfOrder == Order.StateOfOrder.InProcess)
+        {
+            ActiveOrdersManager.singleton.PauseOrder(Order, gameObject);
+        }
+
+        DeleteWorkersInSecondWindow();
+        slots.ShowDismissButtons();
+        ActiveOrdersManager.singleton.ClearCurrentOrders(gameObject);
+        SetWorkersStateIcon(Worker.Status.Free);
+        ResetResponsibility();
+        MakeEquipmentFree();
+        transform.parent.GetComponent<OrderScript>().assignedEmployees.Clear();
+        transform.parent.GetComponent<OrderScript>().boughtedEmployees.Clear();
+
+
+        Destroy(order.orderButtonIcon.gameObject);
+        Destroy(gameObject.transform.parent.gameObject);
     }
 
     private void MakeEquipmentBusy()
@@ -102,22 +124,40 @@ public class ResearchPanelScript : MonoBehaviour
 
     public void SpawnEquipmentSuccessIcon()
     {
-        for (int i = 0; i < order.research.usedEquipment.Count; i++)
-        {
-            GameObject sucIcon = Instantiate(equipmentSuccessIcon, canvas.transform);
+        //Заспавнить над оборудованием заказа по значку
+        GameObject sucIcon = Instantiate(equipmentSuccessIcon, canvas.transform);
 
-            //first you need the RectTransform component of your canvas
-            RectTransform CanvasRect = canvas.GetComponent<RectTransform>();
+        //first you need the RectTransform component of your canvas
+        RectTransform CanvasRect = canvas.GetComponent<RectTransform>();
 
-            Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(order.research.usedEquipment[i].transform.GetChild(1).transform.position);
-            Vector2 WorldObject_ScreenPosition = new Vector2(
-            ((ViewportPosition.x * CanvasRect.sizeDelta.x) - (CanvasRect.sizeDelta.x * 0.5f)),
-            ((ViewportPosition.y * CanvasRect.sizeDelta.y) - (CanvasRect.sizeDelta.y * 0.5f)));
+        Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(order.research.usedEquipment[0].transform.GetChild(1).transform.position);
+        Vector2 WorldObject_ScreenPosition = new Vector2(
+        ((ViewportPosition.x * CanvasRect.sizeDelta.x) - (CanvasRect.sizeDelta.x * 0.5f)),
+        ((ViewportPosition.y * CanvasRect.sizeDelta.y) - (CanvasRect.sizeDelta.y * 0.5f)));
 
-            //now you can set the position of the ui element
-            sucIcon.GetComponent<RectTransform>().anchoredPosition = WorldObject_ScreenPosition;
-            sucIcon.transform.SetAsFirstSibling();
-        }
+        //now you can set the position of the ui element
+        sucIcon.GetComponent<RectTransform>().anchoredPosition = WorldObject_ScreenPosition;
+        sucIcon.transform.SetAsFirstSibling();
+        sucIcon.GetComponent<Button>().onClick.AddListener(order.orderButtonIcon.GetComponent<OrderIcon>().ShowHideSteps);
+
+
+        //Заспавнить над каждым оборудованием заказа по значку
+        // for (int i = 0; i < order.research.usedEquipment.Count; i++)
+        // {
+        //     GameObject sucIcon = Instantiate(equipmentSuccessIcon, canvas.transform);
+
+        //     //first you need the RectTransform component of your canvas
+        //     RectTransform CanvasRect = canvas.GetComponent<RectTransform>();
+
+        //     Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(order.research.usedEquipment[i].transform.GetChild(1).transform.position);
+        //     Vector2 WorldObject_ScreenPosition = new Vector2(
+        //     ((ViewportPosition.x * CanvasRect.sizeDelta.x) - (CanvasRect.sizeDelta.x * 0.5f)),
+        //     ((ViewportPosition.y * CanvasRect.sizeDelta.y) - (CanvasRect.sizeDelta.y * 0.5f)));
+
+        //     //now you can set the position of the ui element
+        //     sucIcon.GetComponent<RectTransform>().anchoredPosition = WorldObject_ScreenPosition;
+        //     sucIcon.transform.SetAsFirstSibling();
+        // }
     }
 
     public void MakeEquipmentFree()
@@ -142,16 +182,18 @@ public class ResearchPanelScript : MonoBehaviour
             duringPanel.SetActive(true);
             SetCurrentOrder(gameObject);
             SetWorkersStateIcon(Worker.Status.Busy);
+            InstantiateWorkersInSecondWindow();
             SetResponsibleWorker();
             ActiveOrdersManager.singleton.ExecuteOrder(Order, gameObject);
             MakeEquipmentBusy();
 
-            InstantiateWorkersInSecondWindow();
+
             slots.HideDismissButtons();
             order.stateOfOrder = Order.StateOfOrder.InProcess;
             transform.parent.gameObject.SetActive(false);
-            OpenWindowsManager.singletone.ShowResearchAcceptMessage();
-            OpenWindowsManager.singletone.AddOrRemovePanelFromList(transform.parent.gameObject);
+            // OpenWindowsManager.singletone.ShowResearchAcceptMessage();
+            // OpenWindowsManager.singletone.AddOrRemovePanelFromList(transform.parent.gameObject);
+            DarkBackground.singletone.UnFadeBackground();
             setPanel.SetActive(false);
         }
     }
@@ -209,9 +251,12 @@ public class ResearchPanelScript : MonoBehaviour
     //Создаём иконки рабочих во втором окне заказа
     private void InstantiateWorkersInSecondWindow()
     {
-        for (int i = 0; i < transform.parent.GetComponent<OrderScript>().assignedEmployees.Count; i++)
+        int assingedWorkersCount = transform.parent.GetComponent<OrderScript>().assignedEmployees.Count;
+
+        for (int i = 0; i < assingedWorkersCount; i++)
         {
-            GameObject newWorker = Instantiate(transform.parent.GetComponent<OrderScript>().assignedEmployees[i], transform.GetChild(1).GetChild(0).GetChild(i).transform);
+            GameObject oldWorker = setPanel.transform.GetChild(0).GetChild(i).GetChild(0).gameObject;
+            GameObject newWorker = Instantiate(oldWorker, transform.GetChild(1).GetChild(0).GetChild(i).transform);
             transform.GetChild(1).GetChild(0).GetChild(i).GetComponent<WorkerSlot>().isBusy = true;
             newWorker.transform.SetAsFirstSibling();
             newWorker.GetComponent<WorkerScript>().Worker.status = Worker.Status.Busy;
@@ -236,16 +281,40 @@ public class ResearchPanelScript : MonoBehaviour
 
     public void SetResponsibleWorker()
     {
-        transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Responsible);
-        transform.parent.GetComponent<OrderScript>().boughtedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Responsible);
+        // //Берём первый слот в заказе. Берём работника, лежавшего там. Проходимся по купленным работникам и когда встречаем такого же, ставим ему звёздочку.
+        // transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Responsible);
+        // transform.parent.GetComponent<OrderScript>().boughtedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Responsible);
 
-        WorkerScript assignedWorkerScript = transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>();
+        // WorkerScript assignedWorkerScript = transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>();
 
+        // GameObject workerStatsPanel = GameObject.Find("StatsPanel(Clone)");
+        // if (workerStatsPanel)
+        // {
+        //     WorkerStatsPanel workerStatsPanelScript = workerStatsPanel.GetComponent<WorkerStatsPanel>();
+        //     if (workerStatsPanelScript.Worker.workerIndex == assignedWorkerScript.Worker.workerIndex)
+        //     {
+        //         workerStatsPanelScript.responsibilityStar.gameObject.SetActive(true);
+        //     }
+        // }
+
+        Worker firstSlotWorker = duringPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<WorkerScript>().Worker;
+        List<GameObject> boughtedWorkersList = transform.parent.GetComponent<OrderScript>().boughtedEmployees;
         GameObject workerStatsPanel = GameObject.Find("StatsPanel(Clone)");
+
+        for (int i = 0; i < boughtedWorkersList.Count; i++)
+        {
+            if (boughtedWorkersList[i].GetComponent<WorkerScript>().Worker.workerIndex == firstSlotWorker.workerIndex)
+            {
+                transform.parent.GetComponent<OrderScript>().boughtedEmployees[i].GetComponent<WorkerScript>().Worker.responsibility = Worker.Responsibility.Responsible;
+                break;
+            }
+        }
+
+        //Если открыта панель с работником и если открыта панель ответственного работника, спавним там звёздочку
         if (workerStatsPanel)
         {
             WorkerStatsPanel workerStatsPanelScript = workerStatsPanel.GetComponent<WorkerStatsPanel>();
-            if (workerStatsPanelScript.Worker.workerIndex == assignedWorkerScript.Worker.workerIndex)
+            if (workerStatsPanelScript.Worker.workerIndex == firstSlotWorker.workerIndex)
             {
                 workerStatsPanelScript.responsibilityStar.gameObject.SetActive(true);
             }
@@ -254,18 +323,22 @@ public class ResearchPanelScript : MonoBehaviour
 
     public void ResetResponsibility()
     {
-        transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Helper);
-        transform.parent.GetComponent<OrderScript>().boughtedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Helper);
-
-        WorkerScript assignedWorkerScript = transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>();
-
-        GameObject workerStatsPanel = GameObject.Find("StatsPanel(Clone)");
-        if (workerStatsPanel)
+        if (transform.parent.GetComponent<OrderScript>().assignedEmployees.Count != 0)
         {
-            WorkerStatsPanel workerStatsPanelScript = workerStatsPanel.GetComponent<WorkerStatsPanel>();
-            if (workerStatsPanelScript.Worker.workerIndex == assignedWorkerScript.Worker.workerIndex)
+
+            transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Helper);
+            transform.parent.GetComponent<OrderScript>().boughtedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Helper);
+
+            WorkerScript assignedWorkerScript = transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>();
+
+            GameObject workerStatsPanel = GameObject.Find("StatsPanel(Clone)");
+            if (workerStatsPanel)
             {
-                workerStatsPanelScript.responsibilityStar.gameObject.SetActive(false);
+                WorkerStatsPanel workerStatsPanelScript = workerStatsPanel.GetComponent<WorkerStatsPanel>();
+                if (workerStatsPanelScript.Worker.workerIndex == assignedWorkerScript.Worker.workerIndex)
+                {
+                    workerStatsPanelScript.responsibilityStar.gameObject.SetActive(false);
+                }
             }
         }
     }
@@ -293,7 +366,8 @@ public class ResearchPanelScript : MonoBehaviour
     public void HideOrderSteps()
     {
         transform.parent.gameObject.SetActive(false);
-        OpenWindowsManager.singletone.AddOrRemovePanelFromList(transform.parent.gameObject);
+        DarkBackground.singletone.UnFadeBackground();
+        // OpenWindowsManager.singletone.AddOrRemovePanelFromList(transform.parent.gameObject);
     }
 
     //Проверяет, совпадает ли количество установленных в панель рабочих с необходимым количеством

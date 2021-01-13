@@ -7,8 +7,11 @@ public class AddStaffButton : MonoBehaviour
     public void TogglePanel(GameObject panel)
     {
         panel.SetActive(!panel.activeSelf);
-        OpenWindowsManager.singletone.AddOrRemovePanelFromList(panel);
+        // OpenWindowsManager.singletone.AddOrRemovePanelFromList(panel);
         if (panel.activeSelf)
+        {
             panel.transform.SetAsLastSibling();
+        }
+        DarkBackground.singletone.FadeBackground();
     }
 }

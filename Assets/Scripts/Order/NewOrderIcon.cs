@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 using TMPro;
 
 //Скрипт висит на активном задании слева
 public class NewOrderIcon : MonoBehaviour
 {
     public TextMeshProUGUI customerNameText;
-    public GameObject orderPanel;
+
+    [HideInInspector] public GameObject orderPanel;
 
     [SerializeField]
     private Order order;
+
+    private Data data;
 
     //Заполняется поле order.
     public Order Order
@@ -20,7 +23,9 @@ public class NewOrderIcon : MonoBehaviour
         set
         {
             order = value;
-            customerNameText.text = "От: " + order.customer;
+            data = GameObject.Find("Manager").GetComponent<ActiveOrdersManager>().data;
+            customerNameText.text = order.customer;
+            GetComponent<Image>().sprite = data.ordersData.orderCustomerTypeFrames[(int)order.customerType - 1];
         }
     }
 
@@ -43,7 +48,9 @@ public class NewOrderIcon : MonoBehaviour
     //Скрыть/показать панель заказа
     public void ShowHideOrder()
     {
+        DarkBackground.singletone.FadeBackground(orderPanel);
+
         orderPanel.SetActive(!orderPanel.activeSelf);
-        OpenWindowsManager.singletone.AddOrRemovePanelFromList(orderPanel);
+        // OpenWindowsManager.singletone.AddOrRemovePanelFromList(orderPanel);
     }
 }

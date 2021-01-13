@@ -26,10 +26,12 @@ public class OrderDescriptionPanel : MonoBehaviour
     private GameObject activeOrdersPanel;
     private GameObject manager;
     private Data data;
+    private GameObject canvas;
 
     private void Awake()
     {
-        manager = GameObject.FindGameObjectWithTag("Manager").gameObject;
+        manager = GameObject.FindGameObjectWithTag("Manager");
+        canvas = GameObject.FindGameObjectWithTag("Canvas");
         data = manager.GetComponent<ActiveOrdersManager>().data;
 
     }
@@ -59,8 +61,7 @@ public class OrderDescriptionPanel : MonoBehaviour
     //При нажатии на кнопку "принять заказ" закрывает текущее окно и создаёт иконку активного задания слева.
     public void AcceptOrder()
     {
-        GameObject orderStep = Instantiate(orderSteps);
-        orderStep.transform.SetParent(GameObject.FindGameObjectWithTag("Canvas").transform, false);
+        GameObject orderStep = Instantiate(orderSteps, canvas.transform);
         orderStep.GetComponent<OrderScript>().Order = order;
 
         GameObject newOrderIcon = Instantiate(orderIcon, activeOrdersPanel.transform, false);
@@ -71,7 +72,8 @@ public class OrderDescriptionPanel : MonoBehaviour
         // OpenWindowsManager.singletone.iconsList.Remove(gameObject);
         // OpenWindowsManager.singletone.AddOrRemovePanelFromList(orderStep);
 
-        OpenWindowsManager.singletone.ShowOrderAcceptMessage();
+        // OpenWindowsManager.singletone.ShowOrderAcceptMessage();
+        DarkBackground.singletone.staffPanel.transform.SetAsLastSibling();
         //Сдвигаем вверх активные заказы
         ActiveOrdersManager.singleton.MoveOrdersOnUIUp();
         Destroy(orderButton);
@@ -82,6 +84,7 @@ public class OrderDescriptionPanel : MonoBehaviour
     public void CancelOrder()
     {
         OpenWindowsManager.singletone.iconsList.Remove(gameObject);
+        DarkBackground.singletone.UnFadeBackground();
         Destroy(orderButton);
         Destroy(gameObject);
     }
@@ -89,6 +92,7 @@ public class OrderDescriptionPanel : MonoBehaviour
     public void HidePanelWithCross()
     {
         OpenWindowsManager.singletone.iconsList.Remove(gameObject);
+        DarkBackground.singletone.UnFadeBackground();
         gameObject.SetActive(false);
     }
 }

@@ -30,7 +30,13 @@ public class NewWorkerDescription : MonoBehaviour
             descriptionText.text = worker.description;
             professionText.text = worker.profession.ToString();
             educationText.text = worker.education.ToString();
-            specializationText.text = worker.specialization.ToString();
+
+            specializationText.text = worker.specialization[0].ToString();
+            if (worker.specialization.Count > 1)
+            {
+                specializationText.text += " и " + worker.specialization[1].ToString();
+            }
+
             salary.text = "$ " + worker.salary.ToString();
         }
         get
@@ -49,6 +55,14 @@ public class NewWorkerDescription : MonoBehaviour
     {
         Destroy(availableWorker);
         manager.GetComponent<WorkersManager>().BuyWorker(worker);
+        if (!GameObject.FindGameObjectWithTag("OrderStepsPanel"))
+        {
+            DarkBackground.singletone.UnFadeBackground();
+        }
+        else
+        {
+            DarkBackground.singletone.darkPanel.transform.SetSiblingIndex(DarkBackground.singletone.darkPanel.transform.GetSiblingIndex() - 2);
+        }
     }
 
     public void CloseWindow()

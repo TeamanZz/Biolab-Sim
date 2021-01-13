@@ -72,7 +72,13 @@ public class WorkerStatsPanel : MonoBehaviour
             descriptionText.text = worker.description;
             professionText.text = worker.profession.ToString();
             educationText.text = worker.education.ToString();
-            specializationText.text = worker.specialization.ToString();
+
+            specializationText.text = worker.specialization[0].ToString();
+            if (worker.specialization.Count > 1)
+            {
+                specializationText.text += " и " + worker.specialization[1].ToString();
+            }
+
             completedOrdersCountText.text = worker.completedOrdersCount.ToString();
 
             if (worker.status == Worker.Status.Free)
@@ -145,7 +151,7 @@ public class WorkerStatsPanel : MonoBehaviour
         {
             newStatsPanel = Instantiate(statsPanel, canvas.transform, false);
             manager.GetComponent<WorkersManager>().statsOfWorker = newStatsPanel;
-            OpenWindowsManager.singletone.AddOrRemovePanelFromList(newStatsPanel);
+            // OpenWindowsManager.singletone.AddOrRemovePanelFromList(newStatsPanel);
 
             //Заполняем панель описания купленного работника актуальной информацией.
             for (int i = 0; i < manager.GetComponent<WorkersManager>().workers.Count; i++)
@@ -156,10 +162,13 @@ public class WorkerStatsPanel : MonoBehaviour
                 }
             }
         }
+
+        DarkBackground.singletone.FadeBackground();
     }
 
     public void Dismiss()
     {
+
         //Проверяем, закреплен ли заказ за персонажем
         if (clickedWorkerFrameButton.GetComponent<WorkerScript>().Worker.orderStepsPanel != null)
         {
@@ -198,9 +207,9 @@ public class WorkerStatsPanel : MonoBehaviour
         }
         //И панель удалить не забываем
         StopCoroutine(clickedWorkerFrameButton.GetComponent<WorkerScript>().ToggleBlueLight());
-        Debug.Log("Stopped");
         OpenWindowsManager.singletone.iconsList.Remove(gameObject);
         worker.currentOrder = null;
+        DarkBackground.singletone.UnFadeBackground();
         Destroy(gameObject);
 
     }
@@ -234,6 +243,7 @@ public class WorkerStatsPanel : MonoBehaviour
     {
         manager = GameObject.FindGameObjectWithTag("Manager");
         OpenWindowsManager.singletone.iconsList.Remove(gameObject);
+        DarkBackground.singletone.UnFadeBackground();
         Destroy(manager.GetComponent<WorkersManager>().statsOfWorker);
     }
 

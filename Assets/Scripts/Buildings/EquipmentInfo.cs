@@ -7,7 +7,7 @@ using System;
 public class EquipmentInfo : MonoBehaviour, IPointerDownHandler
 {
     public GameObject infoPanelPrefab;
-    private GameObject infoPanel;
+    // private GameObject infoPanel;
     private GameObject canvas;
     [HideInInspector] public Order currentOrder;
     public EquipmentObject equipmentObject;
@@ -21,23 +21,23 @@ public class EquipmentInfo : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!infoPanel)
-        {
-            infoPanel = Instantiate(infoPanelPrefab, canvas.transform);
-            infoPanel.transform.position = Input.mousePosition;
-            EventSystem.current.SetSelectedGameObject(infoPanel);
-        }
+        // if (!infoPanel)
+        // {
+        //     infoPanel = Instantiate(infoPanelPrefab, canvas.transform);
+        //     infoPanel.transform.position = Input.mousePosition;
+        //     EventSystem.current.SetSelectedGameObject(infoPanel);
+        // }
 
     }
 
     private void FixedUpdate()
     {
-        if (infoPanel != null && infoPanel.GetComponent<EquipmentInfoPanel>().currentOrder != currentOrder)
-        {
-            infoPanel.GetComponent<EquipmentInfoPanel>().currentOrder = currentOrder;
-            infoPanel.GetComponent<EquipmentInfoPanel>().item = gameObject;
+        // if (infoPanel != null && infoPanel.GetComponent<EquipmentInfoPanel>().currentOrder != currentOrder)
+        // {
+        //     infoPanel.GetComponent<EquipmentInfoPanel>().currentOrder = currentOrder;
+        //     infoPanel.GetComponent<EquipmentInfoPanel>().item = gameObject;
 
-        }
+        // }
     }
 }
 

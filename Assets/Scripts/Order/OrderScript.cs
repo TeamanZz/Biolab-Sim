@@ -29,6 +29,7 @@ public class OrderScript : MonoBehaviour
             newResearchPanel.transform.SetAsFirstSibling();
             newResearchPanel.GetComponent<ResearchPanelScript>().Order = order;
             remainingResearchStageTime = order.research.leadTime;
+            newResearchPanel.SetActive(true);
         }
         order.orderStepsPanel = gameObject;
     }

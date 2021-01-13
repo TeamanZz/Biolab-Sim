@@ -108,7 +108,7 @@ public class BuildingsGrid : MonoBehaviour
         flyingBuilding.transform.SetParent(equipmentContainer.transform);
         floor.GetComponent<MeshRenderer>().material = floorMaterials[1];
         ShopPanel.SetActive(false);
-        OpenWindowsManager.singletone.AddOrRemovePanelFromList(ShopPanel);
+        // OpenWindowsManager.singletone.AddOrRemovePanelFromList(ShopPanel);
     }
 
     public void InstantiateFlyingBuilding(Building buildingPrefab, GameObject orderPanel)
@@ -124,7 +124,7 @@ public class BuildingsGrid : MonoBehaviour
         flyingBuilding.transform.SetParent(equipmentContainer.transform);
         floor.GetComponent<MeshRenderer>().material = floorMaterials[1];
         ShopPanel.SetActive(false);
-        OpenWindowsManager.singletone.AddOrRemovePanelFromList(ShopPanel);
+        // OpenWindowsManager.singletone.AddOrRemovePanelFromList(ShopPanel);
 
         lastOrderPanel = orderPanel;
     }

@@ -21,7 +21,7 @@ public class OrderIcon : MonoBehaviour
         set
         {
             order = value;
-            customerType.sprite = data.ordersData.orderCustomerTypeFrames[(int)order.customerType + 1];
+            customerType.sprite = data.ordersData.orderCustomerTypeFrames[(int)order.customerType - 1];
             ChooseIcon();
         }
 
@@ -37,7 +37,13 @@ public class OrderIcon : MonoBehaviour
     //Действие сокрытия для кнопки заказа слева вверху
     public void ShowHideSteps()
     {
+        DarkBackground.singletone.FadeBackground(stepsPanel);
         stepsPanel.SetActive(!stepsPanel.activeSelf);
+
+        if (stepsPanel.activeSelf)
+        {
+            DarkBackground.singletone.staffPanel.transform.SetAsLastSibling();
+        }
 
         // OpenWindowsManager.singletone.AddOrRemovePanelFromList(stepsPanel);
     }

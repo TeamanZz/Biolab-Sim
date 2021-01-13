@@ -92,7 +92,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30.65
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -303,11 +303,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.3
+  m_fontSize: 16.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 0
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 4
@@ -393,8 +393,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1256, y: 888}
+  m_AnchoredPosition: {x: 0.0000076294, y: -75.919}
+  m_SizeDelta: {x: 728.46704, y: 515.0309}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2135694776753836034
 CanvasRenderer:
@@ -456,49 +456,62 @@ MonoBehaviour:
   salary: {fileID: 7564317649763285906}
   availableWorker: {fileID: 0}
   worker:
-    orderStepsPanel: {fileID: 0}
-    frameImageIndex: 0
-    salary: 0
-    completedOrdersCount: 0
+    workerIndex: 0
+    photo: {fileID: 0}
     name: 
     fullName: 
     description: 
-    photo: {fileID: 0}
+    salary: 0
+    completedOrdersCount: 0
+    specialization: 0
+    profession: 0
+    education: 0
+    responsibility: 0
+    qualificaton: 0
+    status: 0
+    mood: 0
+    enhancementTime: 0
+    enhancementCost: 0
+    orderStepsPanel: {fileID: 0}
+    workerSlotContainer: {fileID: 0}
+    isEnhancementProcess: 0
+    enhancementFillAmount: 0
+    currentHappeningIndex: 0
     currentOrder:
       orderStepsPanel: {fileID: 0}
       orderButtonIcon: {fileID: 0}
       currentStepPanel: {fileID: 0}
-      developmentSphere: 0
-      customerType: 0
-      stateOfOrder: 0
-      currentStep: 0
       customer: 
       orderHeading: 
       orderDescription: 
       reward: 0
-      developmentStage: 0
-      TestingStage: 0
+      developmentSphere: 0
+      customerType: 0
+      orderHoursSpawnTime: 0
+      orderDaysSpawnTime: 0
+      timeToDestroy: 0
+      stateOfOrder: 0
+      currentStep: 0
+      requiredStages: 
       research:
         additionalText: 
         taskText: 
         leadTime: 0
-        neededWorkers: 0
-        needReagentTable: 0
-        needCapsule: 0
+        requirementsForEmployees: []
+        requirementEquipmentList: 
+        minigame: 0
         usedEquipment: []
       development:
-        name: 
+        mainText: 
         needReagentTable: 0
         needCapsule: 0
+        leadTime: 0
+        results: []
       testing:
         name: 
         needReagentTable: 0
         needCapsule: 0
-    mood: 0
-    profession: 0
-    education: 0
-    specialization: 0
-    status: 0
+        leadTime: 0
     moodImage: {fileID: 0}
 --- !u!1 &2135694777022188800
 GameObject:
@@ -533,10 +546,10 @@ RectTransform:
   m_Father: {fileID: 2135694776753836039}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.51042676, y: 0.20824325}
-  m_AnchorMax: {x: 0.89800006, y: 0.28912616}
-  m_AnchoredPosition: {x: 0.30029297, y: 0}
-  m_SizeDelta: {x: -2, y: 0}
+  m_AnchorMin: {x: 0.30742928, y: 0.20824319}
+  m_AnchorMax: {x: 0.6925828, y: 0.2891261}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: -0.000015258789}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2135694777022188812
 CanvasRenderer:
@@ -808,7 +821,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.7
+  m_fontSize: 13.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -959,8 +972,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.11, y: -0.4}
-  m_SizeDelta: {x: 126.754, y: 25.727814}
+  m_AnchoredPosition: {x: -0.23, y: -0.4}
+  m_SizeDelta: {x: 73.36621, y: 16.56253}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7609086540795808010
 CanvasRenderer:
@@ -1017,11 +1030,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21.7
+  m_fontSize: 13.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 0
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -1282,7 +1295,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42.7
+  m_fontSize: 24.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1342,7 +1355,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5164561687245080437
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1487,10 +1500,10 @@ RectTransform:
   m_Father: {fileID: 2135694776753836039}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.09222294, y: 0.321}
-  m_AnchorMax: {x: 0.17961147, y: 0.37036934}
-  m_AnchoredPosition: {x: -2.6400146, y: -0.27999878}
-  m_SizeDelta: {x: 1.3444519, y: -1.631134}
+  m_AnchorMin: {x: 0.09096821, y: 0.3220273}
+  m_AnchorMax: {x: 0.1880537, y: 0.3682679}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -0.00000667572, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2933325747334435990
 CanvasRenderer:
@@ -1547,11 +1560,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.8
+  m_fontSize: 15.8
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 18
+  m_fontSizeMin: 0
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
@@ -1681,7 +1694,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
+  m_fontSize: 31.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1815,7 +1828,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30.75
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -11,6 +11,7 @@ TagManager:
   - StaffIcon
   - Grid
   - MessagePanel
+  - OrderStepsPanel
   layers:
   - Default
   - TransparentFX
