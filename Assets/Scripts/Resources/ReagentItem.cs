@@ -10,9 +10,7 @@ public class ReagentItem : MonoBehaviour
     [SerializeField]
     private Reagent reagent;
 
-
     public Data data;
-
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI costText;
     public Image slotImage;
@@ -34,7 +32,7 @@ public class ReagentItem : MonoBehaviour
 
     public void OpenItemDescription()
     {
-        DescriptionTab.singletone.gameObject.SetActive(true);
+        Shop.singletone.ToggleDescriptionPanel();
         DescriptionTab.singletone.clickedButton = gameObject;
         DescriptionTab.singletone.EquipmentSlot = null;
         DescriptionTab.singletone.Reagent = reagent;
@@ -47,10 +45,12 @@ public class ReagentItem : MonoBehaviour
             switch (reagent.reagentType)
             {
                 case Reagent.ReagentType.Na:
-                    data.currencyData.boughtedNa++;
+                    data.currencyData.reagentsListData[0].count++;
+
                     break;
                 case Reagent.ReagentType.Chlor:
-                    data.currencyData.boughtedChlor++;
+                    data.currencyData.reagentsListData[1].count++;
+
                     break;
             }
             data.currencyData.moneyCount -= reagent.cost;

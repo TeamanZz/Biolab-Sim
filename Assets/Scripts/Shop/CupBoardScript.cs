@@ -7,8 +7,6 @@ public class CupBoardScript : MonoBehaviour, IPointerDownHandler
 {
     public GameObject CupBoardPanel;
 
-
-
     public void OnPointerDown(PointerEventData eventData)
     {
         CupBoardPanel.SetActive(!CupBoardPanel.activeSelf);

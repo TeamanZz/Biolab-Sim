@@ -12,4 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ac79cf12e204a40bed3d8fb2ba4a8b, type: 3}
   m_Name: New Currency Data
   m_EditorClassIdentifier: 
-  moneyCount: 0
+  moneyCount: 450
+  reagentsListData:
+  - name: Na
+    description: "\u041D\u0430\u0442\u0440\u0438\u0439"
+    cost: 100
+    image: {fileID: 21300000, guid: 35ea11e02804e7e4283f2dcd2c3dcc75, type: 3}
+    reagentType: 0
+    isInstantiated: 1
+    count: 0
+  - name: Chlor
+    description: "\u0425\u043B\u043E\u0440 "
+    cost: 100
+    image: {fileID: 21300000, guid: af668d4da37ef5e4ba906a35d4625aff, type: 3}
+    reagentType: 1
+    isInstantiated: 1
+    count: 3

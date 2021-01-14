@@ -6,6 +6,7 @@ public class CurrencyData : ScriptableObject
 {
     public int moneyCount;
 
-    public int boughtedNa;
-    public int boughtedChlor;
+    [SerializeField]
+    public List<RepositoryReagent> reagentsListData = new List<RepositoryReagent>();
+
 }

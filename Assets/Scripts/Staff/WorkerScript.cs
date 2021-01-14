@@ -82,6 +82,7 @@ public class WorkerScript : MonoBehaviour
 
             newWorker.transform.SetAsLastSibling();
         }
+        DarkBackground.singletone.staffPanel.transform.GetChild(0).GetComponent<AddStaffButton>().descriptionPanel = newWorker;
         newWorker.SetActive(!newWorker.activeSelf);
     }
 

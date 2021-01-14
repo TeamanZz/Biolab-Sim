@@ -18,25 +18,25 @@ public class DarkBackground : MonoBehaviour
 
     public void FadeBackground()
     {
-        darkPanel.SetActive(true);
-        darkPanel.transform.SetSiblingIndex(transform.parent.childCount - 2);
+        // darkPanel.SetActive(true);
+        // darkPanel.transform.SetSiblingIndex(transform.parent.childCount - 2);
     }
 
     public void FadeBackground(GameObject panel)
     {
-        if (!panel.activeSelf)
-        {
-            FadeBackground();
-        }
-        else
-        {
-            UnFadeBackground();
-        }
+        // if (!panel.activeSelf)
+        // {
+        //     FadeBackground();
+        // }
+        // else
+        // {
+        //     UnFadeBackground();
+        // }
     }
 
     public void UnFadeBackground()
     {
-        darkPanel.transform.SetSiblingIndex(transform.parent.childCount + 2);
-        darkPanel.SetActive(false);
+        // darkPanel.transform.SetSiblingIndex(transform.parent.childCount + 2);
+        // darkPanel.SetActive(false);
     }
 }

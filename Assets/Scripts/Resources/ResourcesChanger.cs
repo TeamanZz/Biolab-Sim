@@ -33,8 +33,11 @@ public class ResourcesChanger : MonoBehaviour
     private void ResetResources()
     {
         data.currencyData.moneyCount = startMoneyCount;
-        data.currencyData.boughtedChlor = 0;
-        data.currencyData.boughtedNa = 0;
+        foreach (RepositoryReagent reagent in data.currencyData.reagentsListData)
+        {
+            reagent.isInstantiated = false;
+            reagent.count = 0;
+        }
     }
 
     public void ExitFromGameButton()
