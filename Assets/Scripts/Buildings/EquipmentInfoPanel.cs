@@ -40,7 +40,7 @@ public class EquipmentInfoPanel : MonoBehaviour, IDeselectHandler, IPointerEnter
 
     public void StopProject()
     {
-        currentOrder.currentStepPanel.GetComponent<ResearchPanelScript>().PauseOrder();
+        currentOrder.currentStepPanel.GetComponent<OrderStage>().PauseOrder();
         Destroy(gameObject);
     }
 

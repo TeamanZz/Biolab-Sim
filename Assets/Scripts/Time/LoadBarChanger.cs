@@ -20,6 +20,15 @@ public class LoadBarChanger : MonoBehaviour
         }
     }
 
+    public void ResetLoadBars(OrderScript orderScript)
+    {
+        foreach (Image image in orderScript.loadBarImages)
+        {
+            image.fillAmount = 0;
+        }
+        orderScript.orderFillAmount = 0;
+    }
+
     public void StopFillingLoadBars(OrderScript orderScript)
     {
         switch (orderScript.order.currentStep)
@@ -36,18 +45,15 @@ public class LoadBarChanger : MonoBehaviour
 
     IEnumerator FillProgressBar(Image image, OrderScript orderScript)
     {
-        switch (orderScript.order.currentStep)
+        while (image.fillAmount != 1)
         {
-            case Order.CurrentStep.Research:
-                while (image.fillAmount != 1)
-                {
-                    yield return new WaitForSeconds(0.1f);
-                    image.fillAmount += (0.1f / orderScript.remainingStageTime);
+            yield return new WaitForSeconds(0.1f);
+            image.fillAmount += (0.1f / orderScript.remainingStageTime);
 
-                    orderScript.orderFillAmount = image.fillAmount;
-                }
-                break;
+            orderScript.orderFillAmount = image.fillAmount;
         }
 
     }
+
+
 }

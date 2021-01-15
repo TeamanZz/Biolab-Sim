@@ -46,6 +46,7 @@ public class ChooseNextStep : MonoBehaviour
     public void GoToNextStep()
     {
         order.orderStepsPanel.transform.GetChild(1).gameObject.SetActive(true);
+        LoadBarChanger.singleton.ResetLoadBars(order.currentStepPanel.transform.parent.GetComponent<OrderScript>());
         Destroy(order.currentStepPanel.gameObject);
     }
 }

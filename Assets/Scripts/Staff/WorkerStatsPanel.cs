@@ -168,7 +168,6 @@ public class WorkerStatsPanel : MonoBehaviour
 
     public void Dismiss()
     {
-
         //Проверяем, закреплен ли заказ за персонажем
         if (clickedWorkerFrameButton.GetComponent<WorkerScript>().Worker.orderStepsPanel != null)
         {
@@ -181,19 +180,20 @@ public class WorkerStatsPanel : MonoBehaviour
                 //Если заказ в процессе, паузим его.
                 if (worker.currentOrder.stateOfOrder == Order.StateOfOrder.InProcess)
                 {
-                    switch (worker.currentOrder.currentStep)
-                    {
-                        //ИЗМЕНИ ТУТ ПРИ ДОБАВЛЕНИИ ЭТАПОВ
-                        case Order.CurrentStep.Research:
-                            stepsPanel.transform.GetChild(0).GetComponent<ResearchPanelScript>().PauseOrder();
-                            break;
-                        case Order.CurrentStep.Development:
-                            stepsPanel.transform.GetChild(1).GetComponent<ResearchPanelScript>().PauseOrder();
-                            break;
-                        case Order.CurrentStep.Testing:
-                            stepsPanel.transform.GetChild(2).GetComponent<ResearchPanelScript>().PauseOrder();
-                            break;
-                    }
+                    stepsPanel.transform.GetChild(0).GetComponent<OrderStage>().PauseOrder();
+                    // switch (worker.currentOrder.currentStep)
+                    // {
+                    //     //ИЗМЕНИ ТУТ ПРИ ДОБАВЛЕНИИ ЭТАПОВ
+                    //     case Order.CurrentStep.Research:
+                    //         stepsPanel.transform.GetChild(0).GetComponent<OrderStage>().PauseOrder();
+                    //         break;
+                    //     case Order.CurrentStep.Development:
+                    //         stepsPanel.transform.GetChild(1).GetComponent<OrderStage>().PauseOrder();
+                    //         break;
+                    //     case Order.CurrentStep.Testing:
+                    //         stepsPanel.transform.GetChild(2).GetComponent<OrderStage>().PauseOrder();
+                    //         break;
+                    // }
                 }
             }
             else

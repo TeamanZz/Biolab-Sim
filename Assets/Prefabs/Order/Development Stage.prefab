@@ -747,8 +747,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 470475158571574787}
-        m_TargetAssemblyTypeName: DevelopmentPanelScript, Assembly-CSharp
+      - m_Target: {fileID: 5776064731545042382}
+        m_TargetAssemblyTypeName: OrderStage, Assembly-CSharp
         m_MethodName: PauseOrder
         m_Mode: 1
         m_Arguments:
@@ -1397,8 +1397,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 470475158571574787}
-        m_TargetAssemblyTypeName: DevelopmentPanelScript, Assembly-CSharp
+      - m_Target: {fileID: 5776064731545042382}
+        m_TargetAssemblyTypeName: OrderStage, Assembly-CSharp
         m_MethodName: StopOrder
         m_Mode: 1
         m_Arguments:
@@ -2025,6 +2025,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4099620508206744455}
+  - component: {fileID: 5776064731545042382}
   - component: {fileID: 9117495860108576565}
   - component: {fileID: 470475158571574787}
   m_Layer: 5
@@ -2056,7 +2057,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &9117495860108576565
+--- !u!114 &5776064731545042382
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2065,21 +2066,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1970591341995021212}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29b6d0f44a8940440901ac61973fa978, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  equipmentIconPrefab: {fileID: 490691651239266574, guid: 54693f434ce4331449d5c6067bc7484a, type: 3}
-  workerIconPrefab: {fileID: 7706124754688797662, guid: 666875b053291b94c90756b3070c73c6, type: 3}
---- !u!114 &470475158571574787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1970591341995021212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d51bae3147c99f499d8a2e7177e9f6f, type: 3}
+  m_Script: {fileID: 11500000, guid: c24662b188fe47045b332efa265f307c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 417fb50c16dbf1847b9a9bac60de839b, type: 2}
@@ -2090,8 +2077,8 @@ MonoBehaviour:
   setPanelCustomerTypeImg: {fileID: 421972277203623754}
   setPanelIconImg: {fileID: 5875305167158350775}
   setPanelTaskText: {fileID: 5644342567951404242}
-  setPanelDevelopmentTermText: {fileID: 8030816012859639322}
-  setPanelDevelopmentTotalTimeText: {fileID: 3711141428728330510}
+  setPanelTermText: {fileID: 8030816012859639322}
+  setPanelTotalTimeText: {fileID: 3711141428728330510}
   setPanelRewardText: {fileID: 2400436627079255673}
   additionalText: {fileID: 2056417629329481637}
   pauseButton: {fileID: 866546082662721663}
@@ -2099,13 +2086,14 @@ MonoBehaviour:
   duringPanelCustomerTypeImg: {fileID: 3383065010027309357}
   duringPanelIconImg: {fileID: 4837052537696859295}
   loadBarImage: {fileID: 1499176445203579389}
-  duringPanelDevelopmentTermText: {fileID: 5212650401511059328}
-  duringPanelDevelopmentTotalTimeText: {fileID: 8278949965353785031}
+  duringPanelTermText: {fileID: 5212650401511059328}
+  duringPanelTotalTimeText: {fileID: 8278949965353785031}
   duringPanelRewardText: {fileID: 1639735940883228606}
+  chooseContainer: {fileID: 3550959029101884334}
+  choosePrefab: {fileID: 8463959302736793285, guid: a341761cbfc20b441bba437606007875, type: 3}
   endPanelCustomerTypeImg: {fileID: 6144229996550754323}
   endPanelIconImg: {fileID: 5385565997476219801}
-  endPanelDevelopmentTermText: {fileID: 536363967727482333}
-  endPanelDevelopmentTotalTimeText: {fileID: 536363967727482333}
+  endPanelTotalTimeText: {fileID: 536363967727482333}
   endPanelRewardText: {fileID: 7906105410039990800}
   order:
     orderStepsPanel: {fileID: 0}
@@ -2145,6 +2133,32 @@ MonoBehaviour:
       needReagentTable: 0
       needCapsule: 0
       leadTime: 0
+--- !u!114 &9117495860108576565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970591341995021212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29b6d0f44a8940440901ac61973fa978, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipmentIconPrefab: {fileID: 490691651239266574, guid: 54693f434ce4331449d5c6067bc7484a, type: 3}
+  workerIconPrefab: {fileID: 7706124754688797662, guid: 666875b053291b94c90756b3070c73c6, type: 3}
+--- !u!114 &470475158571574787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970591341995021212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d51bae3147c99f499d8a2e7177e9f6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2378297381511852992
 GameObject:
   m_ObjectHideFlags: 0
@@ -3110,8 +3124,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 470475158571574787}
-        m_TargetAssemblyTypeName: DevelopmentPanelScript, Assembly-CSharp
+      - m_Target: {fileID: 5776064731545042382}
+        m_TargetAssemblyTypeName: OrderStage, Assembly-CSharp
         m_MethodName: StartOrder
         m_Mode: 1
         m_Arguments:
@@ -3267,7 +3281,7 @@ GameObject:
   - component: {fileID: 9021703720843100188}
   - component: {fileID: 129011022544987069}
   m_Layer: 5
-  m_Name: ChooseTest
+  m_Name: Choose Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5843,8 +5857,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 470475158571574787}
-        m_TargetAssemblyTypeName: DevelopmentPanelScript, Assembly-CSharp
+      - m_Target: {fileID: 5776064731545042382}
+        m_TargetAssemblyTypeName: OrderStage, Assembly-CSharp
         m_MethodName: HideOrderSteps
         m_Mode: 1
         m_Arguments:
@@ -6742,8 +6756,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 470475158571574787}
-        m_TargetAssemblyTypeName: DevelopmentPanelScript, Assembly-CSharp
+      - m_Target: {fileID: 5776064731545042382}
+        m_TargetAssemblyTypeName: OrderStage, Assembly-CSharp
         m_MethodName: StopOrder
         m_Mode: 1
         m_Arguments:
@@ -7083,8 +7097,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 470475158571574787}
-        m_TargetAssemblyTypeName: DevelopmentPanelScript, Assembly-CSharp
+      - m_Target: {fileID: 5776064731545042382}
+        m_TargetAssemblyTypeName: OrderStage, Assembly-CSharp
         m_MethodName: ContinueOrder
         m_Mode: 1
         m_Arguments:

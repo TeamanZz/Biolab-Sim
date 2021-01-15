@@ -40,7 +40,7 @@ public class ActiveOrdersManager : MonoBehaviour
     //Ждём X времени и начисляем голду, очищаем заказ у работников и увеличиваем количество завершённых заказов
     public IEnumerator CompleteTheOrder(Order order, GameObject panel)
     {
-        ResearchPanelScript researchPanel = panel.GetComponent<ResearchPanelScript>();
+        OrderStage researchPanel = panel.GetComponent<OrderStage>();
 
         yield return new WaitForSeconds(order.research.leadTime);
         data.currencyData.moneyCount += order.reward;
