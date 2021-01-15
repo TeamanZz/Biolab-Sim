@@ -42,7 +42,7 @@ public class LoadBarChanger : MonoBehaviour
                 while (image.fillAmount != 1)
                 {
                     yield return new WaitForSeconds(0.1f);
-                    image.fillAmount += (0.1f / orderScript.remainingResearchStageTime);
+                    image.fillAmount += (0.1f / orderScript.remainingStageTime);
 
                     orderScript.orderFillAmount = image.fillAmount;
                 }

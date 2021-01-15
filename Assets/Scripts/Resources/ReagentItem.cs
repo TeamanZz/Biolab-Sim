@@ -8,7 +8,7 @@ using TMPro;
 public class ReagentItem : MonoBehaviour
 {
     [SerializeField]
-    private Reagent reagent;
+    [HideInInspector] private Reagent reagent;
 
     public Data data;
     public TextMeshProUGUI nameText;

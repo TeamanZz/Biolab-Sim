@@ -50,24 +50,4 @@ public class OrdersManager : MonoBehaviour
             }
         }
     }
-
-    //  private void InstantiateOrders()
-    // {
-    //     foreach (Order order in generalListOfOrders)
-    //     {
-    //         newOrderMessageButton = Instantiate(orderMessageButtonPrefab, GameObject.FindGameObjectWithTag("MessagesPanel").transform);
-    //         newOrderStepsPanel = Instantiate(orderStepsPanelPrefab, GameObject.FindGameObjectWithTag("Canvas").transform);
-
-    //         newOrderStepsPanel.GetComponent<OrderDescriptionPanel>().Order = order;
-    //         // newOrderStepsPanel.GetComponent<OrderDescriptionPanel>().Order.orderIcon = newOrderMessageButton;
-
-    //         newOrderStepsPanel.GetComponent<OrderDescriptionPanel>().orderButton = newOrderMessageButton;
-    //         newOrderStepsPanel.SetActive(false);
-
-    //         newOrderMessageButton.GetComponent<NewOrderIcon>().Order = order;
-    //         newOrderMessageButton.GetComponent<NewOrderIcon>().orderPanel = newOrderStepsPanel;
-    //         //Сдвигаем вниз активные заказы
-    //         ActiveOrdersManager.singleton.MoveOrdersOnUIDown();
-    //     }
-    // }
 }

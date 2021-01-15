@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   researchStagePrefab: {fileID: 1970591341995021212, guid: 4931faf8145d4444881cde3be909d257, type: 3}
+  DevelopmentStagePrefab: {fileID: 1970591341995021212, guid: b08418c62665cbe4aa3cbe82f97278ba, type: 3}
   loadBarImages: []
   assignedEmployees: []
   boughtedEmployees: []
@@ -76,6 +77,7 @@ MonoBehaviour:
       leadTime: 0
       requirementsForEmployees: []
       requirementEquipmentList: 
+      chooseSteps: []
       minigame: 0
       usedEquipment: []
     development:

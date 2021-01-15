@@ -1773,36 +1773,47 @@ MonoBehaviour:
   scopeOfDevelopmentText: {fileID: 1129553393417959555}
   descriptionText: {fileID: 7290998907798212345}
   developmentRewardText: {fileID: 2227557533230250107}
+  developmentTime: {fileID: 4242757646022104865}
   order:
     orderStepsPanel: {fileID: 0}
     orderButtonIcon: {fileID: 0}
     currentStepPanel: {fileID: 0}
-    developmentSphere: 0
-    customerType: 0
-    stateOfOrder: 0
-    currentStep: 0
     customer: 
     orderHeading: 
     orderDescription: 
     reward: 0
-    developmentStage: 0
-    TestingStage: 0
+    developmentSphere: 0
+    customerType: 0
+    totalTime: 0
+    orderHoursSpawnTime: 0
+    orderDaysSpawnTime: 0
+    timeToDestroy: 0
+    stateOfOrder: 0
+    currentStep: 0
+    requiredStages: 
     research:
       additionalText: 
       taskText: 
       leadTime: 0
-      neededWorkers: 0
-      needReagentTable: 0
-      needCapsule: 0
+      requirementsForEmployees: []
+      requirementEquipmentList: 
+      chooseSteps: []
+      minigame: 0
       usedEquipment: []
     development:
-      name: 
-      needReagentTable: 0
-      needCapsule: 0
+      additionalText: 
+      taskText: 
+      leadTime: 0
+      requirementsForEmployees: []
+      requirementEquipmentList: 
+      chooseSteps: []
+      minigame: 0
+      usedEquipment: []
     testing:
       name: 
       needReagentTable: 0
       needCapsule: 0
+      leadTime: 0
 --- !u!1 &7966845278145112372
 GameObject:
   m_ObjectHideFlags: 0

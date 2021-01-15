@@ -19,6 +19,7 @@ public class OrderDescriptionPanel : MonoBehaviour
     public TextMeshProUGUI scopeOfDevelopmentText;
     public TextMeshProUGUI descriptionText;
     public TextMeshProUGUI developmentRewardText;
+    public TextMeshProUGUI developmentTime;
 
     [Space]
     [SerializeField]
@@ -53,6 +54,7 @@ public class OrderDescriptionPanel : MonoBehaviour
             scopeOfDevelopmentText.text = order.developmentSphere.ToString();
             descriptionText.text = order.orderDescription;
             developmentRewardText.text = "$ " + order.reward.ToString();
+            developmentTime.text = order.totalTime.ToString() + " часов";
         }
 
         get { return order; }

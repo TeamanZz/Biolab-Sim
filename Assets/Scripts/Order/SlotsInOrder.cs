@@ -38,9 +38,28 @@ public class SlotsInOrder : MonoBehaviour
         }
     }
 
+    //Спавним слоты в окне заказа для этапа разработки
+    public void SpawnEquipmentSlots(Development development)
+    {
+        for (int i = 0; i < Enum.GetNames(typeof(Building.Type)).Length; i++)
+        {
+            if (development.requirementEquipmentList.Contains((Building.Type)i))
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    GameObject newEquipmentSlot = Instantiate(equipmentIconPrefab, transform.GetChild(j).GetChild(1).gameObject.transform);
+                    //Передаём значение слота из магазина в слот заказа, для возможности купить объект из окна заказа
+                    GameObject equipmentObject = ShopEquipmentManager.singleton.listOfEquipmentItems.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == (Building.Type)i);
+                    newEquipmentSlot.GetComponent<EquipmentSlotInOrder>().EquipmentSlot = equipmentObject.GetComponent<EquipmentInfo>().equipmentObject;
+                    newEquipmentSlot.GetComponent<Image>().sprite = equipmentObject.GetComponent<EquipmentInfo>().equipmentObject.itemImage;
+                }
+            }
+        }
+    }
+
     public void SpawnWorkersSlots(int countSlotsOfWorkers)
     {
-        Order order = GetComponent<ResearchPanelScript>().Order;
+        Order order = GetComponentInParent<OrderScript>().Order;
 
         for (int k = 0; k < 2; k++)
         {
@@ -56,8 +75,15 @@ public class SlotsInOrder : MonoBehaviour
                 {
                     newWorkerSlot.GetComponent<WorkerSlot>().slotResponsibility = Worker.Responsibility.Helper;
                 }
-
-                newWorkerSlot.GetComponent<WorkerSlot>().requirements = order.research.requirementsForEmployees[i];
+                switch (order.currentStep)
+                {
+                    case Order.CurrentStep.Research:
+                        newWorkerSlot.GetComponent<WorkerSlot>().requirements = order.research.requirementsForEmployees[i];
+                        break;
+                    case Order.CurrentStep.Development:
+                        newWorkerSlot.GetComponent<WorkerSlot>().requirements = order.development.requirementsForEmployees[i];
+                        break;
+                }
 
                 workersSlotsCount++;
             }

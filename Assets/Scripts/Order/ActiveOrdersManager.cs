@@ -54,6 +54,7 @@ public class ActiveOrdersManager : MonoBehaviour
         researchPanel.SpawnEquipmentSuccessIcon();
         order.orderStepsPanel.GetComponent<OrderScript>().UpdateInfoAboutWorkers();
         researchPanel.MakeEquipmentFree();
+        researchPanel.SpawnChoosePanels();
         researchPanel.endPanel.SetActive(true);
         researchPanel.duringPanel.SetActive(false);
     }

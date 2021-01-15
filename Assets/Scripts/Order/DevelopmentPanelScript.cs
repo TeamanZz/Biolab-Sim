@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
-public class ResearchPanelScript : MonoBehaviour
+public class DevelopmentPanelScript : MonoBehaviour
 {
     public Data data;
     public GameObject equipmentSuccessIcon;
@@ -18,28 +18,26 @@ public class ResearchPanelScript : MonoBehaviour
     public Image setPanelCustomerTypeImg;
     public Image setPanelIconImg;
     public TextMeshProUGUI setPanelTaskText;
-    public TextMeshProUGUI setPanelTotalTimeText;
-    public TextMeshProUGUI setPanelResearchTermText;
+    public TextMeshProUGUI setPanelDevelopmentTermText;
+    public TextMeshProUGUI setPanelDevelopmentTotalTimeText;
     public TextMeshProUGUI setPanelRewardText;
     public TextMeshProUGUI additionalText;
 
     [Header("During Panel")]
+    public GameObject pauseButton;
+    public GameObject continueButton;
     public Image duringPanelCustomerTypeImg;
     public Image duringPanelIconImg;
     public Image loadBarImage;
-    public TextMeshProUGUI duringPanelTotalTimeText;
-    public TextMeshProUGUI duringPanelResearchTermText;
+    public TextMeshProUGUI duringPanelDevelopmentTermText;
+    public TextMeshProUGUI duringPanelDevelopmentTotalTimeText;
     public TextMeshProUGUI duringPanelRewardText;
-    public GameObject pauseButton;
-    public GameObject continueButton;
 
     [Header("End Panel")]
-    public GameObject chooseContainer;
-    public GameObject choosePrefab;
     public Image endPanelCustomerTypeImg;
     public Image endPanelIconImg;
-    public TextMeshProUGUI endPanelTotalTimeText;
-    public TextMeshProUGUI endPanelResearchTermText;
+    public TextMeshProUGUI endPanelDevelopmentTermText;
+    public TextMeshProUGUI endPanelDevelopmentTotalTimeText;
     public TextMeshProUGUI endPanelRewardText;
 
     [Space]
@@ -58,22 +56,21 @@ public class ResearchPanelScript : MonoBehaviour
             setPanelIconImg.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
             setPanelCustomerTypeImg.sprite = data.ordersData.orderCustomerTypeImages[(int)order.customerType];
             setPanelTaskText.text = order.orderDescription;
-            setPanelResearchTermText.text = order.research.leadTime.ToString() + " часов";
-            setPanelTotalTimeText.text = order.totalTime.ToString() + " часов";
+            setPanelDevelopmentTermText.text = order.development.leadTime.ToString() + " часов";
+            setPanelDevelopmentTotalTimeText.text = order.totalTime.ToString() + " часов";
             setPanelRewardText.text = order.reward.ToString() + " $";
-            additionalText.text = order.research.additionalText;
+            additionalText.text = order.development.additionalText;
 
             duringPanelIconImg.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
             duringPanelCustomerTypeImg.sprite = data.ordersData.orderCustomerTypeImages[(int)order.customerType];
-            duringPanelResearchTermText.text = order.research.leadTime.ToString() + " часов";
-            duringPanelTotalTimeText.text = order.totalTime.ToString() + " часов";
-
+            duringPanelDevelopmentTermText.text = order.development.leadTime.ToString() + " часов";
+            duringPanelDevelopmentTotalTimeText.text = order.totalTime.ToString() + " часов";
             duringPanelRewardText.text = order.reward.ToString() + " $";
 
             endPanelIconImg.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
             endPanelCustomerTypeImg.sprite = data.ordersData.orderCustomerTypeImages[(int)order.customerType];
-            endPanelResearchTermText.text = order.research.leadTime.ToString() + " часов";
-            endPanelTotalTimeText.text = order.totalTime.ToString() + " часов";
+            endPanelDevelopmentTermText.text = order.development.leadTime.ToString() + " часов";
+            endPanelDevelopmentTotalTimeText.text = order.totalTime.ToString() + " часов";
             endPanelRewardText.text = order.reward.ToString() + " $";
         }
         get { return order; }
@@ -88,20 +85,10 @@ public class ResearchPanelScript : MonoBehaviour
     {
         //Спавним слоты в панели заказа для работников и оборудования
         slots = GetComponent<SlotsInOrder>();
-        slots.SpawnEquipmentSlots(order.research);
-        slots.SpawnWorkersSlots(Order.research.requirementsForEmployees.Count);
-        order.currentStep = Order.CurrentStep.Research;
+        slots.SpawnEquipmentSlots(order.development);
+        slots.SpawnWorkersSlots(Order.development.requirementsForEmployees.Count);
+        order.currentStep = Order.CurrentStep.Development;
         transform.GetChild(0).gameObject.SetActive(true);
-    }
-
-    public void SpawnChoosePanels()
-    {
-        foreach (OrderChooseStep orderChooseStep in order.research.chooseSteps)
-        {
-            GameObject newChoose = Instantiate(choosePrefab, chooseContainer.transform);
-            newChoose.GetComponent<ChooseNextStep>().OrderChooseStep = orderChooseStep;
-            newChoose.GetComponent<ChooseNextStep>().order = order;
-        }
     }
 
     public void StopOrder()
@@ -120,7 +107,6 @@ public class ResearchPanelScript : MonoBehaviour
         transform.parent.GetComponent<OrderScript>().assignedEmployees.Clear();
         transform.parent.GetComponent<OrderScript>().boughtedEmployees.Clear();
 
-
         Destroy(order.orderButtonIcon.gameObject);
         Destroy(gameObject.transform.parent.gameObject);
     }
@@ -129,13 +115,13 @@ public class ResearchPanelScript : MonoBehaviour
     {
         for (int i = 0; i < Enum.GetNames(typeof(Building.Type)).Length; i++)
         {
-            if (order.research.requirementEquipmentList.Contains((Building.Type)i))
+            if (order.development.requirementEquipmentList.Contains((Building.Type)i))
             {
                 GameObject newEquipmentObject = ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == (Building.Type)i);
                 ShopEquipmentManager.singleton.availableEquipment.Remove(newEquipmentObject);
                 newEquipmentObject.GetComponent<EquipmentInfo>().currentOrder = Order;
                 ShopEquipmentManager.singleton.busyEquipment.Add(newEquipmentObject);
-                order.research.usedEquipment.Add(newEquipmentObject);
+                order.development.usedEquipment.Add(newEquipmentObject);
             }
         }
     }
@@ -148,7 +134,7 @@ public class ResearchPanelScript : MonoBehaviour
         //first you need the RectTransform component of your canvas
         RectTransform CanvasRect = canvas.GetComponent<RectTransform>();
 
-        Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(order.research.usedEquipment[0].transform.GetChild(1).transform.position);
+        Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(order.development.usedEquipment[0].transform.GetChild(1).transform.position);
         Vector2 WorldObject_ScreenPosition = new Vector2(
         ((ViewportPosition.x * CanvasRect.sizeDelta.x) - (CanvasRect.sizeDelta.x * 0.5f)),
         ((ViewportPosition.y * CanvasRect.sizeDelta.y) - (CanvasRect.sizeDelta.y * 0.5f)));
@@ -157,25 +143,23 @@ public class ResearchPanelScript : MonoBehaviour
         sucIcon.GetComponent<RectTransform>().anchoredPosition = WorldObject_ScreenPosition;
         sucIcon.transform.SetAsFirstSibling();
         sucIcon.GetComponent<Button>().onClick.AddListener(order.orderButtonIcon.GetComponent<OrderIcon>().ShowHideSteps);
-
     }
 
     public void MakeEquipmentFree()
     {
-        foreach (GameObject item in Order.research.usedEquipment)
+        foreach (GameObject item in Order.development.usedEquipment)
         {
             item.GetComponent<EquipmentInfo>().currentOrder = null;
             ShopEquipmentManager.singleton.availableEquipment.Add(item);
             ShopEquipmentManager.singleton.busyEquipment.Remove(item);
         }
-        order.research.usedEquipment.Clear();
+        order.development.usedEquipment.Clear();
     }
 
     //Запускает заказ в исполнение
     public void StartOrder()
     {
-        // Debug.Log(IsHaveEquipment(order.research));
-        if (IsHaveEquipment(order.research) && WorkersIsSet(gameObject, Order.research))
+        if (IsHaveEquipment(order.development) && WorkersIsSet(gameObject, Order.development))
         {
             order.orderButtonIcon.GetComponent<OrderIcon>().ChangeCurrentActionText(order.currentStep);
             order.currentStepPanel = gameObject;
@@ -200,7 +184,7 @@ public class ResearchPanelScript : MonoBehaviour
 
     public void ContinueOrder()
     {
-        if (IsHaveEquipment(order.research) && WorkersIsSet(gameObject, order.research))
+        if (IsHaveEquipment(order.development) && WorkersIsSet(gameObject, order.development))
         {
             SetCurrentOrder(gameObject);
             SetWorkersStateIcon(Worker.Status.Busy);
@@ -222,7 +206,7 @@ public class ResearchPanelScript : MonoBehaviour
         ActiveOrdersManager.singleton.PauseOrder(Order, gameObject);
 
         //Указываем новое время
-        Order.research.leadTime = ((1 - loadBarImage.GetComponent<Image>().fillAmount) * Order.research.leadTime);
+        Order.development.leadTime = ((1 - loadBarImage.GetComponent<Image>().fillAmount) * Order.development.leadTime);
 
         DeleteWorkersInSecondWindow();
         slots.ShowDismissButtons();
@@ -240,7 +224,7 @@ public class ResearchPanelScript : MonoBehaviour
     //Удаляем иконки рабочих во втором окне заказа
     private void DeleteWorkersInSecondWindow()
     {
-        for (int i = 0; i < order.research.requirementsForEmployees.Count; i++)
+        for (int i = 0; i < order.development.requirementsForEmployees.Count; i++)
         {
             transform.GetChild(1).GetChild(0).GetChild(i).GetComponent<WorkerSlot>().isBusy = false;
             Destroy(transform.GetChild(1).GetChild(0).GetChild(i).GetChild(0).gameObject);
@@ -280,6 +264,22 @@ public class ResearchPanelScript : MonoBehaviour
 
     public void SetResponsibleWorker()
     {
+        // //Берём первый слот в заказе. Берём работника, лежавшего там. Проходимся по купленным работникам и когда встречаем такого же, ставим ему звёздочку.
+        // transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Responsible);
+        // transform.parent.GetComponent<OrderScript>().boughtedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Responsible);
+
+        // WorkerScript assignedWorkerScript = transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>();
+
+        // GameObject workerStatsPanel = GameObject.Find("StatsPanel(Clone)");
+        // if (workerStatsPanel)
+        // {
+        //     WorkerStatsPanel workerStatsPanelScript = workerStatsPanel.GetComponent<WorkerStatsPanel>();
+        //     if (workerStatsPanelScript.Worker.workerIndex == assignedWorkerScript.Worker.workerIndex)
+        //     {
+        //         workerStatsPanelScript.responsibilityStar.gameObject.SetActive(true);
+        //     }
+        // }
+
         Worker firstSlotWorker = duringPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<WorkerScript>().Worker;
         List<GameObject> boughtedWorkersList = transform.parent.GetComponent<OrderScript>().boughtedEmployees;
         GameObject workerStatsPanel = GameObject.Find("StatsPanel(Clone)");
@@ -359,12 +359,34 @@ public class ResearchPanelScript : MonoBehaviour
         return (stepPanel.transform.parent.GetComponent<OrderScript>().assignedEmployees.Count == research.requirementsForEmployees.Count);
     }
 
+    //Проверяет, совпадает ли количество установленных в панель рабочих с необходимым количеством
+    public bool WorkersIsSet(GameObject stepPanel, Development development)
+    {
+        return (stepPanel.transform.parent.GetComponent<OrderScript>().assignedEmployees.Count == development.requirementsForEmployees.Count);
+    }
+
     //Проверяет какое оборудование нужно для текущего заказа и возвращает true, если есть свободное
     public bool IsHaveEquipment(Research research)
     {
         for (int i = 0; i < Enum.GetNames(typeof(Building.Type)).Length; i++)
         {
             if (research.requirementEquipmentList.Contains((Building.Type)i))
+            {
+                GameObject newEquipment = ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == (Building.Type)i);
+                if (newEquipment == null)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public bool IsHaveEquipment(Development development)
+    {
+        for (int i = 0; i < Enum.GetNames(typeof(Building.Type)).Length; i++)
+        {
+            if (development.requirementEquipmentList.Contains((Building.Type)i))
             {
                 GameObject newEquipment = ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == (Building.Type)i);
                 if (newEquipment == null)

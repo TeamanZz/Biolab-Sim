@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using TMPro;
 
 public class OrderScript : MonoBehaviour
 {
     public GameObject researchStagePrefab;
+    public GameObject DevelopmentStagePrefab;
     public List<Image> loadBarImages = new List<Image>();
     public List<Coroutine> activeLoadBarCoroutines = new List<Coroutine>();
     public List<GameObject> assignedEmployees = new List<GameObject>();
     public List<GameObject> boughtedEmployees = new List<GameObject>();
     public float orderFillAmount;
-    public float remainingResearchStageTime;
+    public float remainingStageTime;
     [SerializeField] public Order order;
 
     public Order Order
@@ -23,14 +25,25 @@ public class OrderScript : MonoBehaviour
 
     private void Start()
     {
+        if (order.requiredStages.Contains(Order.RequiredStages.DevelopmentStage))
+        {
+            GameObject newDevelopmentPanel = Instantiate(DevelopmentStagePrefab, gameObject.transform);
+            newDevelopmentPanel.transform.SetAsFirstSibling();
+            newDevelopmentPanel.GetComponent<DevelopmentPanelScript>().Order = order;
+            remainingStageTime = order.development.leadTime;
+            if (order.requiredStages.Contains(Order.RequiredStages.ResearchStage))
+                newDevelopmentPanel.SetActive(false);
+        }
+
         if (order.requiredStages.Contains(Order.RequiredStages.ResearchStage))
         {
             GameObject newResearchPanel = Instantiate(researchStagePrefab, gameObject.transform);
             newResearchPanel.transform.SetAsFirstSibling();
             newResearchPanel.GetComponent<ResearchPanelScript>().Order = order;
-            remainingResearchStageTime = order.research.leadTime;
+            remainingStageTime = order.research.leadTime;
             newResearchPanel.SetActive(true);
         }
+
         order.orderStepsPanel = gameObject;
     }
 
@@ -113,13 +126,14 @@ public class Order
     public CustomerType customerType;
 
     [Header("Timings")]
+    public int totalTime;
     public int orderHoursSpawnTime;
     public int orderDaysSpawnTime;
     public int timeToDestroy;
 
     [Header("States")]
-    public StateOfOrder stateOfOrder = StateOfOrder.Paused;
-    public CurrentStep currentStep;
+    [HideInInspector] public StateOfOrder stateOfOrder = StateOfOrder.Paused;
+    [HideInInspector] public CurrentStep currentStep;
 
     [Header("Required Stages")]
     public List<RequiredStages> requiredStages = new List<RequiredStages>();
@@ -128,6 +142,8 @@ public class Order
     [SerializeField] public Research research;
     [SerializeField] public Development development;
     [SerializeField] public Testing testing;
+
+
 
     public enum DevelopmentSphere
     {
@@ -172,6 +188,16 @@ public class Order
     }
 }
 
+[System.Serializable]
+public class OrderChooseStep
+{
+    public String nameText;
+    public String descriptionText;
+    public int hoursTerm;
+    public int daysTerm;
+    public Order.DevelopmentSphere developmentSphere;
+}
+
 
 [Serializable]
 public class RequirementsForEmployees
@@ -183,18 +209,10 @@ public class RequirementsForEmployees
 }
 
 [Serializable]
-public class Results
-{
-    string mainText;
-    string description;
-}
-
-[Serializable]
 public class Research
 {
     [Header("Description")]
     public string additionalText;
-    public string taskText;
     public float leadTime;
 
     [Header("Workers Requierments")]
@@ -203,12 +221,15 @@ public class Research
     [Header("Equipment")]
     public List<Building.Type> requirementEquipmentList = new List<Building.Type>();
 
-    [Header("Bought Research")]
-    bool canBuyResearch;
+    [Header("Bought Ready Made")]
+    bool canBuyReadyMade;
 
     [Header("Acceleration")]
     int accelerationHoursTime;
     int accelerationCost;
+
+    [Header("Choose Steps")]
+    public List<OrderChooseStep> chooseSteps = new List<OrderChooseStep>();
 
     [Header("Mini Games")]
     public Minigames minigame;
@@ -220,13 +241,31 @@ public class Research
 [Serializable]
 public class Development
 {
-    public String mainText;
-    public bool needReagentTable;
-    public bool needCapsule;
+    [Header("Description")]
+    public string additionalText;
     public float leadTime;
 
-    public List<Results> results = new List<Results>();
+    [Header("Workers Requierments")]
+    public List<RequirementsForEmployees> requirementsForEmployees = new List<RequirementsForEmployees>();
 
+    [Header("Equipment")]
+    public List<Building.Type> requirementEquipmentList = new List<Building.Type>();
+
+    [Header("Bought Ready Made")]
+    bool canBuyReadyMade;
+
+    [Header("Acceleration")]
+    int accelerationHoursTime;
+    int accelerationCost;
+
+    [Header("Choose Steps")]
+    public List<OrderChooseStep> chooseSteps = new List<OrderChooseStep>();
+
+    [Header("Mini Games")]
+    public Minigames minigame;
+
+    [HideInInspector]
+    public List<GameObject> usedEquipment = new List<GameObject>();
 }
 
 [Serializable]
