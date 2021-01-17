@@ -31,16 +31,11 @@ public class LoadBarChanger : MonoBehaviour
 
     public void StopFillingLoadBars(OrderScript orderScript)
     {
-        switch (orderScript.order.currentStep)
+        foreach (Coroutine coroutine in orderScript.activeLoadBarCoroutines)
         {
-            case Order.CurrentStep.Research:
-                foreach (Coroutine coroutine in orderScript.activeLoadBarCoroutines)
-                {
-                    StopCoroutine(coroutine);
-                }
-                orderScript.activeLoadBarCoroutines.Clear();
-                break;
+            StopCoroutine(coroutine);
         }
+        orderScript.activeLoadBarCoroutines.Clear();
     }
 
     IEnumerator FillProgressBar(Image image, OrderScript orderScript)
@@ -52,8 +47,5 @@ public class LoadBarChanger : MonoBehaviour
 
             orderScript.orderFillAmount = image.fillAmount;
         }
-
     }
-
-
 }

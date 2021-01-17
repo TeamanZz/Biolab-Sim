@@ -1936,7 +1936,7 @@ MonoBehaviour:
   setPanelIconImg: {fileID: 5875305167158350775}
   setPanelTaskText: {fileID: 5644342567951404242}
   setPanelTermText: {fileID: 8030816012859639322}
-  setPanelTotalTimeText: {fileID: 3973076785140948399}
+  setPanelTotalTimeText: {fileID: 3711141428728330510}
   setPanelRewardText: {fileID: 2400436627079255673}
   additionalText: {fileID: 2056417629329481637}
   pauseButton: {fileID: 866546082662721663}
@@ -1977,7 +1977,7 @@ MonoBehaviour:
       requirementEquipmentList: 
       chooseSteps: []
       minigame: 0
-      usedEquipment: []
+      completed: 0
     development:
       additionalText: 
       leadTime: 0
@@ -1985,12 +1985,10 @@ MonoBehaviour:
       requirementEquipmentList: 
       chooseSteps: []
       minigame: 0
-      usedEquipment: []
+      completed: 0
     testing:
-      name: 
-      needReagentTable: 0
-      needCapsule: 0
       leadTime: 0
+      completed: 0
 --- !u!114 &6084377791583496093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2211,8 +2209,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6084377791583496093}
-        m_TargetAssemblyTypeName: ResearchPanelScript, Assembly-CSharp
+      - m_Target: {fileID: 5141465611292286114}
+        m_TargetAssemblyTypeName: OrderStage, Assembly-CSharp
         m_MethodName: HideOrderSteps
         m_Mode: 1
         m_Arguments:
@@ -5973,8 +5971,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6084377791583496093}
-        m_TargetAssemblyTypeName: ResearchPanelScript, Assembly-CSharp
+      - m_Target: {fileID: 5141465611292286114}
+        m_TargetAssemblyTypeName: OrderStage, Assembly-CSharp
         m_MethodName: HideOrderSteps
         m_Mode: 1
         m_Arguments:

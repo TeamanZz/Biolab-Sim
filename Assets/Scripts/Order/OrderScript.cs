@@ -13,6 +13,10 @@ public class OrderScript : MonoBehaviour
     public List<Coroutine> activeLoadBarCoroutines = new List<Coroutine>();
     public List<GameObject> assignedEmployees = new List<GameObject>();
     public List<GameObject> boughtedEmployees = new List<GameObject>();
+
+    [HideInInspector]
+    public List<GameObject> usedEquipment = new List<GameObject>();
+
     public float orderFillAmount;
     public float remainingStageTime;
     [SerializeField] public Order order;
@@ -144,7 +148,6 @@ public class Order
     [SerializeField] public Testing testing;
 
 
-
     public enum DevelopmentSphere
     {
         Bacteriology,
@@ -234,8 +237,7 @@ public class Research
     [Header("Mini Games")]
     public Minigames minigame;
 
-    [HideInInspector]
-    public List<GameObject> usedEquipment = new List<GameObject>();
+    public bool completed = false;
 }
 
 [Serializable]
@@ -264,17 +266,16 @@ public class Development
     [Header("Mini Games")]
     public Minigames minigame;
 
-    [HideInInspector]
-    public List<GameObject> usedEquipment = new List<GameObject>();
+
+
+    public bool completed = false;
 }
 
 [Serializable]
 public class Testing
 {
-    public String name;
-    public bool needReagentTable;
-    public bool needCapsule;
     public float leadTime;
+    public bool completed;
 
 }
 

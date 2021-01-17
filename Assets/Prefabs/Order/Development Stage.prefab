@@ -2119,7 +2119,7 @@ MonoBehaviour:
       requirementEquipmentList: 
       chooseSteps: []
       minigame: 0
-      usedEquipment: []
+      completed: 0
     development:
       additionalText: 
       leadTime: 0
@@ -2127,12 +2127,10 @@ MonoBehaviour:
       requirementEquipmentList: 
       chooseSteps: []
       minigame: 0
-      usedEquipment: []
+      completed: 0
     testing:
-      name: 
-      needReagentTable: 0
-      needCapsule: 0
       leadTime: 0
+      completed: 0
 --- !u!114 &9117495860108576565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2353,8 +2351,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ResearchPanelScript, Assembly-CSharp
+      - m_Target: {fileID: 5776064731545042382}
+        m_TargetAssemblyTypeName: OrderStage, Assembly-CSharp
         m_MethodName: HideOrderSteps
         m_Mode: 1
         m_Arguments:

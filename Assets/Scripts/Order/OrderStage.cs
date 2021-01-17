@@ -26,6 +26,7 @@ public class OrderStage : MonoBehaviour
     [Header("During Panel")]
     public GameObject pauseButton;
     public GameObject continueButton;
+
     public Image duringPanelCustomerTypeImg;
     public Image duringPanelIconImg;
     public Image loadBarImage;
@@ -42,6 +43,8 @@ public class OrderStage : MonoBehaviour
     public TextMeshProUGUI endPanelRewardText;
 
     [Space]
+    //research,development,testing
+    public dynamic currentStage;
     private SlotsInOrder slots;
     private GameObject canvas;
     [SerializeField] private Order order;
@@ -50,29 +53,10 @@ public class OrderStage : MonoBehaviour
     {
         set
         {
-            //Заполняем панель в соответствии с информацией из заказа
             order = value;
-            transform.parent.GetComponent<OrderScript>().AddLoadBarImageInArray(loadBarImage);
-
-            setPanelIconImg.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
-            setPanelCustomerTypeImg.sprite = data.ordersData.orderCustomerTypeImages[(int)order.customerType];
-            setPanelTaskText.text = order.orderDescription;
-            // setPanelTaskText.text = order.research;
-            setPanelTermText.text = order.development.leadTime.ToString() + " часов";
-            setPanelTotalTimeText.text = order.totalTime.ToString() + " часов";
-            setPanelRewardText.text = order.reward.ToString() + " $";
-            additionalText.text = order.development.additionalText;
-
-            duringPanelIconImg.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
-            duringPanelCustomerTypeImg.sprite = data.ordersData.orderCustomerTypeImages[(int)order.customerType];
-            duringPanelTermText.text = order.development.leadTime.ToString() + " часов";
-            duringPanelTotalTimeText.text = order.totalTime.ToString() + " часов";
-            duringPanelRewardText.text = order.reward.ToString() + " $";
-
-            endPanelIconImg.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
-            endPanelCustomerTypeImg.sprite = data.ordersData.orderCustomerTypeImages[(int)order.customerType];
-            endPanelTotalTimeText.text = order.totalTime.ToString() + " часов";
-            endPanelRewardText.text = order.reward.ToString() + " $";
+            DetermineCurrentStep();
+            //Заполняем панель в соответствии с информацией из заказа
+            SetPanelValues();
         }
         get { return order; }
     }
@@ -84,13 +68,65 @@ public class OrderStage : MonoBehaviour
 
     private void Start()
     {
+        DetermineCurrentStep();
+        transform.parent.GetComponent<OrderScript>().AddLoadBarImageInArray(loadBarImage);
         //Спавним слоты в панели заказа для работников и оборудования
         slots = GetComponent<SlotsInOrder>();
-        slots.SpawnEquipmentSlots(order.development);
-        slots.SpawnWorkersSlots(Order.development.requirementsForEmployees.Count);
-        order.currentStep = Order.CurrentStep.Development;
+        slots.SpawnEquipmentSlots(currentStage);
+        slots.SpawnWorkersSlots(currentStage.requirementsForEmployees.Count);
         order.orderButtonIcon.GetComponent<OrderIcon>().ChangeCurrentActionText(order.currentStep);
-        transform.GetChild(0).gameObject.SetActive(true);
+        setPanel.gameObject.SetActive(true);
+    }
+
+    public dynamic DetermineCurrentStep()
+    {
+        Order parentOrder = transform.parent.GetComponent<OrderScript>().Order;
+
+        if (parentOrder.requiredStages.Contains(Order.RequiredStages.ResearchStage) && parentOrder.research.completed == false)
+        {
+            currentStage = parentOrder.research;
+            parentOrder.currentStep = Order.CurrentStep.Research;
+            return currentStage;
+        }
+        else if (parentOrder.requiredStages.Contains(Order.RequiredStages.DevelopmentStage) && parentOrder.development.completed == false)
+        {
+            currentStage = parentOrder.development;
+            parentOrder.currentStep = Order.CurrentStep.Development;
+            return currentStage;
+        }
+        else if (parentOrder.requiredStages.Contains(Order.RequiredStages.TestingStage) && parentOrder.testing.completed == false)
+        {
+            currentStage = parentOrder.testing;
+            parentOrder.currentStep = Order.CurrentStep.Testing;
+            return currentStage;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    public void SetStepCompleted()
+    {
+        Order parentOrder = transform.parent.GetComponent<OrderScript>().Order;
+        if (currentStage is Research)
+        {
+            parentOrder.research.completed = true;
+            order.research.completed = true;
+            currentStage = order.research;
+        }
+        else if (currentStage is Development)
+        {
+            parentOrder.development.completed = true;
+            order.development.completed = true;
+            currentStage = order.development;
+        }
+        else
+        {
+            parentOrder.testing.completed = true;
+            order.testing.completed = true;
+            currentStage = order.testing;
+        }
     }
 
     public void StopOrder()
@@ -115,28 +151,30 @@ public class OrderStage : MonoBehaviour
 
     private void MakeEquipmentBusy()
     {
+        var usedEquipment = transform.parent.GetComponent<OrderScript>().usedEquipment;
         for (int i = 0; i < Enum.GetNames(typeof(Building.Type)).Length; i++)
         {
-            if (order.development.requirementEquipmentList.Contains((Building.Type)i))
+            if (currentStage.requirementEquipmentList.Contains((Building.Type)i))
             {
                 GameObject newEquipmentObject = ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == (Building.Type)i);
                 ShopEquipmentManager.singleton.availableEquipment.Remove(newEquipmentObject);
                 newEquipmentObject.GetComponent<EquipmentInfo>().currentOrder = Order;
                 ShopEquipmentManager.singleton.busyEquipment.Add(newEquipmentObject);
-                order.development.usedEquipment.Add(newEquipmentObject);
+                usedEquipment.Add(newEquipmentObject);
             }
         }
     }
 
     public void SpawnEquipmentSuccessIcon()
     {
+        var usedEquipment = transform.parent.GetComponent<OrderScript>().usedEquipment;
         //Заспавнить над оборудованием заказа по значку
         GameObject sucIcon = Instantiate(equipmentSuccessIcon, canvas.transform);
 
         //first you need the RectTransform component of your canvas
         RectTransform CanvasRect = canvas.GetComponent<RectTransform>();
 
-        Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(order.development.usedEquipment[0].transform.GetChild(1).transform.position);
+        Vector2 ViewportPosition = Camera.main.WorldToViewportPoint(usedEquipment[0].transform.GetChild(1).transform.position);
         Vector2 WorldObject_ScreenPosition = new Vector2(
         ((ViewportPosition.x * CanvasRect.sizeDelta.x) - (CanvasRect.sizeDelta.x * 0.5f)),
         ((ViewportPosition.y * CanvasRect.sizeDelta.y) - (CanvasRect.sizeDelta.y * 0.5f)));
@@ -149,7 +187,7 @@ public class OrderStage : MonoBehaviour
 
     public void SpawnChoosePanels()
     {
-        foreach (OrderChooseStep orderChooseStep in order.research.chooseSteps)
+        foreach (OrderChooseStep orderChooseStep in currentStage.chooseSteps)
         {
             GameObject newChoose = Instantiate(choosePrefab, chooseContainer.transform);
             newChoose.GetComponent<ChooseNextStep>().OrderChooseStep = orderChooseStep;
@@ -159,24 +197,23 @@ public class OrderStage : MonoBehaviour
 
     public void MakeEquipmentFree()
     {
-        foreach (GameObject item in Order.development.usedEquipment)
+        var usedEquipment = transform.parent.GetComponent<OrderScript>().usedEquipment;
+        foreach (GameObject item in usedEquipment)
         {
             item.GetComponent<EquipmentInfo>().currentOrder = null;
             ShopEquipmentManager.singleton.availableEquipment.Add(item);
             ShopEquipmentManager.singleton.busyEquipment.Remove(item);
         }
-        order.development.usedEquipment.Clear();
+        usedEquipment.Clear();
     }
 
     //Запускает заказ в исполнение
     public void StartOrder()
     {
-        if (IsHaveEquipment(order.development) && WorkersIsSet(gameObject, Order.development))
+        if (IsHaveEquipment() && WorkersIsSet())
         {
-
-            order.currentStep = Order.CurrentStep.Development;
             order.orderButtonIcon.GetComponent<OrderIcon>().ChangeCurrentActionText(order.currentStep);
-            transform.GetComponentInParent<OrderScript>().remainingStageTime = order.development.leadTime;
+            transform.GetComponentInParent<OrderScript>().remainingStageTime = currentStage.leadTime;
             order.currentStepPanel = gameObject;
             duringPanel.SetActive(true);
             SetCurrentOrder(gameObject);
@@ -198,7 +235,7 @@ public class OrderStage : MonoBehaviour
 
     public void ContinueOrder()
     {
-        if (IsHaveEquipment(order.development) && WorkersIsSet(gameObject, order.development))
+        if (IsHaveEquipment() && WorkersIsSet())
         {
             SetCurrentOrder(gameObject);
             SetWorkersStateIcon(Worker.Status.Busy);
@@ -220,7 +257,7 @@ public class OrderStage : MonoBehaviour
         ActiveOrdersManager.singleton.PauseOrder(Order, gameObject);
 
         //Указываем новое время
-        Order.development.leadTime = ((1 - loadBarImage.GetComponent<Image>().fillAmount) * Order.development.leadTime);
+        currentStage.leadTime = ((1 - loadBarImage.GetComponent<Image>().fillAmount) * currentStage.leadTime);
 
         DeleteWorkersInSecondWindow();
         slots.ShowDismissButtons();
@@ -238,7 +275,7 @@ public class OrderStage : MonoBehaviour
     //Удаляем иконки рабочих во втором окне заказа
     private void DeleteWorkersInSecondWindow()
     {
-        for (int i = 0; i < order.development.requirementsForEmployees.Count; i++)
+        for (int i = 0; i < currentStage.requirementsForEmployees.Count; i++)
         {
             transform.GetChild(1).GetChild(0).GetChild(i).GetComponent<WorkerSlot>().isBusy = false;
             Destroy(transform.GetChild(1).GetChild(0).GetChild(i).GetChild(0).gameObject);
@@ -278,22 +315,6 @@ public class OrderStage : MonoBehaviour
 
     public void SetResponsibleWorker()
     {
-        // //Берём первый слот в заказе. Берём работника, лежавшего там. Проходимся по купленным работникам и когда встречаем такого же, ставим ему звёздочку.
-        // transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Responsible);
-        // transform.parent.GetComponent<OrderScript>().boughtedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Responsible);
-
-        // WorkerScript assignedWorkerScript = transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>();
-
-        // GameObject workerStatsPanel = GameObject.Find("StatsPanel(Clone)");
-        // if (workerStatsPanel)
-        // {
-        //     WorkerStatsPanel workerStatsPanelScript = workerStatsPanel.GetComponent<WorkerStatsPanel>();
-        //     if (workerStatsPanelScript.Worker.workerIndex == assignedWorkerScript.Worker.workerIndex)
-        //     {
-        //         workerStatsPanelScript.responsibilityStar.gameObject.SetActive(true);
-        //     }
-        // }
-
         Worker firstSlotWorker = duringPanel.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<WorkerScript>().Worker;
         List<GameObject> boughtedWorkersList = transform.parent.GetComponent<OrderScript>().boughtedEmployees;
         GameObject workerStatsPanel = GameObject.Find("StatsPanel(Clone)");
@@ -322,7 +343,6 @@ public class OrderStage : MonoBehaviour
     {
         if (transform.parent.GetComponent<OrderScript>().assignedEmployees.Count != 0)
         {
-
             transform.parent.GetComponent<OrderScript>().assignedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Helper);
             transform.parent.GetComponent<OrderScript>().boughtedEmployees[0].GetComponent<WorkerScript>().ChangeResponsibility(Worker.Responsibility.Helper);
 
@@ -368,23 +388,18 @@ public class OrderStage : MonoBehaviour
     }
 
     //Проверяет, совпадает ли количество установленных в панель рабочих с необходимым количеством
-    public bool WorkersIsSet(GameObject stepPanel, Research research)
+    public bool WorkersIsSet()
     {
-        return (stepPanel.transform.parent.GetComponent<OrderScript>().assignedEmployees.Count == research.requirementsForEmployees.Count);
-    }
-
-    //Проверяет, совпадает ли количество установленных в панель рабочих с необходимым количеством
-    public bool WorkersIsSet(GameObject stepPanel, Development development)
-    {
-        return (stepPanel.transform.parent.GetComponent<OrderScript>().assignedEmployees.Count == development.requirementsForEmployees.Count);
+        int requirmentCountOfWorkers = transform.parent.GetComponent<OrderScript>().assignedEmployees.Count;
+        return (requirmentCountOfWorkers == currentStage.requirementsForEmployees.Count);
     }
 
     //Проверяет какое оборудование нужно для текущего заказа и возвращает true, если есть свободное
-    public bool IsHaveEquipment(Research research)
+    public bool IsHaveEquipment()
     {
         for (int i = 0; i < Enum.GetNames(typeof(Building.Type)).Length; i++)
         {
-            if (research.requirementEquipmentList.Contains((Building.Type)i))
+            if (currentStage.requirementEquipmentList.Contains((Building.Type)i))
             {
                 GameObject newEquipment = ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == (Building.Type)i);
                 if (newEquipment == null)
@@ -396,19 +411,26 @@ public class OrderStage : MonoBehaviour
         return true;
     }
 
-    public bool IsHaveEquipment(Development development)
+    public void SetPanelValues()
     {
-        for (int i = 0; i < Enum.GetNames(typeof(Building.Type)).Length; i++)
-        {
-            if (development.requirementEquipmentList.Contains((Building.Type)i))
-            {
-                GameObject newEquipment = ShopEquipmentManager.singleton.availableEquipment.Find(x => x.GetComponent<EquipmentInfo>().equipmentObject.equipmentType == (Building.Type)i);
-                if (newEquipment == null)
-                {
-                    return false;
-                }
-            }
-        }
-        return true;
+        setPanelIconImg.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
+        setPanelCustomerTypeImg.sprite = data.ordersData.orderCustomerTypeImages[(int)order.customerType];
+        setPanelTaskText.text = order.orderDescription;
+
+        setPanelTermText.text = currentStage.leadTime.ToString() + " часов";
+        setPanelTotalTimeText.text = order.totalTime.ToString() + " часов";
+        setPanelRewardText.text = order.reward.ToString() + " $";
+        additionalText.text = currentStage.additionalText;
+
+        duringPanelIconImg.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
+        duringPanelCustomerTypeImg.sprite = data.ordersData.orderCustomerTypeImages[(int)order.customerType];
+        duringPanelTermText.text = currentStage.leadTime.ToString() + " часов";
+        duringPanelTotalTimeText.text = order.totalTime.ToString() + " часов";
+        duringPanelRewardText.text = order.reward.ToString() + " $";
+
+        endPanelIconImg.sprite = data.ordersData.orderIconsImages[(int)order.developmentSphere];
+        endPanelCustomerTypeImg.sprite = data.ordersData.orderCustomerTypeImages[(int)order.customerType];
+        endPanelTotalTimeText.text = order.totalTime.ToString() + " часов";
+        endPanelRewardText.text = order.reward.ToString() + " $";
     }
 }

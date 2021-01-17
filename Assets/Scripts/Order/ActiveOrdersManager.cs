@@ -19,48 +19,51 @@ public class ActiveOrdersManager : MonoBehaviour
         singleton = this;
     }
 
-    public void MoveOrdersOnUIDown()
-    {
-        appliedOrdersPanel.GetComponent<RectTransform>().localPosition += new Vector3(0, -106, 0);
-    }
-
-    public void MoveOrdersOnUIUp()
-    {
-        appliedOrdersPanel.GetComponent<RectTransform>().localPosition += new Vector3(0, 106, 0);
-    }
-
     //Запускаем заказ
-    public void ExecuteOrder(Order order, GameObject researchPanel)
+    public void ExecuteOrder(Order order, GameObject orderPanel)
     {
-        launchedCoroutines.Add(StartCoroutine(CompleteTheOrder(order, researchPanel)));
+        launchedCoroutines.Add(StartCoroutine(CompleteTheOrder(order, orderPanel)));
         launchedOrders.Add(order);
-        LoadBarChanger.singleton.StartFillingLoadBars(researchPanel.transform.parent.GetComponent<OrderScript>());
+        LoadBarChanger.singleton.StartFillingLoadBars(orderPanel.transform.parent.GetComponent<OrderScript>());
     }
 
     //Ждём X времени и начисляем голду, очищаем заказ у работников и увеличиваем количество завершённых заказов
     public IEnumerator CompleteTheOrder(Order order, GameObject panel)
     {
-        OrderStage researchPanel = panel.GetComponent<OrderStage>();
+        OrderStage orderPanel = panel.GetComponent<OrderStage>();
 
-        yield return new WaitForSeconds(order.research.leadTime);
+        switch (order.currentStep)
+        {
+            case Order.CurrentStep.Research:
+                yield return new WaitForSeconds(order.research.leadTime);
+                break;
+            case Order.CurrentStep.Development:
+                yield return new WaitForSeconds(order.development.leadTime);
+                break;
+            case Order.CurrentStep.Testing:
+                yield return new WaitForSeconds(order.testing.leadTime);
+                break;
+        }
+
         data.currencyData.moneyCount += order.reward;
         order.stateOfOrder = Order.StateOfOrder.Paused;
 
-        researchPanel.SetWorkersStateIcon(Worker.Status.Free);
-        researchPanel.ResetResponsibility();
+        orderPanel.SetWorkersStateIcon(Worker.Status.Free);
+        orderPanel.ResetResponsibility();
 
         order.currentStep = Order.CurrentStep.Done;
         order.orderButtonIcon.GetComponent<OrderIcon>().ChangeCurrentActionText(order.currentStep);
-        researchPanel.SpawnEquipmentSuccessIcon();
+        orderPanel.SpawnEquipmentSuccessIcon();
         order.orderStepsPanel.GetComponent<OrderScript>().UpdateInfoAboutWorkers();
-        researchPanel.MakeEquipmentFree();
-        researchPanel.SpawnChoosePanels();
-        researchPanel.endPanel.SetActive(true);
-        researchPanel.duringPanel.SetActive(false);
+        orderPanel.MakeEquipmentFree();
+        orderPanel.SpawnChoosePanels();
+        orderPanel.SetStepCompleted();
+        orderPanel.endPanel.SetActive(true);
+        orderPanel.duringPanel.SetActive(false);
     }
 
     //Паузим заказ
-    public void PauseOrder(Order order, GameObject researchPanel)
+    public void PauseOrder(Order order, GameObject orderPanel)
     {
         //Индекс заказа, по которому останавливаем корутины
         int pauseIndex = launchedOrders.FindIndex(x => x.orderDescription == order.orderDescription);
@@ -70,7 +73,7 @@ public class ActiveOrdersManager : MonoBehaviour
         launchedCoroutines.RemoveAt(pauseIndex);
         launchedOrders.RemoveAt(pauseIndex);
         //Останавливаем лоад бары
-        LoadBarChanger.singleton.StopFillingLoadBars(researchPanel.transform.parent.GetComponent<OrderScript>());
+        LoadBarChanger.singleton.StopFillingLoadBars(orderPanel.transform.parent.GetComponent<OrderScript>());
     }
 
     //Очищаем у исполнителей currentOrder и увеличиваем количество выполненных ими проектов на 1. Выполняется в конце проекта
@@ -90,18 +93,28 @@ public class ActiveOrdersManager : MonoBehaviour
     }
 
     //Очищает поле текущего проекта у работников. Нужно для паузы.
-    public void ClearCurrentOrders(GameObject researchPanel)
+    public void ClearCurrentOrders(GameObject orderPanel)
     {
         for (int i = 0; i < GetComponent<WorkersManager>().workers.Count; i++)
         {
-            for (int j = 0; j < researchPanel.transform.parent.GetComponent<OrderScript>().boughtedEmployees.Count; j++)
+            for (int j = 0; j < orderPanel.transform.parent.GetComponent<OrderScript>().boughtedEmployees.Count; j++)
             {
-                if (GetComponent<WorkersManager>().workers[i].description == researchPanel.transform.parent.GetComponent<OrderScript>().assignedEmployees[j].GetComponent<WorkerScript>().Worker.description)
+                if (GetComponent<WorkersManager>().workers[i].description == orderPanel.transform.parent.GetComponent<OrderScript>().assignedEmployees[j].GetComponent<WorkerScript>().Worker.description)
                 {
                     GetComponent<WorkersManager>().workers[i].currentOrder = null;
                     GetComponent<WorkersManager>().workers[i].status = Worker.Status.Free;
                 }
             }
         }
+    }
+
+    public void MoveOrdersOnUIDown()
+    {
+        appliedOrdersPanel.GetComponent<RectTransform>().localPosition += new Vector3(0, -106, 0);
+    }
+
+    public void MoveOrdersOnUIUp()
+    {
+        appliedOrdersPanel.GetComponent<RectTransform>().localPosition += new Vector3(0, 106, 0);
     }
 }

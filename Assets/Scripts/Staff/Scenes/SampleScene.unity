@@ -4712,7 +4712,7 @@ MonoBehaviour:
         \u0434\u043E\u043B\u0436\u0435\u043D \u0438\u043C\u0435\u0442\u044C \u043C\u0438\u043D\u0438\u043C\u0430\u043B\u044C\u043D\u0443\u044E
         \u043A\u0432\u0430\u043B\u0438\u0444\u0438\u043A\u0430\u0446\u0438\u044E
         \"\u041B\u0430\u0431\u043E\u0440\u0430\u043D\u0442\""
-      leadTime: 2
+      leadTime: 8
       requirementsForEmployees:
       - minProfession: 4
         specialization: 1
@@ -4744,7 +4744,7 @@ MonoBehaviour:
         daysTerm: 0
         developmentSphere: 5
       minigame: 0
-      usedEquipment: []
+      completed: 0
     development:
       additionalText: "\u0414\u043B\u044F \u0440\u0430\u0431\u043E\u0442\u044B \u043D\u0430\u0434
         \u043F\u0440\u043E\u0435\u043A\u0442\u043E\u043C \u0442\u0440\u0435\u0431\u0443\u0435\u0442\u0441\u044F
@@ -4758,7 +4758,7 @@ MonoBehaviour:
         \u0434\u043E\u043B\u0436\u0435\u043D \u0438\u043C\u0435\u0442\u044C \u043C\u0438\u043D\u0438\u043C\u0430\u043B\u044C\u043D\u0443\u044E
         \u043A\u0432\u0430\u043B\u0438\u0444\u0438\u043A\u0430\u0446\u0438\u044E
         \"\u041B\u0430\u0431\u043E\u0440\u0430\u043D\u0442\""
-      leadTime: 2
+      leadTime: 6
       requirementsForEmployees:
       - minProfession: 0
         specialization: 0
@@ -4767,12 +4767,10 @@ MonoBehaviour:
       requirementEquipmentList: 02000000
       chooseSteps: []
       minigame: 0
-      usedEquipment: []
+      completed: 0
     testing:
-      name: 
-      needReagentTable: 0
-      needCapsule: 0
       leadTime: 0
+      completed: 0
   - orderStepsPanel: {fileID: 0}
     orderButtonIcon: {fileID: 0}
     currentStepPanel: {fileID: 0}
@@ -4828,7 +4826,7 @@ MonoBehaviour:
         daysTerm: 2
         developmentSphere: 3
       minigame: 0
-      usedEquipment: []
+      completed: 0
     development:
       additionalText: 
       leadTime: 0
@@ -4836,12 +4834,10 @@ MonoBehaviour:
       requirementEquipmentList: 
       chooseSteps: []
       minigame: 0
-      usedEquipment: []
+      completed: 0
     testing:
-      name: 
-      needReagentTable: 0
-      needCapsule: 0
       leadTime: 0
+      completed: 0
 --- !u!114 &1634036349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4921,7 +4917,7 @@ MonoBehaviour:
         requirementEquipmentList: 
         chooseSteps: []
         minigame: 0
-        usedEquipment: []
+        completed: 0
       development:
         additionalText: 
         leadTime: 0
@@ -4929,12 +4925,10 @@ MonoBehaviour:
         requirementEquipmentList: 
         chooseSteps: []
         minigame: 0
-        usedEquipment: []
+        completed: 0
       testing:
-        name: 
-        needReagentTable: 0
-        needCapsule: 0
         leadTime: 0
+        completed: 0
     moodImage: {fileID: 0}
   - workerIndex: 1
     photo: {fileID: 21300000, guid: 05e1c4bbd5b128149bf36688403f4c1f, type: 3}
@@ -4983,7 +4977,7 @@ MonoBehaviour:
         requirementEquipmentList: 
         chooseSteps: []
         minigame: 0
-        usedEquipment: []
+        completed: 0
       development:
         additionalText: 
         leadTime: 0
@@ -4991,12 +4985,10 @@ MonoBehaviour:
         requirementEquipmentList: 
         chooseSteps: []
         minigame: 0
-        usedEquipment: []
+        completed: 0
       testing:
-        name: 
-        needReagentTable: 0
-        needCapsule: 0
         leadTime: 0
+        completed: 0
     moodImage: {fileID: 0}
   - workerIndex: 2
     photo: {fileID: 21300000, guid: 68aa28edcbf3ada47acde85d6ac0a5c3, type: 3}
@@ -5046,7 +5038,7 @@ MonoBehaviour:
         requirementEquipmentList: 
         chooseSteps: []
         minigame: 0
-        usedEquipment: []
+        completed: 0
       development:
         additionalText: 
         leadTime: 0
@@ -5054,12 +5046,10 @@ MonoBehaviour:
         requirementEquipmentList: 
         chooseSteps: []
         minigame: 0
-        usedEquipment: []
+        completed: 0
       testing:
-        name: 
-        needReagentTable: 0
-        needCapsule: 0
         leadTime: 0
+        completed: 0
     moodImage: {fileID: 0}
   infoAboutNewWorkerPanel: {fileID: 0}
   statsOfWorker: {fileID: 0}
