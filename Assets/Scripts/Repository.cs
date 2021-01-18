@@ -29,18 +29,19 @@ public class Repository : MonoBehaviour
     {
         for (int i = 0; i < repositoryReagents.Count; i++)
         {
+            //Проходимся по списку реагентов. Если не был создан и его количество не 0, создаём
             if (!repositoryReagents[i].isInstantiated && repositoryReagents[i].count != 0)
             {
                 GameObject newReagentItem = Instantiate(reagentPrefab, reagentsContainer.transform);
                 newReagentItem.GetComponent<RepositoryItem>().RepositoryReagent = repositoryReagents[i];
                 data.currencyData.reagentsListData[i].isInstantiated = true;
             }
-            //Проверка на количество детей в контейнере. Без проверки out of bounds.
+            //иначе обновляем данные
             else if (reagentsContainer.transform.childCount >= i + 1)
             {
-                reagentsContainer.transform.GetChild(i).GetComponent<RepositoryItem>().RepositoryReagent = repositoryReagents[i];
+                int itemId = reagentsContainer.transform.GetChild(i).GetComponent<RepositoryItem>().RepositoryReagent.reagentId;
+                reagentsContainer.transform.GetChild(i).GetComponent<RepositoryItem>().RepositoryReagent = repositoryReagents.Find(x => x.reagentId == itemId);
             }
-
         }
     }
 }

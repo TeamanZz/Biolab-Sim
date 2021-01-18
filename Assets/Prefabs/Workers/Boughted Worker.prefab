@@ -601,7 +601,7 @@ MonoBehaviour:
     description: 
     salary: 0
     completedOrdersCount: 0
-    specialization: 0
+    specialization: 
     profession: 0
     education: 0
     responsibility: 0
@@ -625,6 +625,7 @@ MonoBehaviour:
       reward: 0
       developmentSphere: 0
       customerType: 0
+      totalTime: 0
       orderHoursSpawnTime: 0
       orderDaysSpawnTime: 0
       timeToDestroy: 0
@@ -633,23 +634,23 @@ MonoBehaviour:
       requiredStages: 
       research:
         additionalText: 
-        taskText: 
         leadTime: 0
         requirementsForEmployees: []
         requirementEquipmentList: 
+        chooseSteps: []
         minigame: 0
-        usedEquipment: []
+        completed: 0
       development:
-        mainText: 
-        needReagentTable: 0
-        needCapsule: 0
+        additionalText: 
         leadTime: 0
-        results: []
+        requirementsForEmployees: []
+        requirementEquipmentList: 
+        chooseSteps: []
+        minigame: 0
+        completed: 0
       testing:
-        name: 
-        needReagentTable: 0
-        needCapsule: 0
         leadTime: 0
+        completed: 0
     moodImage: {fileID: 0}
 --- !u!114 &8840916778235548011
 MonoBehaviour:

@@ -11,6 +11,7 @@ public class RepositoryItem : MonoBehaviour
     public TextMeshProUGUI count;
 
     private RepositoryReagent reagent;
+    private GameObject descriptionPanel;
 
     public RepositoryReagent RepositoryReagent
     {
@@ -21,12 +22,22 @@ public class RepositoryItem : MonoBehaviour
             itemName.text = reagent.name;
             count.text = reagent.count.ToString();
         }
-        private get { return reagent; }
+        get { return reagent; }
 
+    }
+
+    private void Start()
+    {
+        descriptionPanel = transform.parent.GetComponentInParent<Repository>().descriptionPanel.gameObject;
     }
 
     public void ShowInfoAboutReagent()
     {
+        if (!descriptionPanel.activeSelf)
+        {
+            descriptionPanel.GetComponent<RepositoryDescription>().RepositoryReagent = RepositoryReagent;
+            descriptionPanel.SetActive(true);
 
+        }
     }
 }

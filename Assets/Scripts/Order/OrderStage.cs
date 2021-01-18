@@ -330,6 +330,7 @@ public class OrderStage : MonoBehaviour
             if (boughtedWorkersList[i].GetComponent<WorkerScript>().Worker.workerIndex == firstSlotWorker.workerIndex)
             {
                 transform.parent.GetComponent<OrderScript>().boughtedEmployees[i].GetComponent<WorkerScript>().Worker.responsibility = Worker.Responsibility.Responsible;
+                transform.parent.GetComponent<OrderScript>().boughtedEmployees[i].GetComponent<WorkerScript>().responsibilityStar.gameObject.SetActive(true);
                 break;
             }
         }
