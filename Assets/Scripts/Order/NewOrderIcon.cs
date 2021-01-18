@@ -40,7 +40,7 @@ public class NewOrderIcon : MonoBehaviour
     //timeToDestroy выражается в часах.
     private IEnumerator IDestroyOrderAfterTime()
     {
-        int seconds = order.timeToDestroy *= 6;
+        float seconds = order.timeToDestroy * 6 * TimePanel.singleton.param;
         yield return new WaitForSeconds(seconds);
         Destroy(gameObject);
     }

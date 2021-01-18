@@ -66,6 +66,7 @@ public class ReagentItem : MonoBehaviour
 [Serializable]
 public class Reagent
 {
+    public int reagentId;
     public string name;
     public string description;
     public int cost;

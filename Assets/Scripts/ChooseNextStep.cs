@@ -29,7 +29,6 @@ public class ChooseNextStep : MonoBehaviour
             descriptionText.text = orderChooseStep.descriptionText;
             term.text = orderChooseStep.daysTerm + " Дней и " + orderChooseStep.hoursTerm + " часов";
             sphere.text = orderChooseStep.developmentSphere.ToString();
-
         }
     }
 
@@ -40,7 +39,7 @@ public class ChooseNextStep : MonoBehaviour
 
     private void DestroySuccessIcon()
     {
-
+        order.currentStepPanel.GetComponent<OrderStage>().sucIcon.SetActive(false);
     }
 
     public void GoToNextStep()

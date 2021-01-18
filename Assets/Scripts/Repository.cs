@@ -8,6 +8,7 @@ public class Repository : MonoBehaviour
 
     public GameObject reagentPrefab;
     public GameObject reagentsContainer;
+    public GameObject descriptionPanel;
     public Data data;
 
     [SerializeField]

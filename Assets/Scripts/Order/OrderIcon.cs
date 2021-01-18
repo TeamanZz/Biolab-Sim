@@ -31,7 +31,6 @@ public class OrderIcon : MonoBehaviour
     private void Start()
     {
         AddLoadBarImageInArray();
-
     }
 
     //Действие сокрытия для кнопки заказа слева вверху

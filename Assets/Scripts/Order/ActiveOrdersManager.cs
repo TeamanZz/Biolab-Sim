@@ -31,17 +31,18 @@ public class ActiveOrdersManager : MonoBehaviour
     public IEnumerator CompleteTheOrder(Order order, GameObject panel)
     {
         OrderStage orderPanel = panel.GetComponent<OrderStage>();
+        OrderScript orderScript = panel.transform.GetComponentInParent<OrderScript>();
 
         switch (order.currentStep)
         {
             case Order.CurrentStep.Research:
-                yield return new WaitForSeconds(order.research.leadTime);
+                yield return new WaitForSeconds(order.research.leadTime * TimePanel.singleton.param);
                 break;
             case Order.CurrentStep.Development:
-                yield return new WaitForSeconds(order.development.leadTime);
+                yield return new WaitForSeconds(order.development.leadTime * TimePanel.singleton.param);
                 break;
             case Order.CurrentStep.Testing:
-                yield return new WaitForSeconds(order.testing.leadTime);
+                yield return new WaitForSeconds(order.testing.leadTime * TimePanel.singleton.param);
                 break;
         }
 
@@ -58,6 +59,9 @@ public class ActiveOrdersManager : MonoBehaviour
         orderPanel.MakeEquipmentFree();
         orderPanel.SpawnChoosePanels();
         orderPanel.SetStepCompleted();
+        //Убираем из массива лоад бар прошлой панели
+        orderScript.loadBarImages.Remove(orderPanel.loadBarImage);
+
         orderPanel.endPanel.SetActive(true);
         orderPanel.duringPanel.SetActive(false);
     }

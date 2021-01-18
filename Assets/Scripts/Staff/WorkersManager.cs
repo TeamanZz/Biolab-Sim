@@ -40,7 +40,7 @@ public class WorkersManager : MonoBehaviour
         buyWorkerPanel.SetActive(false);
         // OpenWindowsManager.singletone.AddOrRemovePanelFromList(buyWorkerPanel);
         infoAboutNewWorkerPanel.SetActive(false);
-        ToggleBlueLight();
+        BlueLightFrameOn();
     }
 
     //Хард код способ спавна рабочих для покупки
@@ -53,15 +53,44 @@ public class WorkersManager : MonoBehaviour
         }
     }
 
-    private void ToggleBlueLight()
+    private void BlueLightFrameOn()
     {
-        StartCoroutine(addedWorker.GetComponent<WorkerScript>().ToggleBlueLight());
+        StartCoroutine(addedWorker.GetComponent<WorkerScript>().IBlueLightFrameOn());
     }
 }
 
 [Serializable]
 public class Worker
 {
+    public int workerIndex;
+    public Sprite photo;
+    public String name;
+    public String fullName;
+    public String description;
+    public int salary;
+    public int completedOrdersCount;
+
+    [Header("Competitions")]
+    public List<Specialization> specialization;
+    public Profession profession;
+    public Education education;
+    public Responsibility responsibility;
+    public Qualificaton qualificaton;
+    public Status status;
+    public Mood mood;
+
+    [Header("Enhancement")]
+    public int enhancementTime;
+    public int enhancementCost;
+
+    [HideInInspector] public GameObject orderStepsPanel;
+    [HideInInspector] public GameObject workerSlotContainer;
+    [HideInInspector] public bool isEnhancementProcess;
+    [HideInInspector] public float enhancementFillAmount = 0;
+    [HideInInspector] public int currentHappeningIndex;
+    [HideInInspector] public Order currentOrder;
+    [HideInInspector] public Sprite moodImage;
+
     [Serializable]
     public enum Profession
     {
@@ -119,33 +148,6 @@ public class Worker
         Bad
     }
 
-    public int workerIndex;
-    public Sprite photo;
-    public String name;
-    public String fullName;
-    public String description;
-    public int salary;
-    public int completedOrdersCount;
 
-    [Header("Competitions")]
-    public List<Specialization> specialization;
-    public Profession profession;
-    public Education education;
-    public Responsibility responsibility;
-    public Qualificaton qualificaton;
-    public Status status;
-    public Mood mood;
-
-    [Header("Enhancement")]
-    public int enhancementTime;
-    public int enhancementCost;
-
-    [HideInInspector] public GameObject orderStepsPanel;
-    [HideInInspector] public GameObject workerSlotContainer;
-    [HideInInspector] public bool isEnhancementProcess;
-    [HideInInspector] public float enhancementFillAmount = 0;
-    [HideInInspector] public int currentHappeningIndex;
-    [HideInInspector] public Order currentOrder;
-    [HideInInspector] public Sprite moodImage;
 
 }

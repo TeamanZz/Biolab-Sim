@@ -47,6 +47,7 @@ public class OrderStage : MonoBehaviour
     public dynamic currentStage;
     private SlotsInOrder slots;
     private GameObject canvas;
+    public GameObject sucIcon;
     [SerializeField] private Order order;
 
     public Order Order
@@ -76,6 +77,76 @@ public class OrderStage : MonoBehaviour
         slots.SpawnWorkersSlots(currentStage.requirementsForEmployees.Count);
         order.orderButtonIcon.GetComponent<OrderIcon>().ChangeCurrentActionText(order.currentStep);
         setPanel.gameObject.SetActive(true);
+    }
+
+
+
+    //Запускает заказ в исполнение
+    public void StartOrder()
+    {
+        if (IsHaveEquipment() && WorkersIsSet())
+        {
+            OrderScript orderScript = transform.GetComponentInParent<OrderScript>();
+
+            order.orderButtonIcon.GetComponent<OrderIcon>().ChangeCurrentActionText(order.currentStep);
+            orderScript.remainingStageTime = currentStage.leadTime * TimePanel.singleton.param;
+            order.currentStepPanel = gameObject;
+            duringPanel.SetActive(true);
+            SetCurrentOrder(gameObject);
+            SetWorkersStateIcon(Worker.Status.Busy);
+            InstantiateWorkersInSecondWindow();
+            SetResponsibleWorker();
+            ActiveOrdersManager.singleton.ExecuteOrder(Order, gameObject);
+
+            MakeEquipmentBusy();
+
+            slots.HideDismissButtons();
+            order.stateOfOrder = Order.StateOfOrder.InProcess;
+            transform.parent.gameObject.SetActive(false);
+            // OpenWindowsManager.singletone.ShowResearchAcceptMessage();
+            // OpenWindowsManager.singletone.AddOrRemovePanelFromList(transform.parent.gameObject);
+            DarkBackground.singletone.UnFadeBackground();
+            setPanel.SetActive(false);
+        }
+    }
+
+    public void ContinueOrder()
+    {
+        if (IsHaveEquipment() && WorkersIsSet())
+        {
+            SetCurrentOrder(gameObject);
+            SetWorkersStateIcon(Worker.Status.Busy);
+            SetResponsibleWorker();
+            ActiveOrdersManager.singleton.ExecuteOrder(Order, gameObject);
+            MakeEquipmentBusy();
+            // SetWorkersStateIcon(Worker.Status.Busy);
+            slots.HideDismissButtons();
+            order.stateOfOrder = Order.StateOfOrder.InProcess;
+            pauseButton.SetActive(true);
+            continueButton.SetActive(false);
+        }
+    }
+
+    //Паузим проект
+    public void PauseOrder()
+    {
+        Order.stateOfOrder = Order.StateOfOrder.Paused;
+        ActiveOrdersManager.singleton.PauseOrder(Order, gameObject);
+
+        //Указываем новое время
+        currentStage.leadTime = ((1 - loadBarImage.GetComponent<Image>().fillAmount) * currentStage.leadTime);
+
+        DeleteWorkersInSecondWindow();
+        slots.ShowDismissButtons();
+        ActiveOrdersManager.singleton.ClearCurrentOrders(gameObject);
+        SetWorkersStateIcon(Worker.Status.Free);
+        ResetResponsibility();
+        MakeEquipmentFree();
+        transform.parent.GetComponent<OrderScript>().assignedEmployees.Clear();
+        transform.parent.GetComponent<OrderScript>().boughtedEmployees.Clear();
+
+        continueButton.SetActive(true);
+        pauseButton.SetActive(false);
     }
 
     public dynamic DetermineCurrentStep()
@@ -169,7 +240,7 @@ public class OrderStage : MonoBehaviour
     {
         var usedEquipment = transform.parent.GetComponent<OrderScript>().usedEquipment;
         //Заспавнить над оборудованием заказа по значку
-        GameObject sucIcon = Instantiate(equipmentSuccessIcon, canvas.transform);
+        sucIcon = Instantiate(equipmentSuccessIcon, canvas.transform);
 
         //first you need the RectTransform component of your canvas
         RectTransform CanvasRect = canvas.GetComponent<RectTransform>();
@@ -205,71 +276,6 @@ public class OrderStage : MonoBehaviour
             ShopEquipmentManager.singleton.busyEquipment.Remove(item);
         }
         usedEquipment.Clear();
-    }
-
-    //Запускает заказ в исполнение
-    public void StartOrder()
-    {
-        if (IsHaveEquipment() && WorkersIsSet())
-        {
-            order.orderButtonIcon.GetComponent<OrderIcon>().ChangeCurrentActionText(order.currentStep);
-            transform.GetComponentInParent<OrderScript>().remainingStageTime = currentStage.leadTime;
-            order.currentStepPanel = gameObject;
-            duringPanel.SetActive(true);
-            SetCurrentOrder(gameObject);
-            SetWorkersStateIcon(Worker.Status.Busy);
-            InstantiateWorkersInSecondWindow();
-            SetResponsibleWorker();
-            ActiveOrdersManager.singleton.ExecuteOrder(Order, gameObject);
-            MakeEquipmentBusy();
-
-            slots.HideDismissButtons();
-            order.stateOfOrder = Order.StateOfOrder.InProcess;
-            transform.parent.gameObject.SetActive(false);
-            // OpenWindowsManager.singletone.ShowResearchAcceptMessage();
-            // OpenWindowsManager.singletone.AddOrRemovePanelFromList(transform.parent.gameObject);
-            DarkBackground.singletone.UnFadeBackground();
-            setPanel.SetActive(false);
-        }
-    }
-
-    public void ContinueOrder()
-    {
-        if (IsHaveEquipment() && WorkersIsSet())
-        {
-            SetCurrentOrder(gameObject);
-            SetWorkersStateIcon(Worker.Status.Busy);
-            SetResponsibleWorker();
-            ActiveOrdersManager.singleton.ExecuteOrder(Order, gameObject);
-            MakeEquipmentBusy();
-            // SetWorkersStateIcon(Worker.Status.Busy);
-            slots.HideDismissButtons();
-            order.stateOfOrder = Order.StateOfOrder.InProcess;
-            pauseButton.SetActive(true);
-            continueButton.SetActive(false);
-        }
-    }
-
-    //Паузим проект
-    public void PauseOrder()
-    {
-        Order.stateOfOrder = Order.StateOfOrder.Paused;
-        ActiveOrdersManager.singleton.PauseOrder(Order, gameObject);
-
-        //Указываем новое время
-        currentStage.leadTime = ((1 - loadBarImage.GetComponent<Image>().fillAmount) * currentStage.leadTime);
-
-        DeleteWorkersInSecondWindow();
-        slots.ShowDismissButtons();
-        ActiveOrdersManager.singleton.ClearCurrentOrders(gameObject);
-        SetWorkersStateIcon(Worker.Status.Free);
-        ResetResponsibility();
-        MakeEquipmentFree();
-        transform.parent.GetComponent<OrderScript>().assignedEmployees.Clear();
-        transform.parent.GetComponent<OrderScript>().boughtedEmployees.Clear();
-
-        continueButton.SetActive(true);
-        pauseButton.SetActive(false);
     }
 
     //Удаляем иконки рабочих во втором окне заказа

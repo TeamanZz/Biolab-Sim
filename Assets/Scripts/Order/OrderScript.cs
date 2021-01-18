@@ -34,7 +34,7 @@ public class OrderScript : MonoBehaviour
             GameObject newDevelopmentPanel = Instantiate(DevelopmentStagePrefab, gameObject.transform);
             newDevelopmentPanel.transform.SetAsFirstSibling();
             newDevelopmentPanel.GetComponent<OrderStage>().Order = order;
-            remainingStageTime = order.development.leadTime;
+            remainingStageTime = order.development.leadTime * TimePanel.singleton.param;
             if (order.requiredStages.Contains(Order.RequiredStages.ResearchStage))
                 newDevelopmentPanel.SetActive(false);
         }
@@ -44,7 +44,9 @@ public class OrderScript : MonoBehaviour
             GameObject newResearchPanel = Instantiate(researchStagePrefab, gameObject.transform);
             newResearchPanel.transform.SetAsFirstSibling();
             newResearchPanel.GetComponent<OrderStage>().Order = order;
-            remainingStageTime = order.research.leadTime;
+            Debug.Log(order.research.leadTime);
+            Debug.Log(TimePanel.singleton.param);
+            remainingStageTime = order.research.leadTime * TimePanel.singleton.param;
             newResearchPanel.SetActive(true);
         }
 

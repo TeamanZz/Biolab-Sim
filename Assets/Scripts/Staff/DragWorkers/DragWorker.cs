@@ -21,7 +21,8 @@ public class DragWorker : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDr
     //Спавним копию рабочего в мыши, для видимости перетаскивания
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (eventData.pointerDrag.gameObject.GetComponent<WorkerScript>().Worker.status == Worker.Status.Free)
+        WorkerScript workerScript = eventData.pointerDrag.gameObject.GetComponent<WorkerScript>();
+        if (workerScript.Worker.status == Worker.Status.Free)
         {
             gameObject.GetComponent<Image>().sprite = data.workerData.workerFrames[0];
             copyOfCurrentWorker = Instantiate(gameObject, canvas.transform, true);

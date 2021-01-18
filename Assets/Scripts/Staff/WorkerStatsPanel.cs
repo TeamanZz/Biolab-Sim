@@ -206,7 +206,7 @@ public class WorkerStatsPanel : MonoBehaviour
             Destroy(clickedWorkerFrameButton);
         }
         //И панель удалить не забываем
-        StopCoroutine(clickedWorkerFrameButton.GetComponent<WorkerScript>().ToggleBlueLight());
+        StopCoroutine(clickedWorkerFrameButton.GetComponent<WorkerScript>().IBlueLightFrameOn());
         OpenWindowsManager.singletone.iconsList.Remove(gameObject);
         worker.currentOrder = null;
         DarkBackground.singletone.UnFadeBackground();

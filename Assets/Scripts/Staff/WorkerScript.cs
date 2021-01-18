@@ -114,12 +114,18 @@ public class WorkerScript : MonoBehaviour
         }
     }
 
-    public IEnumerator ToggleBlueLight()
+    public IEnumerator IBlueLightFrameOn()
     {
-        gameObject.GetComponent<Image>().sprite = data.workerData.workerFrames[3];
+        GetComponent<Image>().sprite = data.workerData.workerFrames[3];
         yield return new WaitForSeconds(3);
-        if (this != null)
-            gameObject.GetComponent<Image>().sprite = data.workerData.workerFrames[0];
+
+        if (this != null && GetComponent<Image>().sprite == data.workerData.workerFrames[3])
+            GetComponent<Image>().sprite = data.workerData.workerFrames[0];
+    }
+
+    public void BlueLightFrameOff()
+    {
+        StopAllCoroutines();
     }
 
     public void StartEnhanceProcess(int time)
@@ -128,11 +134,11 @@ public class WorkerScript : MonoBehaviour
         StartCoroutine(IStartEnhanceProcess(time));
     }
 
-    public IEnumerator IStartEnhanceProcess(int time)
+    public IEnumerator IStartEnhanceProcess(float time)
     {
         GetComponent<DragWorker>().enabled = false;
         worker.isEnhancementProcess = true;
-        yield return new WaitForSeconds(time);
+        yield return new WaitForSeconds(time * TimePanel.singleton.param);
         worker.qualificaton += 1;
         worker.isEnhancementProcess = false;
         GetComponent<DragWorker>().enabled = true;
@@ -147,17 +153,17 @@ public class WorkerScript : MonoBehaviour
     public IEnumerator IFillingLoadBar(int time)
     {
         float newFillAmount = 0;
-        while (enhanceLoadBar.fillAmount != 1)
+        while (worker.enhancementFillAmount < 1f)
         {
             yield return new WaitForSeconds(0.1f);
-            newFillAmount += (0.1f / time);
+            newFillAmount += (0.1f / time * TimePanel.singleton.param);
             if (enhanceLoadBar)
             {
                 enhanceLoadBar.fillAmount = newFillAmount;
             }
-
             worker.enhancementFillAmount = newFillAmount;
         }
+        worker.enhancementFillAmount = 0;
         enhanceLoadBar.fillAmount = 0;
     }
 }

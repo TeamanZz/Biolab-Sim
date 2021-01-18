@@ -20,11 +20,13 @@ public class TimePanel : MonoBehaviour
     public int hours;
     public int days;
 
-    private float param = 1.25f;
+    public float param = 1.25f;
+    private float counter;
 
     private void Awake()
     {
         singleton = this;
+        counter = param;
     }
 
     private void FixedUpdate()
@@ -40,10 +42,10 @@ public class TimePanel : MonoBehaviour
 
     private void ChangeTimeValues()
     {
-        param -= Time.deltaTime;
-        if (param <= 0)
+        counter -= Time.deltaTime;
+        if (counter <= 0)
         {
-            param = 1;
+            counter = 1;
             minutes += 10;
             ChangeTextOClockText();
         }

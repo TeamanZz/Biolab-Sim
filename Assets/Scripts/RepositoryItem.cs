@@ -24,4 +24,9 @@ public class RepositoryItem : MonoBehaviour
         private get { return reagent; }
 
     }
+
+    public void ShowInfoAboutReagent()
+    {
+
+    }
 }
