@@ -92,7 +92,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20.65
+  m_fontSize: 12.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -243,7 +243,7 @@ MonoBehaviour:
     description: 
     salary: 0
     completedOrdersCount: 0
-    specialization: 0
+    specialization: 
     profession: 0
     education: 0
     responsibility: 0
@@ -267,6 +267,7 @@ MonoBehaviour:
       reward: 0
       developmentSphere: 0
       customerType: 0
+      totalTime: 0
       orderHoursSpawnTime: 0
       orderDaysSpawnTime: 0
       timeToDestroy: 0
@@ -275,23 +276,23 @@ MonoBehaviour:
       requiredStages: 
       research:
         additionalText: 
-        taskText: 
         leadTime: 0
         requirementsForEmployees: []
         requirementEquipmentList: 
+        chooseSteps: []
         minigame: 0
-        usedEquipment: []
+        completed: 0
       development:
-        mainText: 
-        needReagentTable: 0
-        needCapsule: 0
+        additionalText: 
         leadTime: 0
-        results: []
+        requirementsForEmployees: []
+        requirementEquipmentList: 
+        chooseSteps: []
+        minigame: 0
+        completed: 0
       testing:
-        name: 
-        needReagentTable: 0
-        needCapsule: 0
         leadTime: 0
+        completed: 0
     moodImage: {fileID: 0}
 --- !u!114 &7398517196092909358
 MonoBehaviour:

@@ -169,8 +169,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.22946121, y: 0.40934372}
   m_AnchorMax: {x: 0.91653883, y: 0.5937813}
-  m_AnchoredPosition: {x: -0.2999878, y: 0.40000153}
-  m_SizeDelta: {x: -0.90600586, y: -1.5306091}
+  m_AnchoredPosition: {x: -0.2999878, y: -0.1826706}
+  m_SizeDelta: {x: -0.90600586, y: -0.3652954}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5020899605125804852
 CanvasRenderer:
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12.25
+  m_fontSize: 12.4
   m_fontSizeBase: 29
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1793,27 +1793,23 @@ MonoBehaviour:
     requiredStages: 
     research:
       additionalText: 
-      taskText: 
       leadTime: 0
       requirementsForEmployees: []
       requirementEquipmentList: 
       chooseSteps: []
       minigame: 0
-      usedEquipment: []
+      completed: 0
     development:
       additionalText: 
-      taskText: 
       leadTime: 0
       requirementsForEmployees: []
       requirementEquipmentList: 
       chooseSteps: []
       minigame: 0
-      usedEquipment: []
+      completed: 0
     testing:
-      name: 
-      needReagentTable: 0
-      needCapsule: 0
       leadTime: 0
+      completed: 0
 --- !u!1 &7966845278145112372
 GameObject:
   m_ObjectHideFlags: 0

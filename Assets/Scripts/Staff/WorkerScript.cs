@@ -116,11 +116,12 @@ public class WorkerScript : MonoBehaviour
 
     public IEnumerator IBlueLightFrameOn()
     {
-        GetComponent<Image>().sprite = data.workerData.workerFrames[3];
+        Image image = GetComponent<Image>();
+        image.sprite = data.workerData.workerFrames[3];
         yield return new WaitForSeconds(3);
 
-        if (this != null && GetComponent<Image>().sprite == data.workerData.workerFrames[3])
-            GetComponent<Image>().sprite = data.workerData.workerFrames[0];
+        if (this != null && image.sprite == data.workerData.workerFrames[3])
+            image.sprite = data.workerData.workerFrames[0];
     }
 
     public void BlueLightFrameOff()
@@ -136,12 +137,13 @@ public class WorkerScript : MonoBehaviour
 
     public IEnumerator IStartEnhanceProcess(float time)
     {
-        GetComponent<DragWorker>().enabled = false;
+        DragWorker dragWorker = GetComponent<DragWorker>();
+        dragWorker.enabled = false;
         worker.isEnhancementProcess = true;
         yield return new WaitForSeconds(time * TimePanel.singleton.param);
         worker.qualificaton += 1;
         worker.isEnhancementProcess = false;
-        GetComponent<DragWorker>().enabled = true;
+        dragWorker.enabled = true;
 
         //Если есть куда апаться, то возвращаем кнопке интерактивность
         if (((int)worker.qualificaton + 1 < Enum.GetNames(typeof(Worker.Qualificaton)).Length) && enhancementButton)
